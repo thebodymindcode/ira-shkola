@@ -13,7 +13,8 @@ def u(path=''):
 def shapka(active):
     nav = ''.join(f'<a href="{u(p)}" class="{"on" if (active is not None and p == active) else ""}">{n}</a>'
                   for n, p in MENU)
-    mob = ''.join(f'<a href="{u(p)}">{n}</a>' for n, p in MENU)
+    mob = ''.join(f'<a href="{u(p)}" class="{"on" if (active is not None and p == active) else ""}">{n}</a>'
+                  for n, p in MENU)
     return f"""<header class="shapka"><div class="in">
 <a class="znak" href="{u()}">{ico('klyuch')}<span>Школа Ирины&nbsp;Волковой</span></a>
 <nav class="nav">{nav}</nav>

@@ -14,7 +14,12 @@ async def main():
             pg=await ctx.new_page()
             for path,name in PAGES:
                 await pg.goto(ROOT+path,wait_until='networkidle')
-                await pg.wait_for_timeout(350)
+                await pg.evaluate("document.querySelectorAll('img[loading]').forEach(i=>i.removeAttribute('loading'))")
+                await pg.evaluate("window.scrollTo(0,document.body.scrollHeight)")
+                await pg.wait_for_timeout(900)
+                await pg.evaluate("window.scrollTo(0,0)")
+                await pg.add_style_tag(content='.plyv{display:none!important}')
+                await pg.wait_for_timeout(400)
                 await pg.screenshot(path=f'/tmp/skrin-ira/{tag}-{name}.jpg',full_page=True,
                                     type='jpeg',quality=72)
             await ctx.close()

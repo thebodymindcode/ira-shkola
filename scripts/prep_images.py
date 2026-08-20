@@ -39,11 +39,11 @@ WIDE = {
     # шапки страниц
     'h-glavnaya': '06-oblozhka.jpg', 'h-kursy': '14-krug-svechej.jpg',
     'h-shkola': '12-luna-nad-vodoj.jpg', 'h-taro': '26-svecha-taro.jpg',
-    'h-zhurnal': '24-taro-stena.jpg', 'h-oberegi': '22-svechi-oreol.jpg',
-    'h-nechist': '09-voron.jpg', 'h-vopros': '19-svechi-karta.jpg',
+    'h-zhurnal': '24-taro-stena.jpg', 'h-oberegi': '05-svecha-fazy-luny.jpg',
+    'h-nechist': '15-lico-iz-dyma.jpg', 'h-vopros': '19-svechi-karta.jpg',
     'h-kontakty': '20-svechi-plamya.jpg', 'h-irina': '21-svechi-oglyanulas.jpg',
     # карточки разделов в журнале
-    'z-oberegi': '05-svecha-fazy-luny.jpg', 'z-nechist': '15-lico-iz-dyma.jpg',
+    'z-oberegi': '22-svechi-oreol.jpg', 'z-nechist': '09-voron.jpg',
 }
 PORTRET = {
     'p-glavnaya': '10-hrustalnyj-shar.jpg', 'p-irina1': '02-karta-u-lica.jpg',

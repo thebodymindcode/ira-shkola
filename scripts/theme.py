@@ -23,8 +23,8 @@ h1,h2,h3,h4{font-family:var(--serif);font-weight:400;letter-spacing:.2px;margin:
   line-height:1.14;color:#F3EDE3}
 h3{margin-bottom:10px}
 h1{font-size:clamp(30px,5.4vw,64px);overflow-wrap:break-word}
-h2{font-size:clamp(25px,3.6vw,44px);overflow-wrap:break-word}
-h3{font-size:clamp(21px,2.2vw,27px);line-height:1.24}
+h2{font-size:clamp(25px,3.6vw,44px);overflow-wrap:break-word;text-wrap:balance}
+h3{font-size:clamp(21px,2.2vw,27px);line-height:1.24;text-wrap:balance}
 h1 em,h2 em{font-style:normal;color:var(--zoloto-svet)}
 p{margin:0 0 18px;text-wrap:pretty}
 section{padding:78px 0;border-top:1px solid var(--line)}
@@ -56,6 +56,7 @@ svg.big{width:34px;height:34px}
 .mob{display:none;border-top:1px solid var(--line);background:var(--sloy)}
 .mob.open{display:block}
 .mob a{display:block;padding:14px 24px;border-bottom:1px solid var(--line);font-size:16px}
+.mob a.on{color:var(--zoloto-svet)}
 @media(max-width:980px){.nav{display:none}.burger{display:flex}}
 @media(hover:hover){.nav a:hover{color:var(--zoloto-svet)}}
 
@@ -66,7 +67,7 @@ svg.big{width:34px;height:34px}
 .btn::after{content:"";position:absolute;top:7px;right:7px;width:9px;height:9px;
   border-top:1.5px solid currentColor;border-right:1.5px solid currentColor;opacity:.5}
 .btn-gold{background:var(--zoloto);color:#151009}
-.btn-gold::after{opacity:.28}
+.btn-gold::after{display:none}
 .btn-ghost{border-color:rgba(232,226,217,.28);color:var(--tekst)}
 .btn:active{transform:scale(.985)}
 @media(hover:hover){.btn-gold:hover{background:var(--zoloto-svet)}
@@ -85,7 +86,7 @@ svg.big{width:34px;height:34px}
 /* ---------- лента шагов ---------- */
 .stepline{margin:34px 0 0;padding:0;list-style:none;border-top:1px solid var(--line)}
 .stepline li{display:flex;gap:20px;align-items:flex-start;padding:22px 0;border-bottom:1px solid var(--line)}
-.stepline .nom{font-family:var(--serif);font-size:26px;color:var(--zoloto);width:38px;flex:none;line-height:1}
+.stepline .nom{font-family:var(--anons);font-size:27px;color:var(--zoloto);width:38px;flex:none;line-height:1}
 .stepline .txt{max-width:760px}
 .stepline h3{margin:0 0 6px}
 .stepline p{margin:0;color:var(--tihiy);font-size:16px;text-wrap:pretty}
@@ -118,22 +119,23 @@ svg.big{width:34px;height:34px}
 /* ---------- карточка-приглашение в сетке ---------- */
 .zov{border:1px solid rgba(201,162,39,.42);background:linear-gradient(160deg,rgba(201,162,39,.09),rgba(22,19,28,.9));
   border-radius:18px;padding:26px;display:flex;flex-direction:column;justify-content:center;min-height:220px}
-.zov svg{color:var(--zoloto);margin-bottom:14px}
+.zov>svg{color:var(--zoloto);margin-bottom:14px}
+.zov span.more svg{margin:0;vertical-align:-3px}
 .zov h3{margin:0 0 8px}
 .zov p{color:var(--tihiy);font-size:15.5px;margin:0 0 14px;text-wrap:pretty}
 .zov span.more{margin-top:auto;font-size:14.5px;color:var(--zoloto-svet);font-weight:600}
 @media(hover:hover){a.zov:hover{border-color:var(--zoloto)}}
 
 /* ---------- сплит ---------- */
-.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.72fr);gap:52px;align-items:center;margin-top:36px}
-.split .ph{aspect-ratio:4/5;border-radius:18px;overflow:hidden;border:1px solid var(--line)}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.72fr);gap:52px;align-items:start;margin-top:36px}
+.split .ph{aspect-ratio:1/1;border-radius:18px;overflow:hidden;border:1px solid var(--line)}
 .split .ph img{width:100%;height:100%;object-fit:cover}
 .split.shir .ph{aspect-ratio:16/9}
 
 /* ---------- цифры ---------- */
 .nails{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:34px}
 .nail{border-left:2px solid var(--zoloto);padding:4px 0 4px 18px}
-.nail b{display:block;font-family:var(--serif);font-size:40px;color:#F3EDE3;line-height:1;font-weight:600}
+.nail b{display:block;font-family:var(--serif);font-size:40px;color:#F3EDE3;line-height:1;font-weight:400}
 .nail span{display:block;margin-top:9px;color:var(--tihiy);font-size:15px}
 
 /* ---------- тёмная лента пунктов ---------- */
@@ -147,7 +149,7 @@ svg.big{width:34px;height:34px}
 .tside>.col>*{max-width:680px}
 .side{position:sticky;top:96px;background:var(--sloy);border:1px solid var(--line);
   border-radius:16px;padding:24px}
-.side .cifra{font-family:var(--serif);font-size:34px;color:var(--zoloto-svet);line-height:1}
+.side .cifra{font-family:var(--serif);font-size:34px;color:var(--zoloto-svet);line-height:1;text-wrap:balance}
 .side p{font-size:15px;color:var(--tihiy);margin:12px 0 0}
 .side h4{font-size:19px;margin:0 0 10px}
 
@@ -161,9 +163,9 @@ svg.big{width:34px;height:34px}
 /* ---------- журнальная статья ---------- */
 .podzag{font-size:21px;line-height:1.5;color:var(--tihiy);max-width:640px;margin:14px 0 0;
   font-family:var(--anons)}
-.art-kadr .ph{aspect-ratio:16/9;max-height:520px}
+.art-kadr .ph{width:100%;aspect-ratio:auto;height:clamp(200px,36vw,520px)}
 .art .lead{font-size:20.5px;line-height:1.6;color:#DCD5CA;max-width:var(--uzko);text-wrap:pretty}
-.art .lead.drop::first-letter{float:left;font-family:var(--serif);font-weight:700;font-size:78px;
+.art .lead.drop::first-letter{float:left;font-family:var(--serif);font-weight:400;font-size:78px;
   line-height:.76;padding:10px 16px 0 0;color:var(--zoloto)}
 .byline{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;margin:24px 0 32px;padding:13px 0;
   border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-size:12px;font-weight:600;
@@ -174,8 +176,8 @@ svg.big{width:34px;height:34px}
 .byline .tag{color:var(--zoloto)}
 .korotko{background:var(--sloy);border:1px solid var(--line);border-left:3px solid var(--zoloto);
   border-radius:14px;padding:24px 26px;margin:0 0 28px;max-width:var(--uzko)}
-.korotko b{display:block;font-family:var(--anons);font-size:13.5px;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--zoloto);margin-bottom:14px;font-weight:600}
+.korotko b{display:block;font-family:var(--anons);font-size:14px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--zoloto);margin-bottom:14px}
 .korotko ul{list-style:none;margin:0;padding:0}
 .korotko li{position:relative;padding-left:24px;margin-bottom:11px;font-size:16.5px;line-height:1.55;
   color:#D6CFC5;text-wrap:pretty}
@@ -184,8 +186,8 @@ svg.big{width:34px;height:34px}
   border-radius:50%;background:var(--zoloto)}
 .toc{border:1px solid var(--line);border-radius:14px;padding:0;margin:0 0 34px;background:var(--sloy);
   max-width:var(--uzko);overflow:hidden}
-.toc summary{cursor:pointer;list-style:none;padding:17px 24px;font-family:var(--anons);font-size:13.5px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--tihiy);font-weight:600;display:flex;justify-content:space-between;
+.toc summary{cursor:pointer;list-style:none;padding:17px 24px;font-family:var(--anons);font-size:14px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--tihiy);display:flex;justify-content:space-between;
   align-items:center;gap:14px}
 .toc summary::-webkit-details-marker{display:none}
 .toc summary::after{content:"+";color:var(--zoloto);font-size:22px;line-height:1;font-weight:400}
@@ -195,15 +197,15 @@ svg.big{width:34px;height:34px}
 .toc a{color:#CFC7BC;border-bottom:1px solid transparent}
 @media(hover:hover){.toc a:hover{color:var(--zoloto-svet);border-bottom-color:rgba(201,162,39,.45)}}
 .istok{border-top:1px solid var(--line);margin:44px 0 0;padding-top:24px;max-width:var(--uzko)}
-.istok b{display:block;font-family:var(--anons);font-size:13.5px;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--tihiy);margin-bottom:12px;font-weight:600}
+.istok b{display:block;font-family:var(--anons);font-size:14px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--tihiy);margin-bottom:12px}
 .istok p{font-size:15px;line-height:1.6;color:var(--tihiy);margin:0}
 .sosedi{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px;max-width:var(--uzko)}
 .sosedi a{flex:1 1 260px;border:1px solid var(--line);border-radius:14px;padding:18px 20px;
   background:var(--sloy)}
-.sosedi span{display:block;font-family:var(--anons);font-size:13px;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--zoloto);margin-bottom:7px;font-weight:600}
-.sosedi b{font-family:var(--serif);font-size:19px;color:#F0E9DE;font-weight:600}
+.sosedi span{display:block;font-family:var(--anons);font-size:13.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--zoloto);margin-bottom:7px}
+.sosedi b{font-family:var(--serif);font-size:19px;color:#F0E9DE;font-weight:400}
 @media(hover:hover){.sosedi a:hover{border-color:rgba(201,162,39,.5)}}
 @media(max-width:640px){
   .art .lead.drop::first-letter{font-size:58px;padding:6px 12px 0 0}
@@ -222,7 +224,8 @@ svg.big{width:34px;height:34px}
 .final{background:var(--sloy2);border:1px solid var(--line);border-radius:22px;padding:44px;
   display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:48px;align-items:start}
 .final .fside{border-left:2px solid var(--zoloto);padding:2px 0 2px 18px}
-.final .fside b{display:block;font-family:var(--serif);font-size:30px;color:#F3EDE3;line-height:1.1;font-weight:600}
+.final .fside b{display:block;font-family:var(--serif);font-size:30px;color:#F3EDE3;line-height:1.1;
+  font-weight:400;text-wrap:balance}
 .final .fside span{display:block;margin-top:10px;color:var(--tihiy);font-size:15px}
 .final h2{margin:0 0 14px}
 .final p{color:#D2CAC0;max-width:640px}
@@ -243,8 +246,8 @@ svg.big{width:34px;height:34px}
 /* ---------- подвал ---------- */
 .podval{border-top:1px solid var(--line);background:#0B0910;padding:56px 0 40px;margin-top:20px}
 .podval .kol{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.4fr);gap:44px}
-.podval h4{font-family:var(--anons);font-size:14px;letter-spacing:2.6px;text-transform:uppercase;
-  color:var(--zoloto);margin:0 0 16px;font-weight:600}
+.podval h4{font-family:var(--anons);font-size:14.5px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--zoloto);margin:0 0 16px}
 .podval p{color:var(--tihiy);font-size:15px}
 .niz{margin-top:38px;padding-top:22px;border-top:1px solid var(--line);
   display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;color:#7E7669;font-size:13.5px}
@@ -280,6 +283,7 @@ svg.big{width:34px;height:34px}
   .podval .kol{grid-template-columns:1fr!important;gap:32px}
 }
 @media(max-width:400px){h1{font-size:27px}h2{font-size:23px}.podzag{font-size:18px}}
+@media(max-width:360px){.znak{font-size:17px;gap:8px}.znak svg{width:22px;height:22px}.shapka .in{gap:12px;padding:0 14px}.wrap{padding:0 14px}}
 @media(max-width:640px){
   body{font-size:16.5px}
   .vopros summary{font-size:17.5px;padding-right:6px}
