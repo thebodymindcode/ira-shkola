@@ -126,9 +126,9 @@ svg.big{width:34px;height:34px}
   .hero .ryad{grid-template-columns:1fr!important;gap:26px}
   .hero .portret{aspect-ratio:5/4;max-height:420px;order:-1}
   .hero .portret img{object-position:50% 18%}
-  .hero .fon img{object-position:88% 18%;opacity:.9}
+  .hero .fon img{object-position:80% 0%;opacity:.9}
   .hero .fon::after{background:
-    linear-gradient(180deg,rgba(14,12,17,.2) 0%,rgba(14,12,17,.55) 34%,rgba(14,12,17,.88) 66%,var(--noch) 100%)}
+    linear-gradient(180deg,rgba(14,12,17,.14) 0%,rgba(14,12,17,.42) 28%,rgba(14,12,17,.9) 58%,var(--noch) 100%)}
   .hero{min-height:clamp(420px,58vh,540px);align-items:flex-end}
   .hero .in{padding:0 0 34px}
 }
@@ -161,7 +161,8 @@ svg.big{width:34px;height:34px}
 /* ---------- карточка с кадром ---------- */
 .kadr{border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--sloy)}
 .kadr .ph{aspect-ratio:16/9;overflow:hidden}
-.kadr.art-kadr{border-radius:20px}
+.kadr .ph[style*='aspect-ratio']{aspect-ratio:unset}
+.kadr.art-kadr{border-radius:18px}
 .kadr .ph img{width:100%;height:100%;object-fit:cover}
 .kadr .body{padding:22px 24px 26px}
 .kadr h3{margin:0 0 9px}
@@ -180,16 +181,35 @@ svg.big{width:34px;height:34px}
 @media(hover:hover){a.zov:hover{border-color:var(--zoloto)}}
 
 /* ---------- сплит ---------- */
-.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.62fr);gap:52px;
-  align-items:stretch;margin-top:36px;grid-auto-rows:minmax(320px,auto);max-width:100%}
-.split .ph{position:relative;height:100%;min-height:0;border-radius:18px;
-  overflow:hidden;border:1px solid var(--line)}
-.split .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
-  display:block;z-index:2}
-.ph>i.fon{position:absolute;inset:-8%;background-size:cover;background-position:50% 40%;
-  filter:blur(38px) brightness(.5) saturate(.85);transform:scale(1.18);z-index:1}
-.ph{background:#0E0C11}
-.kadr .ph img{position:relative;z-index:2}
+.split{display:flex;gap:52px;align-items:stretch;margin-top:36px;max-width:100%}
+.split>*:first-child{flex:1 1 auto;min-width:0;display:flex;flex-direction:column}
+.split>*:first-child>*:last-child{margin-bottom:0}
+/* Ширину кадра считает site.js по высоте текста рядом: кадр держит свою пропорцию,
+   стоит целиком и низом сходится с текстом. До счёта работает запасная доля. */
+.split .ph{flex:0 0 auto;position:relative;width:var(--shirina,42%);height:auto;
+  min-width:300px;max-width:min(56%,640px);
+  border-radius:18px;overflow:hidden;border:1px solid var(--line);background:#0E0C11}
+.split .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  object-position:50% 50%;display:block}
+.split .ph.shirokij{width:var(--shirina,52%)}
+.split .ph.plyvet{position:sticky;top:96px}
+.split .dlist{margin-top:0}
+.stolb{flex:0 0 auto;align-self:stretch;display:flex;flex-direction:column;gap:16px;
+  width:var(--shirina,42%);min-width:300px;max-width:min(56%,640px)}
+.stolb .ph{width:100%;max-width:100%;min-width:0}
+.dobivka{flex:1 1 auto;display:flex;flex-direction:column;justify-content:center;gap:6px;
+  border:1px solid rgba(201,162,39,.34);border-radius:18px;padding:22px 24px;min-height:132px;
+  background:linear-gradient(158deg,rgba(201,162,39,.1),rgba(22,19,28,.92))}
+.dobivka>svg{color:var(--zoloto);width:30px;height:30px;margin-bottom:6px}
+.dobivka b{font-family:var(--zag);font-size:clamp(30px,3.2vw,42px);color:var(--zoloto-svet);line-height:1}
+.dobivka p{margin:2px 0 0;color:var(--tihiy);font-size:15.5px;text-wrap:pretty}
+.dobivka .dob-link{margin-top:12px;display:inline-flex;align-items:center;gap:8px;
+  font-size:14.5px;font-weight:600;color:var(--zoloto-svet)}
+.dobivka .dob-link svg{width:18px;height:18px}
+@media(hover:hover){.dobivka .dob-link:hover{gap:12px}}
+@media(max-width:860px){.stolb{width:100%!important;max-width:100%}}
+.split>*:first-child{display:flex;flex-direction:column}
+.split>*:first-child>*:last-child{margin-bottom:0}
 .split.shir .ph{aspect-ratio:auto}
 
 /* ---------- цифры ---------- */
@@ -224,7 +244,8 @@ svg.big{width:34px;height:34px}
 /* ---------- журнальная статья ---------- */
 .podzag{font-size:21px;line-height:1.5;color:var(--tihiy);max-width:640px;margin:14px 0 0;
   font-family:var(--anons)}
-.art-kadr .ph{width:100%;aspect-ratio:auto;height:clamp(200px,36vw,520px)}
+.art-kadr .ph{width:100%;height:auto;max-height:min(72vh,620px)}
+.art-kadr .ph img{object-fit:cover}
 .art .lead{font-size:20.5px;line-height:1.6;color:#DCD5CA;max-width:var(--uzko);text-wrap:pretty}
 .art .lead.drop::first-letter{float:left;font-family:var(--serif);font-weight:400;font-size:78px;
   line-height:.76;padding:10px 16px 0 0;color:var(--zoloto)}
@@ -437,10 +458,12 @@ section > .wrap{position:relative}
 
 /* ---------- мобильное ---------- */
 @media(max-width:1000px){
-  .split{grid-template-columns:1fr!important;gap:26px}
-  .split .ph{height:auto!important;aspect-ratio:3/4;min-height:0;position:relative;
-    width:100%;max-width:100%}
+  .split{flex-direction:column;gap:26px}
+  .split .ph,.split .stolb{width:100%!important;max-width:100%!important;min-width:0}
+  .split .ph.plyvet{position:static}
+  .split .ph{height:auto!important;min-height:0;position:relative}
   .split .ph img{position:absolute;inset:0}
+  .dobivka{min-height:0}
   .final{grid-template-columns:1fr!important;gap:30px}
   .tside{grid-template-columns:1fr!important;gap:30px}
   .side{position:static}

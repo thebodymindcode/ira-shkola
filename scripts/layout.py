@@ -242,6 +242,56 @@ if(k){
  }
  risuj();
 }
+/* ---- кадр ростом с текст ---- */
+/* Ширина кадра подбирается под высоту соседней колонки: шире кадр, уже текст,
+   выше текст, поэтому идём бинарным поиском. Где текста слишком много,
+   кадр плывёт вместе с чтением, и низ блока не зияет дырой. */
+(function(){
+ var bloki=[].slice.call(document.querySelectorAll('.split'));
+ if(!bloki.length) return;
+ function proporciya(ph){
+  var st=(getComputedStyle(ph).aspectRatio||'').split('/');
+  var k=(st.length===2)? parseFloat(st[0])/parseFloat(st[1]) : 0.75;
+  return (isFinite(k)&&k>0)? k : 0.75;
+ }
+ function schitat(){
+  var uzko=window.matchMedia('(max-width:860px)').matches;
+  bloki.forEach(function(b){
+   var ph=b.querySelector('.stolb')||b.querySelector('.ph'), tx=b.firstElementChild;
+   if(!ph||!tx||ph===tx) return;
+   var kadr=ph.classList.contains('stolb')? ph.querySelector('.ph') : ph;
+   if(!kadr) return;
+   if(uzko){ ph.style.removeProperty('--shirina'); ph.classList.remove('plyvet'); return; }
+   var k=proporciya(kadr);
+   var zazor=parseFloat(getComputedStyle(b).columnGap)||52;
+   var vsego=b.getBoundingClientRect().width;
+   var lo=300, hi=Math.min(vsego*0.56, 640, vsego-zazor-360);
+   if(hi<lo){ ph.style.setProperty('--shirina', Math.round(Math.max(260,hi))+'px'); return; }
+   var luchshaya=hi, luchshee=Infinity;
+   for(var i=0;i<=9;i++){                                   // ширина влияет на высоту текста
+    var w=lo+(hi-lo)*i/9;                                   // немонотонно, поэтому скан
+    ph.style.setProperty('--shirina', Math.round(w)+'px');
+    var vysota=tx.getBoundingClientRect().height;
+    var mesto=(ph===kadr)? 0 : 150;                       // место под плашку с фактом
+    var raznica=Math.abs(vysota - (w/k + mesto));
+    if(raznica<luchshee){ luchshee=raznica; luchshaya=w; }
+   }
+   ph.style.setProperty('--shirina', Math.round(luchshaya)+'px');
+   var ostatok=tx.getBoundingClientRect().height - ph.getBoundingClientRect().height;
+   ph.classList.toggle('plyvet', ostatok>160 && ph===kadr);
+  });
+ }
+ schitat();
+ addEventListener('load', schitat);
+ if(document.fonts && document.fonts.ready) document.fonts.ready.then(schitat);
+ var t=null;
+ addEventListener('resize', function(){ clearTimeout(t); t=setTimeout(schitat,160); });
+ if('ResizeObserver' in window){
+  var ro=new ResizeObserver(function(){ clearTimeout(t); t=setTimeout(schitat,80); });
+  bloki.forEach(function(b){ if(b.firstElementChild) ro.observe(b.firstElementChild); });
+ }
+})();
+
 /* ---- живые искры в шапке ---- */
 (function(){
  var hero=document.querySelector('.hero .fon');
@@ -348,9 +398,32 @@ b.setAttribute('aria-expanded','false');}});}
 });"""
 
 
+_RAZMERY = {}
+
+
 def ph(img, alt=''):
-    """Кадр в колонке: фотография целиком, поля закрывает размытие того же снимка.
-    Ничего не режем, потому что смысл кадра часто стоит у нижней кромки."""
+    """Кадр в колонке: рамка берёт пропорцию самого файла, поэтому снимок стоит
+    в ней целиком. Ни пустых полей вокруг, ни среза по голове и по нижней кромке."""
+    if img not in _RAZMERY:
+        try:
+            from PIL import Image
+            _RAZMERY[img] = Image.open(img).size
+        except Exception:
+            _RAZMERY[img] = (1045, 1400)
+    w, h = _RAZMERY[img]
     a = u(img)
-    return (f'<div class="ph"><i class="fon" style="background-image:url({a})"></i>'
+    shir = ' shirokij' if w > h * 1.15 else ''
+    return (f'<div class="ph{shir}" style="aspect-ratio:{w}/{h}">'
             f'<img src="{a}" alt="{alt}" loading="lazy"></div>')
+
+
+def stolb(img, alt, ikona, chislo, podpis, ssylka='', ssylka_text=''):
+    """Колонка рядом с текстом: кадр целиком, под ним плашка с фактом.
+    Плашка тянется и добирает остаток высоты, поэтому низ блока сходится."""
+    from engine import ico
+    niz = (f'<a class="dob-link" href="{u(ssylka)}">{ssylka_text}'
+           f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" '
+           f'stroke-linecap="round"><path d="M5 12h13M13 7l5 5-5 5"/></svg></a>') if ssylka else ''
+    return (f'<div class="stolb">{ph(img, alt)}'
+            f'<aside class="dobivka">{ico(ikona)}'
+            f'<b>{chislo}</b><p>{podpis}</p>{niz}</aside></div>')

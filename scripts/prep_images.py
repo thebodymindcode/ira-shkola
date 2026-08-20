@@ -168,7 +168,7 @@ for name, src in SCENY_SHAPOK.items():
         n += 1
 
 # для карточек с портретом доля подобрана глазами: автопоиск ловит руки и грудь
-RUCHNOJ_SREZ = {'z-nechist': 0.18, 'z-oberegi': 0.06}
+RUCHNOJ_SREZ = {}  # кадр отдаём целиком, срез резал Ирине макушку и плечи
 SREZ_SHAPOK = {
     'h-glavnaya': dict(dolya=0.66, verh=0.02),
     'h-irina': dict(dolya=0.70, verh=0.02),
@@ -177,8 +177,16 @@ SREZ_SHAPOK = {
     'h-kontakty': dict(dolya=0.80, verh=0.06),
 }
 
+ZELIKOM = {'z-oberegi', 'z-nechist'}
 for name, src in WIDE.items():
     if name in SCENY_SHAPOK:
+        continue
+    if name in ZELIKOM:
+        _im = Image.open(os.path.join(OBR, src)).convert('RGB')
+        _k = 1400 / _im.size[1]
+        _im.resize((int(_im.size[0] * _k), 1400), Image.LANCZOS).save(
+            f'images/obrazy/{name}.jpg', quality=86, optimize=True)
+        n += 1
         continue
     if name in RUCHNOJ_SREZ:
         im = Image.open(os.path.join(OBR, src)).convert('RGB')

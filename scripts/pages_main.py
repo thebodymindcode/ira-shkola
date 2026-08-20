@@ -2,7 +2,7 @@
 import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 from engine import ico, typo, TG, IG, runa_nomer
-from layout import page, u, ph
+from layout import page, u, ph, stolb
 import shemy
 
 T = typo
@@ -75,7 +75,9 @@ def glavnaya(articles):
 <a class="btn btn-gold" href="{u('kursy/grimuar/')}">{ico('strela')} Смотреть курс</a>
 <a class="btn btn-ghost" href="{u('kursy/')}">Все направления</a></div>
 </div>
-{ph('images/obrazy/k-grimuar.jpg', 'Чёрный Гримуар')}
+{stolb('images/obrazy/k-grimuar.jpg', 'Чёрный Гримуар', 'kniga', '9',
+       'ступеней курса по Некрономикону: от инструментов и знакомства с эгрегором до диагностики и ритуальной работы',
+       'kursy/grimuar/', 'Смотреть курс')}
 </div>
 </div></section>
 
@@ -150,7 +152,9 @@ def glavnaya(articles):
 <p>{T('Работает она по лунному календарю, и потоки школы идут в том же ритме.')}</p>
 <div class="knopki"><a class="btn btn-ghost" href="{u('ob-irine/')}">Читать про Ирину</a></div>
 </div>
-{ph('images/obrazy/p-glavnaya.jpg', 'Ирина Волкова')}
+{stolb('images/obrazy/p-glavnaya.jpg', 'Ирина Волкова', 'svecha', '2014',
+       'год первого авторского курса. С тех пор занятия шли в Москве, Петербурге, Израиле и Париже',
+       'ob-irine/', 'Читать про Ирину')}
 </div></div></section>
 
 <section><div class="wrap">
