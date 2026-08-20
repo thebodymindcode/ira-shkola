@@ -7,6 +7,7 @@ from layout import page, u
 from pages_main import hero, KNOPKI_TG
 from pages_kursy import finalny
 from pages_kursy2 import dlist, cards2, steps, voprosy
+import shemy
 
 T = typo
 KR = [('Главная', ''), ('Курсы', 'kursy/')]
@@ -165,6 +166,7 @@ def grimuar():
 <section><div class="wrap">
 <p class="eyebrow">Программа</p>
 <h2>Девять ступеней</h2>
+{shemy.lenta_grimuara()}
 {steps([
  ('sol', 'Подготовка и инструментарий', 'Что понадобится с первого дня и что докупается по ходу. Каждый предмет с объяснением, зачем он нужен.'),
  ('ogon', 'Знакомство с эгрегором', 'Обучение начинается с силы за колодой. Пока нет включения, карты остаются картинками.'),

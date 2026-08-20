@@ -297,6 +297,19 @@ def razdel(kind, articles):
         ]
         kurs = ('kursy/besy/', 'Курс по славянской демонологии')
 
+    if kind == 'oberegi':
+        shema_razdela = f"""<section><div class="wrap">
+<p class="eyebrow">Где ставили</p>
+<h2>Границы дома</h2>
+{shemy.dom_granicy()}
+</div></section>"""
+    else:
+        shema_razdela = f"""<section><div class="wrap">
+<p class="eyebrow">Кто где живёт</p>
+<h2>Места и часы</h2>
+{shemy.mesta_nechisti()}
+</div></section>"""
+
     body = f"""
 {hero(f'images/obrazy/{img}.jpg', eyebrow, h1, lid, KNOPKI_TG)}
 
@@ -311,7 +324,7 @@ def razdel(kind, articles):
 <p>{T(SIDE_RAZDELA[kind])}</p></aside></div>
 </div></section>
 
-{shemy.dom_granicy() if kind == 'oberegi' else ''}
+{shema_razdela}
 <section><div class="wrap">
 <p class="eyebrow">Разборы</p>
 <h2>{'Чем держали дом' if kind == 'oberegi' else 'Кто есть кто'}</h2>

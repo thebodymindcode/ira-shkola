@@ -348,44 +348,134 @@ section > .wrap{position:relative}
 .slovo p{margin:0;color:var(--tihiy);font-size:15.5px;line-height:1.6;text-wrap:pretty}
 @media(max-width:900px){.slovar{grid-template-columns:1fr!important}}
 
-/* ---------- вопросник ---------- */
-.kviz{background:var(--sloy);border:1px solid var(--line);border-radius:20px;padding:34px}
-.kviz-shag{display:flex;align-items:center;gap:18px;margin-bottom:22px}
+/* ---------- вопросник: вопросы слева, живой веер карт справа ---------- */
+.kviz{--kw:140px;--veer-h:400px;--ugol:1;
+  background:linear-gradient(150deg,rgba(30,26,40,.92),rgba(21,18,27,.94));
+  border:1px solid var(--line);border-radius:22px;padding:34px 36px;position:relative;
+  overflow:hidden}
+.kviz::before{content:"";position:absolute;right:-120px;top:-140px;width:460px;height:460px;
+  background:radial-gradient(circle,rgba(201,162,39,.13),transparent 66%);pointer-events:none}
+.kviz-telo{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,392px);gap:36px;
+  align-items:center;position:relative;z-index:2}
+.kviz-telo[hidden]{display:none}
+.kviz-levo{min-width:0}
+.kviz-shag{display:flex;align-items:center;gap:18px;margin-bottom:20px;flex-wrap:wrap}
 .kviz-nomer{font-family:var(--anons);font-size:13.5px;letter-spacing:.16em;text-transform:uppercase;
   color:var(--zoloto);white-space:nowrap}
-.kviz-polosa{flex:1;height:3px;background:rgba(232,226,217,.12);border-radius:2px;overflow:hidden}
-.kviz-polosa i{display:block;height:100%;background:var(--zoloto);transition:width .3s}
-.kviz-vopros{font-size:clamp(23px,3vw,32px);margin:0 0 22px}
+.kviz-luny{display:flex;gap:10px;align-items:center}
+.kviz-luny i{width:14px;height:14px;border-radius:50%;position:relative;overflow:hidden;
+  border:1px solid rgba(201,162,39,.4);background:rgba(232,226,217,.05);flex:none}
+.kviz-luny i::after{content:"";position:absolute;inset:-1px;border-radius:50%;
+  background:var(--zoloto);transform:translateX(-102%);transition:transform .45s ease}
+.kviz-luny i.est::after{transform:none}
+.kviz-luny i.tut{border-color:var(--zoloto-svet);box-shadow:0 0 0 3px rgba(201,162,39,.14)}
+.kviz-luny i.tut::after{transform:translateX(-56%)}
+.kviz-vopros{font-size:clamp(23px,2.7vw,32px);margin:0 0 20px;min-height:2.3em;
+  display:flex;align-items:flex-end}
 .kviz-otvety{display:grid;gap:12px}
 .kviz-otvet{text-align:left;font:inherit;font-size:16.5px;color:#DCD5CA;background:var(--sloy2);
   border:1px solid var(--line);border-radius:14px;padding:16px 20px;cursor:pointer;
-  transition:border-color .16s,transform .12s;min-height:52px}
+  transition:border-color .16s,transform .12s,background .2s;min-height:52px}
 .kviz-otvet:active{transform:scale(.995)}
-@media(hover:hover){.kviz-otvet:hover{border-color:rgba(201,162,39,.55);color:#F0E9DE}}
-.kviz-itog{display:grid;grid-template-columns:180px minmax(0,1fr);gap:32px;align-items:center;
-  margin-top:8px}
-.kviz-itog svg.ark{width:100%;height:auto;display:block}
-.kviz-itog h3{margin:2px 0 12px;font-size:30px}
-.kviz-itog p{color:var(--tihiy);font-size:16.5px;margin:0 0 12px}
-.kviz-klyuchi{color:var(--zoloto-svet)!important;font-size:15px!important}
-@media(max-width:640px){.kviz{padding:22px 18px}
-  .kviz-itog{grid-template-columns:1fr!important;gap:20px;justify-items:center;text-align:center}
-  .kviz-itog .kviz-karta{max-width:170px}
-  .kviz-itog .knopki{justify-content:center}}
+@media(hover:hover){.kviz-otvet:hover{border-color:rgba(201,162,39,.55);color:#F0E9DE;
+  background:rgba(201,162,39,.06)}}
+.kviz.zhdyom .kviz-otvety{pointer-events:none;opacity:.5;transition:opacity .2s}
+.kviz-snoska{margin:18px 0 0;font-size:13.5px;color:var(--tihiy);line-height:1.55}
+.kviz button.btn-ghost{background:transparent}
+
+/* веер: шесть рубашек, каждая переворачивается на своём ответе */
+.kviz-veer{position:relative;height:var(--veer-h);min-width:0}
+.kviz-veer::before{content:"";position:absolute;left:50%;top:50%;width:320px;height:320px;
+  margin:-160px 0 0 -160px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(201,162,39,.15),transparent 68%)}
+.veer-k{position:absolute;left:50%;top:50%;width:var(--kw);
+  margin-left:calc(var(--kw) / -2);margin-top:calc(var(--kw) * -0.8);
+  transform-origin:50% 132%;transform:rotate(calc(var(--rot) * var(--ugol)));
+  transition:transform .45s cubic-bezier(.2,.7,.2,1),filter .3s ease;
+  perspective:900px}
+.veer-in{position:relative;width:100%;aspect-ratio:184/268;transform-style:preserve-3d;
+  transition:transform .85s cubic-bezier(.2,.7,.2,1)}
+.veer-k.otkryta .veer-in{transform:rotateY(180deg)}
+.veer-storona{position:absolute;inset:0;border-radius:12px;overflow:hidden;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  box-shadow:0 16px 34px rgba(0,0,0,.5)}
+.veer-bok{background:linear-gradient(140deg,rgba(201,162,39,.1),transparent 58%)}
+.veer-lico{transform:rotateY(180deg)}
+.veer-storona svg{width:100%;height:100%;display:block}
+.veer-k.tut{transform:rotate(calc(var(--rot) * var(--ugol))) translateY(-14px);
+  filter:drop-shadow(0 0 16px rgba(201,162,39,.4))}
+/* открытая карта выходит из веера вперёд, чтобы её было видно целиком */
+.veer-k.vpered{z-index:30;transform:rotate(0deg) translateY(-10px) scale(1.07);
+  filter:drop-shadow(0 20px 38px rgba(0,0,0,.6)) drop-shadow(0 0 24px rgba(201,162,39,.28))}
+.veer-k.vpered .veer-storona{box-shadow:0 18px 40px rgba(0,0,0,.55)}
+
+/* результат: разворот с крупной картой */
+.kviz-itog{display:grid;grid-template-columns:278px minmax(0,1fr);gap:44px;align-items:center;
+  position:relative;z-index:2;max-width:1000px;margin:0 auto}
+.kviz-itog[hidden]{display:none}
+.itog-karta{filter:drop-shadow(0 24px 48px rgba(0,0,0,.6))}
+.itog-karta svg.ark{width:100%;height:auto;display:block}
+.itog-txt{min-width:0}
+.itog-txt h3{font-size:clamp(30px,4vw,46px);margin:2px 0 14px}
+.itog-smysl{color:var(--tihiy);font-size:17.5px;margin:0 0 20px;max-width:58ch}
+.itog-klyuchi{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0}
+.itog-klyuchi li{font-family:var(--anons);font-size:15px;letter-spacing:.03em;
+  color:var(--zoloto-svet);border:1px solid rgba(201,162,39,.32);
+  background:rgba(201,162,39,.07);border-radius:999px;padding:5px 14px}
+.itog-ryad{grid-column:1 / -1;border-top:1px solid var(--line);padding-top:20px;margin-top:4px}
+.itog-podpis{font-family:var(--anons);font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--tihiy);margin:0 0 12px}
+.itog-mini{display:flex;gap:12px;flex-wrap:wrap}
+.itog-mini .mini{width:62px;display:block;border-radius:8px;overflow:hidden;opacity:.85}
+.itog-mini svg.ark{width:100%;height:auto;display:block}
+.itog-mini svg.ark text{display:none}
+
+@media (prefers-reduced-motion: reduce){
+  .veer-k,.veer-in,.kviz-luny i::after,.kviz-otvet{transition:none}
+}
+@media(max-width:980px){
+  .kviz{--kw:118px;--veer-h:250px;--ugol:.86}
+  .kviz-telo{grid-template-columns:1fr!important;gap:26px}
+  .kviz-veer{order:-1}
+  .kviz-vopros{min-height:0;display:block}
+  .kviz-itog{grid-template-columns:1fr!important;gap:24px;justify-items:start}
+  .itog-karta{max-width:210px;margin:0 auto}
+}
+@media(max-width:640px){
+  .kviz{padding:24px 18px;border-radius:18px;--kw:100px;--veer-h:218px}
+  .kviz-veer::before{width:230px;height:230px;margin:-115px 0 0 -115px}
+  .kviz-otvet{font-size:16px;padding:15px 17px}
+  .itog-karta{max-width:180px}
+  .itog-mini .mini{width:48px}
+  .kviz-itog .knopki{width:100%}
+}
 
 /* ---------- справочник арканов ---------- */
-.ark-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px;margin-top:34px}
+.ark-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:20px;margin-top:34px}
 .ark-k{display:block;transition:transform .18s}
-.ark-k svg.ark{width:100%;height:auto;display:block;border-radius:14px}
+.ark-k .ph{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--line);
+  background:#0E0C11;box-shadow:0 14px 30px rgba(0,0,0,.42);transition:border-color .18s}
+.ark-k .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.ark-p{display:flex;flex-direction:column;align-items:center;gap:3px;margin-top:11px;
+  font-size:15px;line-height:1.3;color:#E4DDD2;text-align:center;text-wrap:balance}
+.ark-p b{font-family:var(--anons);font-weight:400;font-size:12.5px;letter-spacing:.2em;
+  color:var(--zoloto)}
 @media(hover:hover){.ark-k:hover{transform:translateY(-4px)}
-  .ark-k:hover svg.ark rect:first-of-type{stroke:var(--zoloto-svet)}}
-.ark-verh{display:grid;grid-template-columns:220px minmax(0,1fr);gap:44px;align-items:center}
-.ark-foto svg.ark{width:100%;height:auto;display:block}
-.ark-txt h1{margin-top:4px}
-@media(max-width:1000px){.ark-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
-  .ark-verh{grid-template-columns:1fr!important;gap:24px}
-  .ark-foto{max-width:190px}}
-@media(max-width:640px){.ark-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px}}
+  .ark-k:hover .ph{border-color:rgba(201,162,39,.62)}}
+.ark-istochnik{margin:26px 0 0;color:var(--tihiy);font-size:14.5px;text-wrap:pretty}
+/* Разворот аркана: слева карта, справа значения. Ширину карты подбирает site.js
+   по высоте соседней колонки, поэтому низ разворота сходится.
+   На узком экране .split встаёт колонкой, и order поднимает карту наверх. */
+.ark-verh{margin-top:30px;align-items:flex-start}
+.ark-verh .ph{order:-1;border-color:rgba(201,162,39,.3);box-shadow:0 34px 72px rgba(0,0,0,.55)}
+.ark-znach>.lid{margin-top:0}
+.ark-blok{margin-top:32px}
+.ark-blok h3{margin:0;color:var(--zoloto-svet)}
+.ark-blok .dlist{margin-top:16px}
+.ark-sovet{margin:14px 0 0;color:var(--tihiy);font-size:16.5px}
+@media(max-width:1000px){.ark-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:640px){.ark-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:14px}
+  .ark-p{font-size:14px}.ark-verh{margin-top:24px}.ark-blok{margin-top:26px}}
 
 /* ---------- инфографика ---------- */
 .shema{margin:36px 0 0;padding:26px 24px 20px;background:var(--sloy);border:1px solid var(--line);
@@ -520,3 +610,15 @@ section > .wrap{position:relative}
 .card.s-foto .tel>svg{color:var(--zoloto);margin:-46px 0 14px;position:relative;z-index:2}
 @media(hover:hover){.card.s-foto:hover .ph img{transform:scale(1.04);transition:transform .5s ease}}
 .card.s-foto .ph img{transition:transform .5s ease}
+
+/* ---------- схемы на телефоне: масштаб один к одному ---------- */
+/* Схема шириной 1000 единиц ужималась до 560px, и подпись в 12,5px */
+/* превращалась в 7px. Держим схему в натуральную величину: она листается */
+/* вбок, зато читается без увеличения. */
+@media(max-width:640px){
+  .shema svg{min-width:960px}
+  .shema{scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+  /* подпись держится на месте, пока схему листают вбок */
+  .shema-podpis{position:sticky;left:0;max-width:min(100%,720px)}
+}
+

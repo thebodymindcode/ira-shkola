@@ -4,6 +4,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 from engine import ico, typo, TG, runa_nomer
 from layout import page, u, ph, stolb
 from pages_main import hero, KNOPKI_TG
+import shemy
 
 T = typo
 KR_HOME = ('Главная', '')
@@ -67,6 +68,7 @@ def shkola():
 <section><div class="wrap">
 <p class="eyebrow">Порядок потока</p>
 <h2>Из чего собран поток</h2>
+{shemy.put_uchenika()}
 <ul class="stepline">{steps}</ul>
 </div></section>
 
@@ -172,8 +174,15 @@ def kursy_katalog():
 </div></section>
 
 <section><div class="wrap">
+<p class="eyebrow">Куда идти</p>
+<h2>С каким вопросом куда</h2>
+{shemy.kuda_idti()}
+</div></section>
+
+<section><div class="wrap">
 <p class="eyebrow">Одинаково для всех курсов</p>
 <h2>Как проходит любой поток</h2>
+{shemy.put_uchenika()}
 <div class="dlist"><ul>
 <li>{ico('kniga')}<span>{T('У темы всегда назван источник: откуда обряд и кто его описал.')}</span></li>
 <li>{ico('ruka')}<span>{T('После темы задание, которое делают руками и показывают в канале.')}</span></li>

@@ -10,6 +10,51 @@ F = "font-family:'Montserrat',sans-serif"
 FS = "font-family:'Forum',Georgia,serif"
 
 
+def _kuski(tekst):
+    """Короткие слова (предлоги, союзы) склеиваем со следующим словом,
+    чтобы строка не заканчивалась на «в», «и», «а»."""
+    kuski = []
+    for w in reversed(tekst.split()):
+        if len(w) <= 2 and kuski and any(c.isalpha() for c in w):
+            kuski[-1] = w + ' ' + kuski[-1]
+        else:
+            kuski.append(w)
+    kuski.reverse()
+    return kuski
+
+
+def _zhadno(kuski, shirina):
+    stroki, tek = [], ''
+    for w in kuski:
+        if tek and len(tek) + 1 + len(w) > shirina:
+            stroki.append(tek)
+            tek = w
+        else:
+            tek = (tek + ' ' + w).strip()
+    if tek:
+        stroki.append(tek)
+    return stroki
+
+
+def _stroki(tekst, max_znakov):
+    """Режет строку по словам и выравнивает их по длине.
+    Слово никогда не обрывается, одинокий хвост в одно короткое слово не остаётся."""
+    kuski = _kuski(tekst)
+    dlinnoe = max(len(k) for k in kuski)
+    if dlinnoe > max_znakov:                     # склейка не влезла, режем по словам
+        kuski = tekst.split()
+        dlinnoe = max(len(k) for k in kuski)
+    nado = len(_zhadno(kuski, max_znakov))
+    nizhe, vyshe = min(dlinnoe, max_znakov), max_znakov
+    while nizhe < vyshe:                          # ищем самую узкую строку при том же числе строк
+        sred = (nizhe + vyshe) // 2
+        if len(_zhadno(kuski, sred)) <= nado:
+            vyshe = sred
+        else:
+            nizhe = sred + 1
+    return _zhadno(kuski, nizhe)
+
+
 def obertka(vnutri, vw=1000, vh=420, podpis=''):
     p = (f'<p class="shema-podpis">{podpis}</p>' if podpis else '')
     return (f'<figure class="shema"><svg viewBox="0 0 {vw} {vh}" role="img" '
@@ -42,7 +87,7 @@ def koloda():
                      f'stroke="{L}" stroke-width="1.2"/>')
             podpis = str(i + 1) if i < 10 else ['В', 'Р', 'Д', 'К'][i - 10]
             s.append(f'<text x="{x + 20}" y="{y + 26}" fill="{TT}" text-anchor="middle" '
-                     f'style="{F};font-size:11.5px">{podpis}</text>')
+                     f'style="{F};font-size:12.5px">{podpis}</text>')
     s.append(f'<text x="220" y="418" fill="{TT}" style="{F};font-size:12px">'
              'В, Р, Д, К это Валет, Рыцарь, Дама и Король</text>')
     return obertka(''.join(s), 1000, 430,
@@ -75,27 +120,55 @@ def etty():
 
 
 def dom_granicy():
-    """Границы дома и чем их закрывали."""
+    """Границы дома и чем их закрывали. Точки стоят на самом контуре,
+    выноски уходят наружу и потому нигде не пересекают дом."""
     s = []
-    s.append(f'<path d="M120 300 L120 170 L330 60 L540 170 L540 300 Z" fill="none" '
-             f'stroke="{L}" stroke-width="2"/>')
-    s.append(f'<path d="M120 300 L540 300" stroke="{Z}" stroke-width="2.4"/>')
-    # точки на доме и подписи справа на равных интервалах, без наложений
-    tochki = [
-        (330, 150, 'Печь', 'угощение домовому'),
-        (200, 220, 'Окно', 'громничная свеча'),
-        (470, 205, 'Красный угол', 'рушник и свеча'),
-        (330, 300, 'Порог', 'крапива, нож, соль'),
-    ]
-    for i, (x, y, zag, txt) in enumerate(tochki):
-        ly = 96 + i * 74
-        s.append(f'<path d="M{x} {y} C {x + 90} {y}, 560 {ly}, 630 {ly}" fill="none" '
-                 f'stroke="{L}" stroke-width="1"/>')
-        s.append(f'<circle cx="{x}" cy="{y}" r="7" fill="{Z}"/>')
-        s.append(f'<circle cx="{x}" cy="{y}" r="14" fill="none" stroke="{Z}" stroke-width="1" opacity=".45"/>')
-        s.append(f'<text x="646" y="{ly - 3}" fill="{T}" style="{FS};font-size:22px">{zag}</text>')
-        s.append(f'<text x="646" y="{ly + 22}" fill="{TT}" style="{F};font-size:14.5px">{txt}</text>')
-    return obertka(''.join(s), 1000, 380,
+    # земля
+    s.append(f'<line x1="330" y1="320" x2="710" y2="320" stroke="{Z}" stroke-width="2.4"/>')
+    # стены и крыша
+    s.append(f'<path d="M380 320 V170 H660 V320" fill="none" stroke="{L}" stroke-width="2"/>')
+    s.append(f'<path d="M348 170 L520 80 L692 170" fill="none" stroke="{L}" stroke-width="2" '
+             f'stroke-linejoin="round"/>')
+    # труба над печью
+    s.append(f'<path d="M600 122 V100 H632 V139" fill="none" stroke="{L}" stroke-width="2"/>')
+    # печь внутри, под трубой
+    s.append(f'<path d="M576 320 V264 H628 V320" fill="none" stroke="{L}" stroke-width="1.6"/>')
+    s.append(f'<path d="M590 320 V298 a12 12 0 0 1 24 0 V320" fill="none" stroke="{Z}" '
+             f'stroke-width="1.4" opacity=".7"/>')
+    # дверь, порог у земли
+    s.append(f'<path d="M490 320 V246 H550 V320" fill="none" stroke="{L}" stroke-width="1.8"/>')
+    # окно у левой стены
+    s.append(f'<rect x="404" y="196" width="60" height="48" rx="3" fill="none" stroke="{L}" '
+             f'stroke-width="1.6"/>')
+    s.append(f'<path d="M434 196 V244 M404 220 H464" stroke="{L}" stroke-width="1.2"/>')
+    # красный угол: угол стены под крышей
+    s.append(f'<path d="M660 196 H630 V170" fill="none" stroke="{Z}" stroke-width="1.4" opacity=".55"/>')
+
+    def tochka(x, y):
+        s.append(f'<circle cx="{x}" cy="{y}" r="6.5" fill="{Z}"/>')
+        s.append(f'<circle cx="{x}" cy="{y}" r="13" fill="none" stroke="{Z}" stroke-width="1" opacity=".45"/>')
+
+    def podpis(x, y, zag, txt, ank='start'):
+        s.append(f'<text x="{x}" y="{y}" fill="{T}" text-anchor="{ank}" style="{FS};font-size:23px">{zag}</text>')
+        s.append(f'<text x="{x}" y="{y + 25}" fill="{TT}" text-anchor="{ank}" style="{F};font-size:14.5px">{txt}</text>')
+
+    # печь: точка на трубе, подпись справа сверху
+    tochka(616, 100)
+    s.append(f'<path d="M630 99 C 672 96, 700 94, 730 94" fill="none" stroke="{L}" stroke-width="1"/>')
+    podpis(740, 100, 'Печь', 'угощение домовому')
+    # красный угол: точка на верхнем углу стены, подпись справа
+    tochka(660, 170)
+    s.append(f'<path d="M673 173 C 700 182, 712 196, 730 204" fill="none" stroke="{L}" stroke-width="1"/>')
+    podpis(740, 212, 'Красный угол', 'рушник и свеча')
+    # окно: точка на левой стене, подпись слева
+    tochka(380, 220)
+    s.append(f'<path d="M206 220 H367" fill="none" stroke="{L}" stroke-width="1"/>')
+    podpis(20, 214, 'Окно', 'громничная свеча')
+    # порог: точка на земле под дверью, подпись слева внизу
+    tochka(520, 320)
+    s.append(f'<path d="M206 352 H500 C 512 352, 520 345, 520 333" fill="none" stroke="{L}" stroke-width="1"/>')
+    podpis(20, 346, 'Порог', 'крапива, нож, соль')
+    return obertka(''.join(s), 1000, 396,
                    'Оберег ставили на границе дома: у порога, окна, красного угла и печи. '
                    'Там, где чужое могло войти внутрь.')
 
@@ -157,34 +230,40 @@ def put_uchenika():
 
 
 def put_duraka():
-    """Путь Дурака: нулевая карта и три ряда по семь арканов."""
+    """Путь Дурака: нулевая карта и три ряда по семь арканов.
+    Имя карты переносится по словам, обрывать его нельзя."""
     import sys, os
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'content'))
     from arkany import ARKANY
     ryady = [('Мир людей', ARKANY[1:8]), ('Мир испытаний', ARKANY[8:15]),
              ('Мир целого', ARKANY[15:22])]
     s = []
-    # нулевая карта отдельно
-    s.append(f'<rect x="20" y="86" width="92" height="132" rx="10" fill="none" '
+    # нулевая карта отдельно, над рядами
+    s.append(f'<rect x="20" y="16" width="120" height="86" rx="10" fill="none" '
              f'stroke="{Z}" stroke-width="1.6"/>')
-    s.append(f'<text x="66" y="140" text-anchor="middle" fill="{ZS}" '
-             f'style="{FS};font-size:30px">0</text>')
-    s.append(f'<text x="66" y="172" text-anchor="middle" fill="{T}" style="{FS};font-size:17px">Шут</text>')
-    s.append(f'<text x="66" y="242" text-anchor="middle" fill="{TT}" style="{F};font-size:12.5px">вне счёта</text>')
-    s.append(f'<path d="M124 152 h26 m-8 -5 l8 5 -8 5" stroke="{Z}" stroke-width="1.4" fill="none"/>')
+    s.append(f'<text x="80" y="56" text-anchor="middle" fill="{ZS}" style="{FS};font-size:28px">0</text>')
+    s.append(f'<text x="80" y="84" text-anchor="middle" fill="{T}" style="{FS};font-size:19px">Шут</text>')
+    s.append(f'<path d="M152 59 h30 m-9 -5.5 l9 5.5 -9 5.5" stroke="{Z}" stroke-width="1.4" fill="none"/>')
+    s.append(f'<text x="196" y="52" fill="{T}" style="{FS};font-size:22px">Шут идёт вне счёта</text>')
+    s.append(f'<text x="196" y="78" fill="{TT}" style="{F};font-size:14.5px">'
+             'с него начинается дорога, номера у него нет</text>')
     for r, (nazv, ryad) in enumerate(ryady):
-        y = 30 + r * 108
-        s.append(f'<text x="168" y="{y + 14}" fill="{Z}" style="{FS};font-size:15px;'
-                 f'letter-spacing:2px">{nazv.upper()}</text>')
+        y0 = 134 + r * 140
+        s.append(f'<text x="20" y="{y0}" fill="{Z}" style="{FS};font-size:16px;'
+                 f'letter-spacing:2.4px">{nazv.upper()}</text>')
+        s.append(f'<line x1="20" y1="{y0 + 10}" x2="962" y2="{y0 + 10}" stroke="{L}" stroke-width="1"/>')
         for i, a in enumerate(ryad):
-            x = 168 + i * 116
-            s.append(f'<rect x="{x}" y="{y + 24}" width="100" height="62" rx="8" fill="none" '
+            x = 20 + i * 137
+            s.append(f'<rect x="{x}" y="{y0 + 22}" width="120" height="86" rx="9" fill="none" '
                      f'stroke="{L}" stroke-width="1.2"/>')
-            s.append(f'<text x="{x + 50}" y="{y + 50}" text-anchor="middle" fill="{ZS}" '
-                     f'style="{FS};font-size:19px">{a["n"]}</text>')
-            s.append(f'<text x="{x + 50}" y="{y + 72}" text-anchor="middle" fill="{TT}" '
-                     f'style="{F};font-size:11.5px">{a["name"][:13]}</text>')
-    return obertka(''.join(s), 1000, 350,
+            s.append(f'<text x="{x + 60}" y="{y0 + 60}" text-anchor="middle" fill="{ZS}" '
+                     f'style="{FS};font-size:21px">{a["n"]}</text>')
+            imya = _stroki(a['name'], 15)
+            ty = y0 + 86 if len(imya) == 1 else y0 + 80
+            for k, st in enumerate(imya):
+                s.append(f'<text x="{x + 60}" y="{ty + k * 16}" text-anchor="middle" fill="{TT}" '
+                         f'style="{F};font-size:12.5px">{st}</text>')
+    return obertka(''.join(s), 1000, 548,
                    'Двадцать один аркан делится на три ряда по семь. Первый ряд про жизнь среди людей, '
                    'второй про испытания, третий про выход к целому.')
 
@@ -229,8 +308,8 @@ def fazy_luny():
                    'не к дню недели, а к тому, где сейчас луна.')
 
 
-def timeline_iry():
-    """Путь Иры: от первой колоды до школы."""
+def timeline_iry(kratko=False):
+    """Путь Иры: от первой колоды до школы. kratko=True даёт короткую ленту."""
     vehi = [
         ('11 лет', 'первая колода', 'Карты попали в руки и остались.'),
         ('23 года', 'практика', 'К ней начали приходить люди.'),
@@ -238,24 +317,153 @@ def timeline_iry():
         ('Города', 'четыре страны', 'Москва, Петербург, Израиль, Париж.'),
         ('Сегодня', 'школа', 'Потоки в закрытых каналах, разбор работ.'),
     ]
+    if kratko:
+        vehi = [vehi[0], vehi[1], vehi[2], vehi[4]]
+    n = len(vehi)
+    shag = 780 // (n - 1)
     s = []
     s.append(f'<line x1="70" y1="120" x2="930" y2="120" stroke="{L}" stroke-width="2"/>')
     for i, (kogda, chto, opis) in enumerate(vehi):
-        x = 110 + i * 195
+        x = 110 + i * shag
         s.append(f'<circle cx="{x}" cy="120" r="9" fill="{Z}"/>')
         s.append(f'<circle cx="{x}" cy="120" r="19" fill="none" stroke="{Z}" stroke-width="1" opacity=".45"/>')
         s.append(f'<text x="{x}" y="82" text-anchor="middle" fill="{ZS}" style="{FS};font-size:25px">{kogda}</text>')
         s.append(f'<text x="{x}" y="170" text-anchor="middle" fill="{T}" style="{FS};font-size:18px">{chto}</text>')
-        slova = opis.split()
-        stroki, tek = [], ''
-        for w in slova:
-            if len(tek + ' ' + w) > 24:
-                stroki.append(tek); tek = w
-            else:
-                tek = (tek + ' ' + w).strip()
-        stroki.append(tek)
-        for j, st in enumerate(stroki):
+        for j, st in enumerate(_stroki(opis, 24)):
             s.append(f'<text x="{x}" y="{196 + j * 19}" text-anchor="middle" fill="{TT}" '
                      f'style="{F};font-size:13px">{st}</text>')
-    return obertka(''.join(s), 1000, 270,
-                   'Путь от первой колоды до школы занял больше двадцати лет.')
+    podpis = ('Первая колода в одиннадцать лет, практика с двадцати трёх, авторский курс с 2014 года.'
+              if kratko else
+              'Путь от первой колоды до школы занял больше двадцати лет.')
+    return obertka(''.join(s), 1000, 270, podpis)
+
+
+KURSY_RAZVILKA = [
+    ('Колода дома есть, а читаю по чужим значениям', 'Таро', 'чтение колоды'),
+    ('Практика уже есть, хочу собрать её в систему', 'Геката', 'ритуальная магия'),
+    ('Тянет север и старые знаки', 'Руны', 'старший футарк'),
+    ('В семье что-то делали с солью и ножом', 'Обереги дома', 'раздел журнала'),
+    ('Вопросы стали свои, в общий канал их неловко', 'Личная работа', 'один на один'),
+]
+
+
+def kuda_idti():
+    """Развилка: от вопроса читателя к направлению школы."""
+    s = []
+    ryady = [70, 165, 260, 355, 450]
+    # узел вопроса
+    s.append(f'<rect x="20" y="228" width="176" height="64" rx="14" fill="none" '
+             f'stroke="{Z}" stroke-width="1.6"/>')
+    s.append(f'<text x="108" y="268" text-anchor="middle" fill="{T}" '
+             f'style="{FS};font-size:23px">Ваш вопрос</text>')
+    s.append(f'<path d="M196 260 H228" stroke="{Z}" stroke-width="1.4" fill="none"/>')
+    s.append(f'<line x1="228" y1="70" x2="228" y2="450" stroke="{L}" stroke-width="1.4"/>')
+    for y, (vopros, kurs, chto) in zip(ryady, KURSY_RAZVILKA):
+        s.append(f'<path d="M228 {y} C 258 {y}, 268 {y}, 296 {y}" fill="none" '
+                 f'stroke="{L}" stroke-width="1.2"/>')
+        s.append(f'<circle cx="228" cy="{y}" r="5" fill="{Z}"/>')
+        stroki = _stroki(vopros, 36)
+        ty = y + 7 if len(stroki) == 1 else y - 6
+        for k, st in enumerate(stroki):
+            s.append(f'<text x="308" y="{ty + k * 25}" fill="{T}" '
+                     f'style="{F};font-size:16.5px">{st}</text>')
+        s.append(f'<path d="M668 {y} h26 m-9 -5.5 l9 5.5 -9 5.5" stroke="{Z}" '
+                 f'stroke-width="1.4" fill="none" opacity=".8"/>')
+        s.append(f'<rect x="706" y="{y - 31}" width="274" height="62" rx="14" fill="none" '
+                 f'stroke="{L}" stroke-width="1.4"/>')
+        s.append(f'<text x="730" y="{y - 2}" fill="{ZS}" style="{FS};font-size:21px">{kurs}</text>')
+        s.append(f'<text x="730" y="{y + 20}" fill="{TT}" style="{F};font-size:13.5px">{chto}</text>')
+    return obertka(''.join(s), 1000, 500,
+                   'Строгой лестницы в школе нет. Направление берут по своему вопросу, '
+                   'а порядок дальше складывается сам.')
+
+
+STUPENI_GRIMUARA = [
+    'Подготовка и инструментарий',
+    'Знакомство с эгрегором',
+    'Двадцать два старших аркана',
+    'Интуитивное чтение',
+    'Диагностика магического негатива',
+    'Расклады и коррекция',
+    'Лёгкая ритуалика',
+    'Зеркальные перекрёстки',
+    'Сложная ритуальная работа',
+]
+
+
+def lenta_grimuara():
+    """Девять ступеней курса лентой: три ряда по три, каждый ряд слева направо."""
+    xs = [20, 350, 680]
+    ys = [24, 172, 320]
+    s = []
+    for i, zag in enumerate(STUPENI_GRIMUARA):
+        r, k = divmod(i, 3)
+        x, y = xs[k], ys[r]
+        s.append(f'<rect x="{x}" y="{y}" width="300" height="104" rx="14" fill="none" '
+                 f'stroke="{L}" stroke-width="1.4"/>')
+        s.append(f'<circle cx="{x + 44}" cy="{y + 52}" r="21" fill="none" stroke="{Z}" stroke-width="1.4"/>')
+        s.append(f'<text x="{x + 44}" y="{y + 60}" text-anchor="middle" fill="{ZS}" '
+                 f'style="{FS};font-size:21px">{i + 1}</text>')
+        stroki = _stroki(zag, 22)
+        ty = y + 60 if len(stroki) == 1 else y + 48
+        for m, st in enumerate(stroki):
+            s.append(f'<text x="{x + 82}" y="{ty + m * 24}" fill="{T}" '
+                     f'style="{FS};font-size:19px">{st}</text>')
+        if k < 2:                                   # стрелка к соседней ступени
+            s.append(f'<path d="M{x + 306} {y + 52} h16 m-6 -5 l6 5 -6 5" stroke="{Z}" '
+                     f'stroke-width="1.4" fill="none" opacity=".75"/>')
+        elif r < 2:                                 # переход на следующий ряд
+            s.append(f'<path d="M{x + 150} {y + 110} V{y + 130} H{xs[0] + 150} V{ys[r + 1] - 8} '
+                     f'm-5 -6 l5 6 5 -6" stroke="{Z}" stroke-width="1.4" fill="none" opacity=".7"/>')
+    return obertka(''.join(s), 1000, 448,
+                   'Ступени идут подряд: сначала инструменты и сила за колодой, потом чтение '
+                   'и диагностика, а сложная ритуальная работа только в конце.')
+
+
+ZNAKI_PRIVYCHEK = [
+    '<path d="M-11 -14h22v28h-22z"/><path d="M-6 0l4 5 8-11"/>',
+    '<path d="M-11 -4a11.7 11.7 0 0 1 20-3"/><path d="M9 -7l-6 1M9 -7l1 6"/>'
+    '<path d="M11 4a11.7 11.7 0 0 1-20 3"/><path d="M-9 7l6-1M-9 7l-1-6"/>',
+    '<path d="M-11 -14h22v28h-22z"/><path d="M-6 -7h13M-6 0h13M-6 7h8"/>',
+]
+
+PRIVYCHKI = [
+    ('Ответ придуман заранее',
+     'Человек уже решил, что должно выпасть, и подбирает к этому карты. Расклад сходится, а толку нет.',
+     'Покажи, где на картинке то, что ты сейчас сказал.'),
+    ('Один вопрос по кругу',
+     'Тот же вопрос перекладывают по второму и третьему разу, пока картинка не станет приятной.',
+     'Звучит уже не «что здесь происходит», а «успокой меня».'),
+    ('Чужие выписанные значения',
+     'Значения выписаны из интернета в тетрадь, и человек говорит ими, а на карты почти не смотрит.',
+     'Опиши выпавшее своими словами, будто рисунка никто не видел.'),
+]
+
+
+def privychki_novichka():
+    """Три привычки, из-за которых расклад читается мимо."""
+    s = []
+    for i, (zag, telo, lovyat) in enumerate(PRIVYCHKI):
+        x = 20 + i * 327
+        s.append(f'<rect x="{x}" y="20" width="306" height="390" rx="18" fill="none" '
+                 f'stroke="{L}" stroke-width="1.4"/>')
+        s.append(f'<circle cx="{x + 56}" cy="82" r="30" fill="none" stroke="{Z}" stroke-width="1.4"/>')
+        s.append(f'<g transform="translate({x + 56},82)" fill="none" stroke="{ZS}" stroke-width="1.8" '
+                 f'stroke-linecap="round" stroke-linejoin="round">{ZNAKI_PRIVYCHEK[i]}</g>')
+        s.append(f'<text x="{x + 268}" y="90" text-anchor="end" fill="{Z}" '
+                 f'style="{FS};font-size:26px" opacity=".55">{i + 1}</text>')
+        for j, st in enumerate(_stroki(zag, 23)):
+            s.append(f'<text x="{x + 24}" y="{150 + j * 27}" fill="{T}" '
+                     f'style="{FS};font-size:23px">{st}</text>')
+        for j, st in enumerate(_stroki(telo, 32)):
+            s.append(f'<text x="{x + 24}" y="{214 + j * 21}" fill="{TT}" '
+                     f'style="{F};font-size:14.5px">{st}</text>')
+        s.append(f'<line x1="{x + 24}" y1="300" x2="{x + 282}" y2="300" stroke="{L}" stroke-width="1"/>')
+        s.append(f'<text x="{x + 24}" y="330" fill="{Z}" '
+                 f'style="{F};font-size:12.5px;letter-spacing:1.6px">КАК ЛОВЯТ НА ЗАНЯТИИ</text>')
+        for j, st in enumerate(_stroki(lovyat, 32)):
+            s.append(f'<text x="{x + 24}" y="{358 + j * 21}" fill="{T}" '
+                     f'style="{F};font-size:14px">{st}</text>')
+    return obertka(''.join(s), 1000, 440,
+                   'Три привычки, из-за которых расклад читается мимо. На занятиях их снимают '
+                   'вопросом к самому раскладу, а не запретом.')

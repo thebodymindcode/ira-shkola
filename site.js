@@ -1,43 +1,82 @@
 document.addEventListener('DOMContentLoaded',function(){
 var k=document.getElementById('kviz');
 if(k){
- var d=JSON.parse(k.dataset.kviz), shag=0, schet={};
- var elNomer=k.querySelector('.kviz-nomer'), elPolosa=k.querySelector('.kviz-polosa i'),
+ var d=JSON.parse(k.dataset.kviz), baza=k.dataset.karty||'', shag=0, schet={}, vybor=[];
+ var elNomer=k.querySelector('.kviz-nomer'), elLuny=k.querySelector('.kviz-luny'),
      elVopros=k.querySelector('.kviz-vopros'), elOtvety=k.querySelector('.kviz-otvety'),
-     elItog=k.querySelector('.kviz-itog');
+     elTelo=k.querySelector('.kviz-telo'), elItog=k.querySelector('.kviz-itog'),
+     veer=[].slice.call(k.querySelectorAll('.veer-k'));
+ function lico(slug){
+  var t=document.querySelector('template[data-slug="'+slug+'"]');
+  return t?t.innerHTML:'';
+ }
+ function luny(){
+  [].forEach.call(elLuny.children,function(el,i){
+   el.className = i<shag ? 'est' : (i===shag ? 'tut' : '');
+  });
+ }
+ function podsvet(){
+  veer.forEach(function(el,i){
+   if(i===shag && shag<d.voprosy.length){el.classList.add('tut');} else {el.classList.remove('tut');}
+  });
+ }
+ function otvet(o){
+  if(k.classList.contains('zhdyom')) return;
+  vybor[shag]=o.s; schet[o.s]=(schet[o.s]||0)+1;
+  var kv=veer[shag];
+  if(kv){
+   veer.forEach(function(el){ el.classList.remove('vpered'); });
+   kv.querySelector('.veer-lico').innerHTML=lico(o.s);
+   kv.classList.add('otkryta'); kv.classList.add('vpered');
+  }
+  shag++; luny(); podsvet();
+  elNomer.textContent = shag<d.voprosy.length ? 'Вопрос '+(shag+1)+' из '+d.voprosy.length : 'Ваш аркан';
+  k.classList.add('zhdyom');
+  setTimeout(function(){
+   k.classList.remove('zhdyom');
+   if(shag<d.voprosy.length){risuj();} else {itog();}
+  },320);
+ }
  function risuj(){
   var v=d.voprosy[shag];
   elNomer.textContent='Вопрос '+(shag+1)+' из '+d.voprosy.length;
-  elPolosa.style.width=Math.round(shag/d.voprosy.length*100)+'%';
   elVopros.textContent=v.q;
   elOtvety.innerHTML='';
   v.o.forEach(function(o){
    var b=document.createElement('button');
    b.className='kviz-otvet'; b.type='button'; b.textContent=o.t;
-   b.addEventListener('click',function(){ schet[o.s]=(schet[o.s]||0)+1; shag++;
-    if(shag<d.voprosy.length){risuj();} else {itog();} });
+   b.addEventListener('click',function(){ otvet(o); });
    elOtvety.appendChild(b);
   });
+  luny(); podsvet();
  }
  function itog(){
   var luchshiy=null,max=0;
   for(var s in schet){ if(schet[s]>max){max=schet[s];luchshiy=s;} }
   var karta=d.karty[luchshiy]||d.karty['durak'];
-  var tpl=document.querySelector('template[data-slug="'+luchshiy+'"]');
-  elNomer.textContent='Готово';
-  elPolosa.style.width='100%';
-  elVopros.textContent='Ваш аркан сейчас';
-  elOtvety.innerHTML='';
+  var klyuchi=karta.pryamo.map(function(x){return '<li>'+x+'</li>';}).join('');
+  var mini=vybor.map(function(s){return '<span class="mini">'+lico(s)+'</span>';}).join('');
+  elTelo.hidden=true;
   elItog.hidden=false;
-  elItog.innerHTML='<div class="kviz-karta perevorot">'+(tpl?tpl.innerHTML:'')+'</div>'+
-   '<div class="kviz-txt"><p class="eyebrow">Старший аркан '+karta.n+'</p>'+
-   '<h3>'+karta.name+'</h3><p>'+karta.smysl+'</p>'+
-   '<p class="kviz-klyuchi">'+karta.pryamo.join(' · ')+'</p>'+
-   '<div class="knopki"><a class="btn btn-ghost" href="'+location.pathname.replace(/kviz\/$/,'')+
-   'karty/'+luchshiy+'/">Разбор карты</a>'+
-   '<button class="btn btn-ghost" type="button" id="kviz-snova">Пройти заново</button></div></div>';
+  elItog.innerHTML='<div class="itog-karta kviz-karta perevorot">'+lico(luchshiy)+'</div>'+
+   '<div class="itog-txt"><p class="eyebrow">Старший аркан '+karta.n+'</p>'+
+   '<h3>'+karta.name+'</h3><p class="itog-smysl">'+karta.smysl+'</p>'+
+   '<ul class="itog-klyuchi">'+klyuchi+'</ul>'+
+   '<div class="knopki"><a class="btn btn-gold" href="'+baza+luchshiy+'/">Открыть значение</a>'+
+   '<button class="btn btn-ghost" type="button" id="kviz-snova">Пройти заново</button></div></div>'+
+   '<div class="itog-ryad"><p class="itog-podpis">Что выпало по ответам</p>'+
+   '<div class="itog-mini">'+mini+'</div></div>';
   document.getElementById('kviz-snova').addEventListener('click',function(){
-   shag=0; schet={}; elItog.hidden=true; elItog.innerHTML=''; risuj(); });
+   shag=0; schet={}; vybor=[];
+   veer.forEach(function(el){ el.classList.remove('otkryta'); el.classList.remove('vpered');
+    el.querySelector('.veer-lico').innerHTML=''; });
+   elItog.hidden=true; elItog.innerHTML=''; elTelo.hidden=false; risuj();
+   k.scrollIntoView({block:'center'});
+  });
+  var r=k.getBoundingClientRect();
+  if(r.top<0 || r.top>window.innerHeight*0.55){
+   window.scrollTo({top:window.pageYOffset+r.top-96,behavior:'smooth'});
+  }
  }
  risuj();
 }

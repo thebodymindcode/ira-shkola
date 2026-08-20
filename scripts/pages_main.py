@@ -157,7 +157,9 @@ def glavnaya(articles):
 {stolb('images/obrazy/p-glavnaya.jpg', 'Ирина Волкова', 'svecha', '2014',
        'год первого авторского курса. С тех пор занятия шли в Москве, Петербурге, Израиле и Париже',
        'ob-irine/', 'Читать про Ирину')}
-</div></div></section>
+</div>
+{shemy.timeline_iry(kratko=True)}
+</div></section>
 
 <section><div class="wrap">
 <p class="eyebrow">Ведьмин дневник</p>

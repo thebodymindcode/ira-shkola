@@ -3,16 +3,20 @@ import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'content'))
 from engine import ico, typo, TG, DOMAIN
-from layout import page, u
+from layout import page, u, ph
 from pages_main import hero, KNOPKI_TG
 from pages_kursy import finalny
-from karta_svg import karta
+from karta_svg import karta, RIMSKIE
 from arkany import ARKANY
 import json
 
 T = typo
 HOME = ('Главная', '')
 KR = [HOME, ('Значения карт', 'karty/')]
+
+
+def alt_karty(a):
+    return f'{a["name"]}, старший аркан {a["n"]}, колода Уэйта-Смита 1909 года'
 
 
 def spisok(punkty, ikonka):
@@ -22,11 +26,18 @@ def spisok(punkty, ikonka):
 
 def hab():
     kletki = ''.join(f"""<a class="ark-k" href="{u('karty/' + a['slug'] + '/')}">
-{karta(a['slug'], a['n'], a['name'])}</a>""" for a in ARKANY)
+{ph('images/karty/mini/' + a['slug'] + '.jpg', alt_karty(a))}
+<span class="ark-p"><b>{RIMSKIE[a['n']]}</b>{T(a['name'])}</span></a>""" for a in ARKANY)
     body = f"""
 {hero('images/obrazy/h-taro.jpg', 'Справочник', 'Значения старших арканов',
       'Двадцать два аркана: образ, прямое и перевёрнутое значение, на что смотреть '
       'в раскладе. Собрано по классической традиции Уэйта.', KNOPKI_TG)}
+
+<section><div class="wrap">
+<p class="eyebrow">Из чего колода</p>
+<h2>Где в колоде эти двадцать два</h2>
+{shemy.koloda()}
+</div></section>
 
 <section><div class="wrap">
 <p class="eyebrow">Двадцать два</p>
@@ -34,6 +45,8 @@ def hab():
 <p class="lid">{T('Счёт идёт от Шута, у которого номер ноль, до Мира. Порядок не случайный: '
                   'это дорога, на которой каждая карта отвечает за свой отрезок.')}</p>
 <div class="ark-grid">{kletki}</div>
+<p class="ark-istochnik">{T('Карты показаны по колоде Уэйта-Смита 1909 года: рисунки Памелы '
+                            'Колман Смит, общественное достояние.')}</p>
 </div></section>
 
 <section><div class="wrap">
@@ -72,27 +85,21 @@ def stranica(a, prev_a, next_a):
                    f'<b>{next_a["name"]}</b></a>')
     body = f"""
 <section style="padding-top:34px"><div class="wrap">
-<div class="ark-verh">
-<div class="ark-foto">{karta(a['slug'], a['n'], a['name'])}</div>
-<div class="ark-txt">
 <p class="eyebrow">Старший аркан {a['n']}</p>
 <h1>{T(a['name'])}</h1>
 <p class="podzag">{T(a['lat'])} · {T(a['stihiya'])}</p>
+
+<div class="split ark-verh">
+<div class="ark-znach">
 <p class="lid">{T(a['obraz'])}</p>
+<div class="ark-blok"><h3>Прямое положение</h3>{spisok(a['pryamo'], 'karta')}</div>
+<div class="ark-blok"><h3>Перевёрнутое положение</h3>{spisok(a['perev'], 'zerkalo')}</div>
+<div class="ark-blok"><h3>Совет чтецу</h3><p class="ark-sovet">{T(a['sovet'])}</p></div>
 </div>
+{ph('images/karty/' + a['slug'] + '.jpg', alt_karty(a))}
 </div>
-</div></section>
-
-<section><div class="wrap">
-<p class="eyebrow">Прямое положение</p>
-<h2>Что говорит карта</h2>
-{spisok(a['pryamo'], 'karta')}
-</div></section>
-
-<section><div class="wrap">
-<p class="eyebrow">Перевёрнутое положение</p>
-<h2>Как меняется смысл</h2>
-{spisok(a['perev'], 'zerkalo')}
+<p class="ark-istochnik">{T('Колода Уэйта-Смита, 1909 год. Рисунок Памелы Колман Смит, '
+                            'общественное достояние.')}</p>
 </div></section>
 
 <section><div class="wrap">
@@ -100,7 +107,7 @@ def stranica(a, prev_a, next_a):
 <h2>О чём эта карта на самом деле</h2>
 <div class="tside"><div class="col">
 <p>{T(a['smysl'])}</p>
-<p>{T(a['sovet'])}</p>
+<div class="sosedi">{sosedi}</div>
 </div>
 <aside class="side"><h4>В раскладе</h4>
 <p>{T('Значение карты меняют соседи. Один и тот же аркан в разных местах расклада '
@@ -108,7 +115,6 @@ def stranica(a, prev_a, next_a):
 <div class="plashki" style="margin-top:14px">
 <a class="plashka" href="{u('taro/')}">{ico('strela')} Курс по таро</a></div>
 </aside></div>
-<div class="sosedi">{sosedi}</div>
 </div></section>
 
 {finalny('Читать колоду целиком',
