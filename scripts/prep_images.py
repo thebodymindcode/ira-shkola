@@ -211,8 +211,13 @@ for name, src in WIDE.items():
         f'images/obrazy/{name}.jpg', quality=82, optimize=True)
     print(f'  {name}: лицо на {round((lico or 0)*100)}%, срез с {round(dolya*100)}%')
     n += 1
+# Кадр отдаётся ЦЕЛИКОМ, без единого среза: смысл фотографии часто внизу
+# (шар в ладонях, свеча, колода), а срез снизу убивает историю кадра.
 for name, src in PORTRET.items():
-    bezopasnyj_portret(os.path.join(OBR, src), f'images/obrazy/{name}.jpg')
+    im = Image.open(os.path.join(OBR, src)).convert('RGB')
+    k = 1400 / im.size[1]
+    im.resize((int(im.size[0] * k), 1400), Image.LANCZOS).save(
+        f'images/obrazy/{name}.jpg', quality=86, optimize=True)
     n += 1
 ZERKALIT_NELZYA = set(SREZ_SHAPOK) | {'h-irina'}  # там портрет Иры, его не трогаем
 

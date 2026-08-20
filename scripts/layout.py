@@ -2,7 +2,7 @@
 """Каркас страницы: head, шапка, подвал, крошки."""
 import os, sys, json, re, html as _html
 sys.path.insert(0, os.path.dirname(__file__))
-from engine import BASE, VERSION, DOMAIN, TITLE_SITE, TG, IG, MENU, FOOTER_LINKS, ico, typo
+from engine import BASE, VERSION, DOMAIN, TITLE_SITE, TG, IG, MENU, FOOTER_LINKS, ico, typo, mico
 from theme import CSS, FONTS
 
 INDEXING = True   # единственный выключатель индексации на весь сайт
@@ -10,19 +10,21 @@ INDEXING = True   # единственный выключатель индекс
 def u(path=''):
     return BASE + path
 
+# У каждой строки свой знак: по нему видно, куда провалится человек.
 PODMENU = {
-    'kursy/': [('kursy/grimuar/', 'Чёрный Гримуар'), ('kursy/besy/', 'Бесы'),
-               ('kursy/gekata/', 'Геката'), ('kursy/runy/', 'Руны'),
-               ('kursy/nastavnichestvo/', 'Личная работа'), ('shkola/', 'Как проходит обучение')],
-    'taro/': [('taro/', 'Курс по таро'), ('karty/', 'Значения 22 арканов'),
-              ('kviz/', 'Вопросник: ваш аркан'), ('luna/', 'Лунный круг')],
-    'zhurnal/': [('oberegi/', 'Обереги дома'), ('nechist/', 'Нечистая сила'),
-                 ('zhurnal/', 'Все разборы'), ('slovar/', 'Словарь')],
+    'kursy/': [('kursy/grimuar/', 'Чёрный Гримуар', 'grimuar'), ('kursy/besy/', 'Бесы', 'besy'),
+               ('kursy/gekata/', 'Геката', 'gekata'), ('kursy/runy/', 'Руны', 'runy_kurs'),
+               ('kursy/nastavnichestvo/', 'Личная работа', 'nastav'),
+               ('shkola/', 'Как проходит обучение', 'stupeni')],
+    'taro/': [('taro/', 'Курс по таро', 'taro_kurs'), ('karty/', 'Значения 22 арканов', 'veer'),
+              ('kviz/', 'Вопросник: ваш аркан', 'vopros'), ('luna/', 'Лунный круг', 'lunnyj_krug')],
+    'zhurnal/': [('oberegi/', 'Обереги дома', 'obereg_dom'), ('nechist/', 'Нечистая сила', 'nechist_les'),
+                 ('zhurnal/', 'Все разборы', 'razbory'), ('slovar/', 'Словарь', 'slovar_ikona')],
 }
 
 
 def podpanel(punkty):
-    ssylki = ''.join(f'<a href="{u(p)}">{n}</a>' for p, n in punkty)
+    ssylki = ''.join(f'<a href="{u(p)}">{mico(i)}<span>{n}</span></a>' for p, n, i in punkty)
     return f'<div class="pod"><div class="pod-in">{ssylki}</div></div>'
 
 
@@ -42,7 +44,8 @@ def shapka(active):
         on = ' class="on"' if (active is not None and p == active) else ''
         mob += f'<a href="{u(p)}"{on}>{n}</a>'
         if p in PODMENU:
-            mob += ''.join(f'<a class="sub" href="{u(pp)}">{nn}</a>' for pp, nn in PODMENU[p])
+            mob += ''.join(f'<a class="sub" href="{u(pp)}">{mico(ii)}<span>{nn}</span></a>'
+                           for pp, nn, ii in PODMENU[p])
     return f"""<header class="shapka"><div class="in">
 <a class="znak" href="{u()}">{ico('klyuch')}<span>Школа Ирины&nbsp;Волковой</span></a>
 <nav class="nav">{nav}</nav>
@@ -343,3 +346,11 @@ b.setAttribute('aria-expanded',o?'true':'false');});
 m.addEventListener('click',function(e){if(e.target.tagName==='A'){m.classList.remove('open');
 b.setAttribute('aria-expanded','false');}});}
 });"""
+
+
+def ph(img, alt=''):
+    """Кадр в колонке: фотография целиком, поля закрывает размытие того же снимка.
+    Ничего не режем, потому что смысл кадра часто стоит у нижней кромки."""
+    a = u(img)
+    return (f'<div class="ph"><i class="fon" style="background-image:url({a})"></i>'
+            f'<img src="{a}" alt="{alt}" loading="lazy"></div>')

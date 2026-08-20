@@ -2,7 +2,7 @@
 import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 from engine import ico, typo, TG, IG
-from layout import page, u
+from layout import page, u, ph
 from pages_main import hero, KNOPKI_TG
 from pages_kursy import finalny
 from pages_kursy2 import dlist, cards2, steps, voprosy
@@ -67,7 +67,7 @@ def ob_irine():
       'Через неё проходят чужие тяжёлые истории, и она остаётся собой. Сама Ирина считает это главным '
       'своим умением, важнее любой техники.')}</p>
 </div>
-<div class="ph"><img src="{u('images/obrazy/p-irina2.jpg')}" alt="Ирина Волкова" loading="lazy"></div>
+{ph('images/obrazy/p-irina2.jpg', 'Ирина Волкова')}
 </div></div></section>
 
 <section><div class="wrap">
@@ -81,7 +81,7 @@ def ob_irine():
  ('svecha', 'Магию она называет образом жизни.'),
 ])}
 </div>
-<div class="ph"><img src="{u('images/kursy/gr-kosti.jpg')}" alt="Рабочий стол" loading="lazy"></div>
+{ph('images/kursy/gr-kosti.jpg', 'Рабочий стол')}
 </div>
 </div></section>
 

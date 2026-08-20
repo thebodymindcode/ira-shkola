@@ -2,7 +2,7 @@
 import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 from engine import ico, typo, TG, IG, runa_nomer
-from layout import page, u
+from layout import page, u, ph
 import shemy
 
 T = typo
@@ -51,7 +51,7 @@ def glavnaya(articles):
 <h3>{T(h)}</h3><p>{T(d)}</p></div></li>""" for n, (i, h, d) in enumerate(shagi))
 
     svezhie = ''.join(f"""<a class="kadr" href="{u('zhurnal/' + a['url'] + '/')}">
-<div class="ph"><img src="{u('images/zhurnal/' + a['slug'] + '.jpg')}" alt="{a['name']}" loading="lazy"></div>
+{ph('images/zhurnal/' + a['slug'] + '.jpg', a['name'])}
 <div class="body"><span class="metka">{'Обереги' if a['kind'] == 'oberegi' else 'Нечисть'}</span>
 <h3>{a['name']}</h3><p>{T(a['anons'])}</p></div></a>""" for a in articles)
 
@@ -75,7 +75,7 @@ def glavnaya(articles):
 <a class="btn btn-gold" href="{u('kursy/grimuar/')}">{ico('strela')} Смотреть курс</a>
 <a class="btn btn-ghost" href="{u('kursy/')}">Все направления</a></div>
 </div>
-<div class="ph"><img src="{u('images/obrazy/k-grimuar.jpg')}" alt="Чёрный Гримуар" loading="lazy"></div>
+{ph('images/obrazy/k-grimuar.jpg', 'Чёрный Гримуар')}
 </div>
 </div></section>
 
@@ -150,7 +150,7 @@ def glavnaya(articles):
 <p>{T('Работает она по лунному календарю, и потоки школы идут в том же ритме.')}</p>
 <div class="knopki"><a class="btn btn-ghost" href="{u('ob-irine/')}">Читать про Ирину</a></div>
 </div>
-<div class="ph"><img src="{u('images/obrazy/p-glavnaya.jpg')}" alt="Ирина Волкова" loading="lazy"></div>
+{ph('images/obrazy/p-glavnaya.jpg', 'Ирина Волкова')}
 </div></div></section>
 
 <section><div class="wrap">

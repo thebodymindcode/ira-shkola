@@ -2,7 +2,7 @@
 import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 from engine import ico, typo, TG, runa_nomer
-from layout import page, u
+from layout import page, u, ph
 from pages_main import hero, KNOPKI_TG
 
 T = typo
@@ -94,7 +94,7 @@ def shkola():
       'на Гекату, если человек уже практиковал обряды и хочет собрать их в систему.')}</p>
 <div class="knopki"><a class="btn btn-ghost" href="{u('kursy/')}">Смотреть все курсы</a></div>
 </div>
-<div class="ph"><img src="{u('images/obrazy/p-shkola.jpg')}" alt="" loading="lazy"></div>
+{ph('images/obrazy/p-shkola.jpg', '')}
 </div></div></section>
 
 {finalny('Когда ближайший набор',
@@ -138,10 +138,10 @@ def kursy_katalog():
              short='Домашняя защита славянской деревни, разобранная по источникам. Открытый раздел журнала.'),
     ]
     cards = ''.join(f"""<a class="kadr" href="{u('kursy/' + k['slug'] + '/')}">
-<div class="ph"><img src="{u('images/obrazy/' + k['img'] + '.jpg')}" alt="{k['name']}" loading="lazy"></div>
+{ph('images/obrazy/' + k['img'] + '.jpg', k['name'])}
 <div class="body"><h3>{k['name']}</h3><p>{T(k['short'])}</p></div></a>""" for k in KURSY)
     cards += ''.join(f"""<a class="kadr" href="{u(k['path'])}">
-<div class="ph"><img src="{u('images/obrazy/' + k['img'] + '.jpg')}" alt="{k['name']}" loading="lazy"></div>
+{ph('images/obrazy/' + k['img'] + '.jpg', k['name'])}
 <div class="body"><h3>{k['name']}</h3><p>{T(k['short'])}</p></div></a>""" for k in extra)
 
     body = f"""

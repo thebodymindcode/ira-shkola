@@ -68,16 +68,25 @@ svg.big{width:34px;height:34px}
 .pod-in{background:#181420;border:1px solid var(--line);border-top:2px solid var(--zoloto);
   border-radius:0 0 14px 14px;padding:8px;min-width:236px;
   box-shadow:0 22px 50px rgba(0,0,0,.55)}
-.pod-in a{display:block;padding:11px 16px;border-radius:9px;font-family:var(--sans);
-  font-size:15px;letter-spacing:0;color:#CFC7BC;white-space:nowrap}
+.pod-in{min-width:268px}
+.pod-in a{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;
+  font-family:var(--sans);font-size:15px;letter-spacing:0;color:#CFC7BC;white-space:nowrap;
+  transition:background .18s ease,color .18s ease}
+.pod-in a svg.mi{flex:0 0 34px;width:34px;height:34px;padding:6px;border-radius:9px;
+  color:var(--zoloto);background:rgba(201,162,39,.07);border:1px solid rgba(201,162,39,.22);
+  transition:background .2s ease,border-color .2s ease,transform .2s ease}
 @media(hover:hover){
   .hasmega:hover .pod,.hasmega:focus-within .pod{display:block}
   .hasmega:hover>a svg{transform:rotate(180deg)}
   .pod-in a:hover{background:rgba(201,162,39,.1);color:var(--zoloto-svet)}
+  .pod-in a:hover svg.mi{background:rgba(201,162,39,.18);border-color:rgba(201,162,39,.5);
+    transform:translateY(-1px)}
 }
 @media(max-width:1120px){.pod{display:none!important}}
-.mob a.sub{padding:11px 24px 11px 44px;font-size:16.5px;color:#B9B1A5;
-  border-bottom:1px solid rgba(232,226,217,.07)}
+.mob a.sub{display:flex;align-items:center;gap:12px;padding:11px 24px 11px 30px;font-size:16.5px;
+  color:#B9B1A5;border-bottom:1px solid rgba(232,226,217,.07)}
+.mob a.sub svg.mi{flex:0 0 32px;width:32px;height:32px;padding:6px;border-radius:9px;
+  color:var(--zoloto);background:rgba(201,162,39,.07);border:1px solid rgba(201,162,39,.22)}
 
 /* ---------- кнопки ---------- */
 .btn{display:inline-flex;align-items:center;gap:9px;position:relative;text-wrap:balance;
@@ -175,8 +184,12 @@ svg.big{width:34px;height:34px}
   align-items:stretch;margin-top:36px;grid-auto-rows:minmax(320px,auto);max-width:100%}
 .split .ph{position:relative;height:100%;min-height:0;border-radius:18px;
   overflow:hidden;border:1px solid var(--line)}
-.split .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  object-position:50% 16%;display:block}
+.split .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
+  display:block;z-index:2}
+.ph>i.fon{position:absolute;inset:-8%;background-size:cover;background-position:50% 40%;
+  filter:blur(38px) brightness(.5) saturate(.85);transform:scale(1.18);z-index:1}
+.ph{background:#0E0C11}
+.kadr .ph img{position:relative;z-index:2}
 .split.shir .ph{aspect-ratio:auto}
 
 /* ---------- цифры ---------- */
@@ -425,7 +438,7 @@ section > .wrap{position:relative}
 /* ---------- мобильное ---------- */
 @media(max-width:1000px){
   .split{grid-template-columns:1fr!important;gap:26px}
-  .split .ph{height:auto!important;aspect-ratio:5/4;min-height:0;position:relative;
+  .split .ph{height:auto!important;aspect-ratio:3/4;min-height:0;position:relative;
     width:100%;max-width:100%}
   .split .ph img{position:absolute;inset:0}
   .final{grid-template-columns:1fr!important;gap:30px}

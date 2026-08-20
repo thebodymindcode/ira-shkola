@@ -3,7 +3,7 @@
 import re
 
 BASE = '/ira-shkola/'
-VERSION = '2026082042'
+VERSION = '2026082043'
 DOMAIN = 'https://thebodymindcode.github.io/ira-shkola'
 TITLE_SITE = 'Школа Ирины Волковой'
 TG = 'https://t.me/ira_volkova_life'
@@ -161,3 +161,69 @@ def ico(name, cls='ic'):
     return (f'<svg class="{cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
             f'stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" '
             f'aria-hidden="true">{ICONS.get(name, ICONS["krug"])}</svg>')
+
+
+
+# Иконки выпадающего меню: у каждой строки свой знак, по нему видно, куда ведёт пункт.
+# Рисунок в одном стиле с ICONS: тонкая линия гравюры, без заливок.
+MENU_ICONS = {
+    # курсы
+    'grimuar': '<rect x="4.6" y="3.2" width="13.4" height="17.6" rx="1.6"/>'
+               '<path d="M18 5.2h1.6v14.6H18"/><path d="M8 3.2v17.6"/>'
+               '<circle cx="13.2" cy="12" r="2.6"/><path d="M13.2 9.4v-1.4m0 8v-1.4m2.6-2.6h1.4m-8 0h1.4"/>'
+               '<path d="M11.4 20.8v1.4h3.6v-1.4"/>',
+    'besy': '<path d="M7.4 8.2C6 6.6 5.4 5 5.6 3.2c1.7.4 3 1.4 3.9 3"/>'
+            '<path d="M16.6 8.2c1.4-1.6 2-3.2 1.8-5-1.7.4-3 1.4-3.9 3"/>'
+            '<path d="M12 8.2c-3.2 0-5.6 2.4-5.6 5.6 0 3 2.5 5.4 5.6 5.4s5.6-2.4 5.6-5.4c0-3.2-2.4-5.6-5.6-5.6Z"/>'
+            '<path d="M9.8 12.6h.02M14.2 12.6h.02" stroke-width="2.2" stroke-linecap="round"/>'
+            '<path d="M9.8 16.2c1.4.9 3 .9 4.4 0"/>',
+    'gekata': '<path d="M12 3.4v17.2"/><path d="M5.6 7.2v10.2"/><path d="M18.4 7.2v10.2"/>'
+              '<path d="M12 3.4a3 3 0 0 0-2.4 2.6M12 3.4a3 3 0 0 1 2.4 2.6"/>'
+              '<circle cx="5.6" cy="6" r="1.5"/><circle cx="18.4" cy="6" r="1.5"/>'
+              '<path d="M4.2 20.6h15.6"/><path d="M9.4 17.4h5.2"/>',
+    'runy_kurs': '<path d="M6.4 3.6v16.8"/><path d="M6.4 8.4 12 3.6M6.4 12l5.6 4.8"/>'
+                 '<path d="M17.4 3.6v16.8"/><path d="M17.4 11.4l3-3.6M17.4 11.4l3 3.6"/>',
+    'nastav': '<circle cx="8.4" cy="7.6" r="2.8"/><circle cx="16.6" cy="9.4" r="2.2"/>'
+              '<path d="M3.6 20.4c0-3.2 2.2-5.4 4.8-5.4s4.8 2.2 4.8 5.4"/>'
+              '<path d="M14.6 20.4c0-2.6 1.4-4.4 3.4-4.4 1.4 0 2.4.8 3 2"/>'
+              '<path d="M11.8 12.4l1.6 1.4"/>',
+    'stupeni': '<path d="M3.4 20.6h4.2v-4.2h4.2v-4.2h4.2V8h4.6"/>'
+               '<path d="M3.4 20.6v-2M20.6 8V3.6"/><circle cx="20.6" cy="5.6" r="1.4"/>'
+               '<path d="M7.6 16.4v4.2M11.8 12.2v8.4M16 8v12.6"/>',
+    # таро
+    'taro_kurs': '<rect x="7.4" y="3.2" width="9.2" height="13.6" rx="1.4"/>'
+                 '<path d="M12 5.8l1.5 3.2 3.1.4-2.3 2.2.6 3.2-2.9-1.6-2.9 1.6.6-3.2-2.3-2.2 3.1-.4Z"/>'
+                 '<path d="M6 19.4h12M8.4 21.6h7.2"/>',
+    'veer': '<rect x="9.6" y="5.4" width="8.4" height="12.4" rx="1.4"/>'
+            '<path d="M8.4 6.6 4.8 8.2l3.4 8.6" opacity=".75"/>'
+            '<path d="M19.2 6.6l2.4 1.2-2.2 7" opacity=".55"/>'
+            '<path d="M13.8 8.4v6.4M11.6 11.6h4.4"/>',
+    'vopros': '<rect x="4.8" y="3.4" width="14.4" height="17.2" rx="2"/>'
+              '<path d="M9.6 9.4a2.4 2.4 0 1 1 3.3 2.2c-.7.3-1.1 1-1.1 1.7v.5"/>'
+              '<path d="M11.8 17.2h.02" stroke-width="2.2" stroke-linecap="round"/>',
+    'lunnyj_krug': '<circle cx="12" cy="12" r="8.6"/><path d="M12 3.4a8.6 8.6 0 0 0 0 17.2Z"/>'
+                   '<circle cx="12" cy="12" r="2"/>'
+                   '<path d="M12 1.6v1.4M12 21v1.4M1.6 12h1.4M21 12h1.4"/>',
+    # ведьмин дневник
+    'obereg_dom': '<path d="M3.6 11.4 12 4.2l8.4 7.2"/><path d="M5.6 10v9.8h12.8V10"/>'
+                  '<path d="M10 19.8v-5.2h4v5.2"/>'
+                  '<path d="M12 7.2l.9 1.9 2 .3-1.5 1.4.4 2-1.8-1-1.8 1 .4-2-1.5-1.4 2-.3Z"/>',
+    'nechist_les': '<path d="M12 2.8 7.4 9.6h2.6L6.2 15.4h3.4L6 20.6h12l-3.6-5.2h3.4L14.2 9.6h2.6Z"/>'
+                   '<path d="M12 20.6v2"/><circle cx="10.2" cy="13.4" r=".8"/><circle cx="13.8" cy="13.4" r=".8"/>',
+    'razbory': '<path d="M4 5.4c2.6-1.4 5.2-1.4 8 0v13.8c-2.8-1.4-5.4-1.4-8 0Z"/>'
+               '<path d="M20 5.4c-2.6-1.4-5.2-1.4-8 0v13.8c2.8-1.4 5.4-1.4 8 0Z"/>'
+               '<path d="M12 5.4v13.8"/><path d="M6.4 9.2h3M6.4 12.4h3M14.6 9.2h3M14.6 12.4h3"/>',
+    'slovar_ikona': '<path d="M6.4 3.4h11.2a2 2 0 0 1 2 2v13.2a2 2 0 0 1-2 2H6.4Z"/>'
+                    '<path d="M6.4 3.4a2 2 0 0 0-2 2v13.2a2 2 0 0 0 2 2"/>'
+                    '<path d="M9.4 14.6 12 7.8l2.6 6.8M10.4 12.4h3.2"/>',
+}
+
+
+def mico(name):
+    """Знак строки выпадающего меню."""
+    d = MENU_ICONS.get(name)
+    if not d:
+        return ''
+    return ('<svg class="mi" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+            'stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+            + d + '</svg>')

@@ -2,7 +2,7 @@
 import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 from engine import ico, typo, TG, runa_nomer
-from layout import page, u
+from layout import page, u, ph
 import shemy
 from pages_main import hero, KNOPKI_TG
 from pages_kursy import finalny
@@ -66,7 +66,7 @@ SVYAZ = """<section><div class="wrap">
 
 def kadr_card(a):
     return f"""<a class="kadr" href="{u('zhurnal/' + a['url'] + '/')}">
-<div class="ph"><img src="{u('images/zhurnal/' + a['slug'] + '.jpg')}" alt="{a['name']}" loading="lazy"></div>
+{ph('images/zhurnal/' + a['slug'] + '.jpg', a['name'])}
 <div class="body"><h3>{a['name']}</h3><p>{T(a['anons'])}</p></div></a>"""
 
 
@@ -444,7 +444,7 @@ def taro():
 <p>{T('Отдельно учат вовремя остановиться. Колода отвечает не на всё, и умение сказать, '
       'что ответа тут нет, ценится выше красивой трактовки.')}</p>
 </div>
-<div class="ph"><img src="{u('images/obrazy/p-taro.jpg')}" alt="" loading="lazy"></div>
+{ph('images/obrazy/p-taro.jpg', '')}
 </div></div></section>
 
 <section><div class="wrap">

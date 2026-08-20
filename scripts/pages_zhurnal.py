@@ -14,7 +14,7 @@ def sklonenie(n, odin, dva, mnogo):
     return mnogo
 sys.path.insert(0, os.path.dirname(__file__))
 from engine import ico, typo, TG, DOMAIN
-from layout import page, u
+from layout import page, u, ph
 import shemy
 from pages_main import hero, KNOPKI_TG
 from pages_kursy import finalny
@@ -93,7 +93,7 @@ FINALY_STATEJ = [
 def kadr(a, metka=True):
     m = f'<span class="metka">{RAZDEL[a["kind"]][0]}</span>' if metka else ''
     return f"""<a class="kadr" href="{u('zhurnal/' + a['url'] + '/')}">
-<div class="ph"><img src="{u('images/zhurnal/' + a['slug'] + '.jpg')}" alt="{a['name']}" loading="lazy"></div>
+{ph('images/zhurnal/' + a['slug'] + '.jpg', a['name'])}
 <div class="body">{m}<h3>{a['name']}</h3><p>{T(a['anons'])}</p></div></a>"""
 
 
@@ -211,11 +211,11 @@ def zhurnal(articles):
 <h2>Куда смотреть</h2>
 <div class="grid2">
 <a class="kadr" href="{u('oberegi/')}">
-<div class="ph"><img src="{u('images/obrazy/z-oberegi.jpg')}" alt="Обереги дома" loading="lazy"></div>
+{ph('images/obrazy/z-oberegi.jpg', 'Обереги дома')}
 <div class="body"><h3>Обереги дома</h3><p>{T('Нож на ночь, красный угол, крапива у порога, громничная свеча, '
  'отливка воском, выкатать яйцом, оберег в люльку.')}</p></div></a>
 <a class="kadr" href="{u('nechist/')}">
-<div class="ph"><img src="{u('images/obrazy/z-nechist.jpg')}" alt="Нечисть" loading="lazy"></div>
+{ph('images/obrazy/z-nechist.jpg', 'Нечисть')}
 <div class="body"><h3>Нечисть</h3><p>{T('Домовой, леший, водяной, банник, полудница, мара, упырь '
  'и другие жители народной веры.')}</p></div></a>
 </div>
