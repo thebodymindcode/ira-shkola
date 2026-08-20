@@ -22,11 +22,12 @@ def ikonka(imya):
             'stroke-linecap="round" stroke-linejoin="round">' + d + '</svg>')
 
 
-def shablon(zag, pod, img, metka, bullety):
+def shablon(zag, pod, img, metka, bullety, portret=''):
     """Карточка ссылки. Телеграм в ленте режет её до квадрата по центру,
     поэтому вся смысловая часть стоит по центру, а не у левого края."""
     razmer = 54 if len(zag) < 22 else (46 if len(zag) < 32 else 39)
     puli = ''.join(f'<span class="puly">{ikonka(i)}{t}</span>' for i, t in bullety)
+    portret_html = (f'<div class="portret"><img src="{portret}"></div>' if portret else '')
     return f"""<!doctype html><meta charset="utf-8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Prata&family=Forum&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
@@ -55,12 +56,16 @@ p{{font-size:19px;line-height:1.5;color:#C6BEB2;max-width:560px}}
 .puly svg{{width:20px;height:20px;color:#E3C15B;flex:0 0 20px}}
 .niz{{font-size:15px;color:#9C9284;letter-spacing:.4px}}
 .niz b{{color:#C9A227;font-weight:600}}
+.portret{{position:absolute;right:0;top:0;height:630px;width:430px;z-index:1}}
+.portret img{{width:100%;height:100%;object-fit:contain;object-position:100% 50%}}
+.portret::after{{content:"";position:absolute;inset:0;background:
+ linear-gradient(90deg,#0E0C11 0%,rgba(14,12,17,.72) 34%,rgba(14,12,17,.1) 78%,rgba(14,12,17,.5) 100%)}}
 .ramka{{position:absolute;inset:22px;border:1px solid rgba(201,162,39,.3);border-radius:14px;z-index:1}}
 .ugol{{position:absolute;width:34px;height:34px;border:2px solid #C9A227;z-index:3;opacity:.85}}
 .u1{{left:22px;top:22px;border-right:0;border-bottom:0;border-radius:14px 0 0 0}}
 .u2{{right:22px;bottom:22px;border-left:0;border-top:0;border-radius:0 0 14px 0}}
 </style>
-<div class="fon"><img src="{img}"></div>
+<div class="fon"><img src="{img}"></div>{portret_html}
 <div class="ramka"></div><div class="ugol u1"></div><div class="ugol u2"></div>
 <div class="in">
 <div class="znak">{ZNAK}<span>Школа Ирины Волковой</span></div>
@@ -78,10 +83,10 @@ async def main():
     articles = json.load(open('content/articles.json', encoding='utf-8'))
     zadachi = [
       ('glavnaya', 'Школа магии и таро', 'Таро, ритуальная магия, руны и домашние обереги. Обучение у Ирины Волковой.',
-       'images/obrazy/h-glavnaya.jpg', 'Школа',
+       'images/obrazy/k-gekata.jpg', 'Школа',
        [('karta', '22 аркана'), ('runa', '24 руны'), ('dom', '7 оберегов')]),
       ('shkola', 'Как здесь учат', 'Закрытые каналы, задание после каждой темы, разбор работ вслух.',
-       'images/obrazy/h-shkola.jpg', 'Обучение',
+       'images/obrazy/k-besy.jpg', 'Обучение',
        [('kniga', 'Источник у темы'), ('ruka', 'Задание руками'), ('glaz', 'Разбор вслух')]),
       ('kursy', 'Курсы школы', 'Шесть направлений: таро, Чёрный Гримуар, руны, бесы, обереги дома и личная работа.',
        'images/obrazy/h-kursy.jpg', 'Курсы',
@@ -102,19 +107,19 @@ async def main():
        'images/obrazy/k-nastav.jpg', 'Наставничество',
        [('ruka', 'Один на один'), ('glaz', 'Свои случаи'), ('krug', 'Своя система')]),
       ('taro', 'Обучение таро', 'Вопрос, расклад, чтение связок и разговор с человеком.',
-       'images/obrazy/h-taro.jpg', 'Направление',
+       'images/obrazy/k-taro.jpg', 'Направление',
        [('karta', '78 карт'), ('glaz', 'Чтение связок'), ('ruka', 'Разбор раскладов')]),
       ('karty', 'Значения старших арканов', 'Двадцать два аркана: образ, прямое и перевёрнутое значение, совет чтецу.',
-       'images/obrazy/h-karty.jpg', 'Справочник',
+       'images/obrazy/k-taro.jpg', 'Справочник',
        [('karta', '22 аркана'), ('zerkalo', 'Прямое и перевёрнутое'), ('kniga', 'Колода Уэйта')]),
       ('luna', 'Лунный круг', 'Восемь фаз и работа в каждой. Потоки школы идут по этому же кругу.',
-       'images/obrazy/h-luna.jpg', 'Как считают время',
+       'images/obrazy/h-nechist.jpg', 'Как считают время',
        [('luna', '8 фаз'), ('krug', '29,5 суток'), ('chas', 'Набор на молодую')]),
       ('kviz', 'Какой аркан ведёт вас', 'Шесть вопросов, и колода назовёт карту, с которой у вас общий язык.',
-       'images/obrazy/h-taro.jpg', 'Вопросник',
+       'images/obrazy/k-taro.jpg', 'Вопросник',
        [('karta', '6 вопросов'), ('zerkalo', 'Ваш аркан'), ('strela', 'Минута времени')]),
       ('zhurnal', 'Ведьмин дневник', 'Двадцать семь разборов про домашние обереги и нечистую силу.',
-       'images/obrazy/h-zhurnal.jpg', 'Дневник',
+       'images/obrazy/k-grimuar.jpg', 'Дневник',
        [('dom', '7 оберегов'), ('les', '20 существ'), ('kniga', 'По источникам')]),
       ('oberegi', 'Обереги славянского дома', 'Нож на ночь, красный угол, крапива у порога, громничная свеча.',
        'images/obrazy/h-oberegi.jpg', 'Раздел',
@@ -123,16 +128,17 @@ async def main():
        'images/obrazy/h-nechist.jpg', 'Раздел',
        [('les', 'Лес и вода'), ('dom', 'Двор и баня'), ('chas', 'Свои часы')]),
       ('slovar', 'Словарь школы', 'Слова, которые встречаются на занятиях и в разборах, простым языком.',
-       'images/obrazy/h-zhurnal.jpg', 'Справочник',
+       'images/obrazy/k-grimuar.jpg', 'Справочник',
        [('kniga', 'Термины'), ('glaz', 'Без тумана'), ('nit', 'Со ссылками')]),
       ('irina', 'Ирина Волкова', 'Первая колода в одиннадцать лет, практика с двадцати трёх, курсы с 2014 года.',
-       'images/obrazy/h-irina.jpg', 'Кто ведёт',
-       [('svecha', 'С 2014 года'), ('kniga', 'Психология и гипноз'), ('luna', 'Работа по луне')]),
+       'images/obrazy/k-nastav.jpg', 'Кто ведёт',
+       [('svecha', 'С 2014 года'), ('kniga', 'Психология и гипноз'), ('luna', 'Работа по луне')],
+       'images/obrazy/p-irina1.jpg'),
       ('vopros', 'Вопросы о школе', 'С чего начать, нужен ли дар, как идут потоки и чем занимается школа.',
        'images/obrazy/h-vopros.jpg', 'Вопросы',
        [('glaz', 'Нужен ли дар'), ('strela', 'С чего начать'), ('chas', 'Как идут потоки')]),
       ('kontakty', 'Как связаться', 'Телеграм-канал школы и Instagram Ирины Волковой.',
-       'images/obrazy/h-kontakty.jpg', 'Связь',
+       'images/obrazy/h-vopros.jpg', 'Связь',
        [('tg', 'Канал школы'), ('ig', 'Instagram'), ('ruka', 'Ответ лично')]),
     ]
     for a in articles:
@@ -147,8 +153,10 @@ async def main():
         br = await pw.chromium.launch()
         ctx = await br.new_context(viewport={'width': 1200, 'height': 630}, device_scale_factor=1)
         pg = await ctx.new_page()
-        for name, zag, pod, img, metka, bullety in zadachi:
-            await pg.set_content(shablon(zag, pod, b64(img), metka, bullety))
+        for zad in zadachi:
+            name, zag, pod, img, metka, bullety = zad[:6]
+            portret = b64(zad[6]) if len(zad) > 6 else ''
+            await pg.set_content(shablon(zag, pod, b64(img), metka, bullety, portret))
             await pg.wait_for_timeout(700)
             await pg.screenshot(path=f'images/og/{name}.jpg', type='jpeg', quality=86)
         await ctx.close(); await br.close()

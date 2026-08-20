@@ -256,18 +256,20 @@ MOBILNYE_SHAPKI = {
     'h-kontakty': '20-svechi-plamya.jpg', 'h-karty': '23-taro-veer.jpg',
     'h-luna': '17-luna-tyanetsya.jpg', 'h-zhurnal': '24-taro-stena.jpg',
 }
+# автопоиск лица ловит руки и свечи, поэтому у этих кадров доля среза задана глазами
+SREZ_MOB = {'h-glavnaya': 0.0, 'h-kontakty': 0.0, 'h-luna': 0.10, 'h-shkola': 0.0}
 for name, src in MOBILNYE_SHAPKI.items():
     p = os.path.join(OBR, src)
     if not os.path.exists(p):
         continue
     im = Image.open(p).convert('RGB')
     W0, H0 = im.size
-    lico = centr_lica(im)
     th = int(W0 * 3 / 4)                       # кадр 4:3
-    if lico is None:
-        top = int(H0 * 0.06)
+    if name in SREZ_MOB:
+        top = int(H0 * SREZ_MOB[name])
     else:
-        top = int(lico * H0 - th * 0.42)       # лицо на 42% высоты кадра
+        lico = centr_lica(im)
+        top = int(H0 * 0.06) if lico is None else int(lico * H0 - th * 0.42)
     top = max(0, min(H0 - th, top))
     im.crop((0, top, W0, top + th)).resize((1200, 900), Image.LANCZOS).save(
         f'images/obrazy/{name}-m.jpg', quality=86, optimize=True)

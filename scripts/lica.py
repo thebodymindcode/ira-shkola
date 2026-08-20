@@ -4,7 +4,12 @@
 import asyncio, sys, glob, os
 from playwright.async_api import async_playwright
 
-PORTRETY = ('p-glavnaya', 'p-irina1', 'p-irina2', 'p-shkola', 'p-taro')
+# все кадры, где есть человек: срез сверху режет голову
+PORTRETY = ('p-glavnaya', 'p-irina1', 'p-irina2', 'p-shkola', 'p-taro',
+            'h-glavnaya', 'h-irina', 'h-taro', 'h-shkola', 'h-kontakty', 'h-karty',
+            'h-luna', 'h-zhurnal', 'h-grimuar',
+            'h-glavnaya-m', 'h-irina-m', 'h-taro-m', 'h-shkola-m', 'h-kontakty-m',
+            'h-karty-m', 'h-luna-m', 'h-zhurnal-m')
 PREDEL = 0.13
 
 async def main():
