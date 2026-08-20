@@ -11,9 +11,10 @@ def hero(img, eyebrow, h1, lid, knopki='', portret=''):
     """portret: путь к вертикальному кадру справа. Без него шапка обычная, в одну колонку."""
     prav = (f'<div class="portret"><img src="{u(portret)}" alt="Ирина Волкова"></div>'
             if portret else '')
+    lid_html = f'<p class="lid">{T(lid)}</p>' if lid else ''
     telo = f"""<p class="eyebrow">{eyebrow}</p>
 <h1>{T(h1)}</h1>
-<p class="lid">{T(lid)}</p>
+{lid_html}
 {knopki}"""
     vnutri = (f'<div class="ryad"><div>{telo}</div>{prav}</div>' if portret else telo)
     return f"""<section class="hero"><div class="fon"><img src="{u(img)}" alt=""></div>
@@ -56,10 +57,7 @@ def glavnaya(articles):
 
     body = f"""
 {hero('images/obrazy/h-glavnaya.jpg', 'Таро, ритуальная магия, руны, обереги',
-      'Школа магии и таро Ирины Волковой',
-      'Первая колода попала ей в руки в одиннадцать лет, в практике она с двадцати трёх. '
-      'Занятия шли в Москве, Петербурге, Израиле и Париже. Здесь учат ремеслу: раскладу, обряду, '
-      'оберегу, работе с рунами.', KNOPKI_TG)}
+      'Школа магии и таро Ирины Волковой', '', KNOPKI_TG)}
 
 <section><div class="wrap">
 <p class="eyebrow">Главный курс</p>

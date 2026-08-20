@@ -104,7 +104,7 @@ svg.big{width:34px;height:34px}
 .hero .fon::after{content:"";position:absolute;inset:0;background:
   linear-gradient(90deg,rgba(14,12,17,.92) 0%,rgba(14,12,17,.78) 34%,rgba(14,12,17,.2) 58%,rgba(14,12,17,0) 74%),
   linear-gradient(180deg,rgba(14,12,17,.35) 0%,rgba(14,12,17,0) 30%,rgba(14,12,17,.55) 88%,var(--noch) 100%)}
-.hero .in{position:relative;z-index:3;width:100%;padding:60px 0 64px}
+.hero .in{position:relative;z-index:5;width:100%;padding:60px 0 64px}
 .hero .ryad{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.72fr);gap:56px;align-items:center}
 .hero .in>.wrap>*{max-width:620px}
 .hero p.lid{color:#DCD5CA}
@@ -172,10 +172,10 @@ svg.big{width:34px;height:34px}
 
 /* ---------- сплит ---------- */
 .split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.62fr);gap:52px;
-  align-items:stretch;margin-top:36px}
-.split .ph{aspect-ratio:auto;height:100%;min-height:340px;border-radius:18px;
+  align-items:stretch;margin-top:36px;grid-auto-rows:minmax(320px,auto)}
+.split .ph{position:relative;height:100%;min-height:0;border-radius:18px;
   overflow:hidden;border:1px solid var(--line)}
-.split .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.split .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .split.shir .ph{aspect-ratio:auto}
 
 /* ---------- цифры ---------- */
@@ -263,7 +263,7 @@ svg.big{width:34px;height:34px}
 
 /* ---------- живые искры в шапке ---------- */
 .hero .fon{overflow:hidden}
-canvas.iskry{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;
+canvas.iskry{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:4;
   mix-blend-mode:screen}
 .hero .fon::after{z-index:2}
 .hero .fon img{will-change:transform;transform:scale(1.06)}
@@ -424,7 +424,7 @@ section > .wrap{position:relative}
 /* ---------- мобильное ---------- */
 @media(max-width:1000px){
   .split{grid-template-columns:1fr!important;gap:26px}
-  .split .ph{height:auto!important;aspect-ratio:5/4;min-height:0}
+  .split .ph{height:auto!important;aspect-ratio:5/4;min-height:0;position:relative}
   .final{grid-template-columns:1fr!important;gap:30px}
   .tside{grid-template-columns:1fr!important;gap:30px}
   .side{position:static}
