@@ -55,9 +55,12 @@ def _stroki(tekst, max_znakov):
     return _zhadno(kuski, nizhe)
 
 
-def obertka(vnutri, vw=1000, vh=420, podpis=''):
+def obertka(vnutri, vw=1000, vh=420, podpis='', s_nachala=False):
+    """s_nachala: у схем с рядами читают слева направо, поэтому на узком экране
+    такую схему открываем с начала, а рисунок по центру наводим по середине."""
     p = (f'<p class="shema-podpis">{podpis}</p>' if podpis else '')
-    return (f'<figure class="shema"><svg viewBox="0 0 {vw} {vh}" role="img" '
+    nach = ' data-nachalo="1"' if s_nachala else ''
+    return (f'<figure class="shema"{nach}><svg viewBox="0 0 {vw} {vh}" role="img" '
             f'preserveAspectRatio="xMidYMid meet">{vnutri}</svg>{p}</figure>')
 
 
@@ -226,7 +229,7 @@ def put_uchenika():
             s.append(f'<path d="M{x + 46} 110 h175 m-12 -6 l12 6 -12 6" stroke="{Z}" '
                      f'stroke-width="1.4" fill="none" opacity=".65"/>')
     return obertka(''.join(s), 1000, 240,
-                   'Порядок один во всех направлениях: сначала источник, потом руки, потом разбор.')
+                   'Порядок один во всех направлениях: сначала источник, потом руки, потом разбор.', s_nachala=True)
 
 
 def put_duraka():
@@ -265,7 +268,7 @@ def put_duraka():
                          f'style="{F};font-size:12.5px">{st}</text>')
     return obertka(''.join(s), 1000, 548,
                    'Двадцать один аркан делится на три ряда по семь. Первый ряд про жизнь среди людей, '
-                   'второй про испытания, третий про выход к целому.')
+                   'второй про испытания, третий про выход к целому.', s_nachala=True)
 
 
 def fazy_luny():
@@ -335,7 +338,7 @@ def timeline_iry(kratko=False):
     podpis = ('Первая колода в одиннадцать лет, практика с двадцати трёх, авторский курс с 2014 года.'
               if kratko else
               'Путь от первой колоды до школы занял больше двадцати лет.')
-    return obertka(''.join(s), 1000, 270, podpis)
+    return obertka(''.join(s), 1000, 270, podpis, s_nachala=True)
 
 
 KURSY_RAZVILKA = [
@@ -417,7 +420,7 @@ def lenta_grimuara():
                      f'm-5 -6 l5 6 5 -6" stroke="{Z}" stroke-width="1.4" fill="none" opacity=".7"/>')
     return obertka(''.join(s), 1000, 448,
                    'Ступени идут подряд: сначала инструменты и сила за колодой, потом чтение '
-                   'и диагностика, а сложная ритуальная работа только в конце.')
+                   'и диагностика, а сложная ритуальная работа только в конце.', s_nachala=True)
 
 
 ZNAKI_PRIVYCHEK = [

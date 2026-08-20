@@ -14,7 +14,8 @@ CSS = r"""
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--noch);color:var(--tekst);font-family:var(--sans);
   font-size:17px;line-height:1.68;font-weight:400;-webkit-font-smoothing:antialiased;
-  overflow-x:hidden}
+  overflow-x:clip}
+html{overflow-x:clip}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 a,button,summary,.plashka{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
@@ -55,12 +56,60 @@ svg.big{width:34px;height:34px}
 .burger{display:none;margin-left:auto;background:none;border:1px solid var(--line);
   border-radius:10px;width:44px;height:44px;color:var(--tekst);align-items:center;justify-content:center}
 .burger svg{width:20px;height:20px}
-.mob{display:none;border-top:1px solid var(--line);background:var(--sloy)}
-.mob.open{display:block}
-.mob a{display:block;padding:15px 24px;border-bottom:1px solid var(--line);
-  font-family:var(--anons);font-size:19px;letter-spacing:.5px}
-.mob a.on{color:var(--zoloto-svet)}
-@media(max-width:1120px){.nav{display:none}.burger{display:flex}}
+/* ---------- мобильное меню: панель поверх страницы ---------- */
+.mfon{position:fixed;top:var(--shapka-m,58px);left:0;right:0;bottom:0;z-index:88;background:rgba(8,7,10,.66);backdrop-filter:blur(3px);
+  opacity:0;transition:opacity .24s ease}
+.mfon.vidno{opacity:1}
+.mob{position:fixed;top:var(--shapka-m,58px);right:0;bottom:0;z-index:90;width:min(94vw,430px);
+  background:linear-gradient(180deg,#171320 0%,#12101a 100%);border-left:1px solid var(--line);
+  box-shadow:-24px 0 60px rgba(0,0,0,.6);display:flex;flex-direction:column;
+  transform:translateX(102%);visibility:hidden;
+  transition:transform .28s cubic-bezier(.22,.7,.2,1),visibility .28s;
+  overscroll-behavior:contain}
+.mob.open{transform:translateX(0);visibility:visible}
+.mverh{display:flex;align-items:center;justify-content:space-between;padding:20px 22px 16px;
+  border-bottom:1px solid var(--line);flex:0 0 auto}
+.mverh span{font-family:var(--zag);font-size:20px;color:#F3EDE3;letter-spacing:.4px}
+.mzakryt{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;
+  border:1px solid var(--line);background:rgba(255,255,255,.03);color:#E9E3DA}
+.mzakryt svg{width:20px;height:20px}
+.mspisok{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:8px 0 6px}
+.mgruppa{border-bottom:1px solid rgba(232,226,217,.08)}
+.mstroka{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.mstroka>a{flex:1 1 auto;display:block;padding:16px 10px 16px 22px;
+  font-family:var(--anons);font-size:19.5px;letter-spacing:.4px;color:#EDE6DC}
+.mstroka.on>a{color:var(--zoloto-svet)}
+.mrask{flex:0 0 auto;width:54px;height:54px;display:grid;place-items:center;margin-right:8px;
+  border-radius:12px;border:1px solid rgba(201,162,39,.28);background:rgba(201,162,39,.07);
+  color:var(--zoloto)}
+.mrask svg{width:20px;height:20px;transition:transform .24s ease}
+.mgruppa.raskryt .mrask svg{transform:rotate(180deg)}
+.mpod{display:grid;grid-template-rows:0fr;transition:grid-template-rows .26s ease}
+.mgruppa.raskryt .mpod{grid-template-rows:1fr}
+.mpod>*{overflow:hidden}
+.mpod{overflow:hidden}
+.mniz{flex:0 0 auto;padding:16px 22px calc(18px + env(safe-area-inset-bottom));
+  border-top:1px solid var(--line)}
+.mniz .btn{width:100%;justify-content:center;padding:16px 20px;font-size:16px}
+.burger{position:relative}
+.burger .bl{position:absolute;left:11px;width:20px;height:1.7px;border-radius:2px;background:currentColor;
+  transition:transform .24s ease,opacity .18s ease}
+.burger .bl:nth-child(1){top:14px}
+.burger .bl:nth-child(2){top:20px}
+.burger .bl:nth-child(3){top:26px}
+.burger.krest .bl:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger.krest .bl:nth-child(2){opacity:0}
+.burger.krest .bl:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+@media(max-width:1120px){
+  .nav{display:none}.burger{display:flex}
+  /* шапка липнет к самому верху и не съедает экран.
+     Размытие убрано намеренно: оно делает шапку точкой отсчёта и схлопывает панель меню. */
+  .shapka{background:#100E15;backdrop-filter:none;-webkit-backdrop-filter:none}
+  .shapka .in{height:var(--shapka-m,58px);padding:0 14px;gap:12px}
+  .znak{font-size:18.5px;gap:9px}
+  .znak svg{width:22px;height:22px}
+  .burger{width:42px;height:42px;margin-left:auto}
+}
 @media(hover:hover){.nav a:hover{color:var(--zoloto-svet)}}
 
 /* ---------- выпадающее подменю ---------- */
@@ -86,8 +135,9 @@ svg.big{width:34px;height:34px}
     transform:translateY(-1px)}
 }
 @media(max-width:1120px){.pod{display:none!important}}
-.mob a.sub{display:flex;align-items:center;gap:12px;padding:11px 24px 11px 30px;font-size:16.5px;
-  color:#B9B1A5;border-bottom:1px solid rgba(232,226,217,.07)}
+.mob a.sub{display:flex;align-items:center;gap:13px;padding:13px 22px 13px 22px;font-size:16.5px;
+  color:#C3BBAF;background:rgba(255,255,255,.02);
+  border-top:1px solid rgba(232,226,217,.06)}
 .mob a.sub svg.mi{flex:0 0 32px;width:32px;height:32px;padding:6px;border-radius:9px;
   color:var(--zoloto);background:rgba(201,162,39,.07);border:1px solid rgba(201,162,39,.22)}
 
@@ -110,6 +160,7 @@ svg.big{width:34px;height:34px}
 .hero{position:relative;padding:0;border:0;overflow:clip;min-height:clamp(480px,64vh,660px);
   display:flex;align-items:center}
 .hero .fon{position:absolute;inset:0;overflow:hidden;contain:paint}
+.hero .fon picture{display:block;width:100%;height:100%}
 .hero .fon img{width:100%;height:100%;object-fit:cover;object-position:50% 50%;opacity:.95}
 .hero .fon::after{content:"";position:absolute;inset:0;background:
   linear-gradient(90deg,rgba(14,12,17,.92) 0%,rgba(14,12,17,.78) 34%,rgba(14,12,17,.2) 58%,rgba(14,12,17,0) 74%),
@@ -131,7 +182,7 @@ svg.big{width:34px;height:34px}
   .hero .portret img{object-position:50% 18%}
   .hero{display:block;min-height:0}
   .hero .fon{position:relative;height:clamp(230px,42vh,340px);border-radius:0}
-  .hero .fon img{object-position:84% 16%;opacity:1}
+  .hero .fon img{object-position:50% 32%;opacity:1}
   .hero .in{padding:24px 0 34px}
   .hero .fon::after{background:
     linear-gradient(180deg,rgba(14,12,17,.1) 0%,rgba(14,12,17,0) 42%,rgba(14,12,17,.72) 86%,var(--noch) 100%)}
@@ -623,7 +674,7 @@ section > .wrap{position:relative}
 @media(max-width:640px){
   .shema{position:relative}
   /* видно, что схема продолжается вправо, иначе человек думает, что она обрезана */
-  .shema::after{content:"Схема шире экрана, её можно листать вбок";display:block;margin:12px 0 0;
+  .shema::after{content:"Схему можно листать\00a0вбок";display:block;margin:12px 0 0;
     font-size:13px;color:var(--zoloto-svet);letter-spacing:.04em;position:sticky;left:0;max-width:100%}
   .shema svg{min-width:820px}
   .shema{scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
@@ -631,6 +682,16 @@ section > .wrap{position:relative}
   .shema-podpis{position:sticky;left:0;max-width:min(100%,720px)}
 }
 
+
+/* ---------- плавающая кнопка не спорит с открытым меню ---------- */
+body:has(.mob.open) .plyv{opacity:0;pointer-events:none;transform:translateY(12px)}
+.plyv{transition:opacity .2s ease,transform .2s ease}
+
+/* ---------- лента шагов не растягивает страницу ---------- */
+/* Без min-width:0 длинный заголовок с неразрывным пробелом распирает колонку,
+   и на 360px последняя буква уезжает за край экрана. */
+.stepline .txt,.stepline li>div{min-width:0}
+.stepline h3{overflow-wrap:normal;word-break:normal;hyphens:none}
 """
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'

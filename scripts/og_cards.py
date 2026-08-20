@@ -10,68 +10,145 @@ def b64(p):
     return "data:image/jpeg;base64," + base64.b64encode(open(p,"rb").read()).decode()
 
 
-def shablon(zag, pod, img, metka):
+ZNAK = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" '
+        'stroke-linecap="round"><circle cx="8" cy="8" r="3.6"/>'
+        '<path d="M10.6 10.6 20 20m-3-3 2-2m-4 1 1.6-1.6"/></svg>')
+
+
+def ikonka(imya):
+    import engine
+    d = engine.ICONS.get(imya) or engine.MENU_ICONS.get(imya) or ''
+    return ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" '
+            'stroke-linecap="round" stroke-linejoin="round">' + d + '</svg>')
+
+
+def shablon(zag, pod, img, metka, bullety):
+    """Карточка ссылки. Телеграм в ленте режет её до квадрата по центру,
+    поэтому вся смысловая часть стоит по центру, а не у левого края."""
+    razmer = 54 if len(zag) < 22 else (46 if len(zag) < 32 else 39)
+    puli = ''.join(f'<span class="puly">{ikonka(i)}{t}</span>' for i, t in bullety)
     return f"""<!doctype html><meta charset="utf-8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Prata&family=Forum&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
 <style>
 *{{margin:0;box-sizing:border-box}}
-body{{width:1200px;height:630px;background:#0E0C11;color:#E9E3DA;
- font-family:Montserrat,sans-serif;display:flex;overflow:hidden}}
-.lev{{width:700px;padding:56px 40px 48px 60px;display:flex;flex-direction:column;justify-content:space-between;position:relative;z-index:2}}
-.znak{{display:flex;align-items:center;gap:12px;font-family:'Cormorant Garamond',serif;
- font-size:25px;color:#F3EDE3;font-weight:600}}
-.znak svg{{width:30px;height:30px;color:#C9A227}}
-.metka{{font-size:13px;letter-spacing:2.6px;text-transform:uppercase;color:#C9A227;font-weight:600;margin-bottom:16px}}
-h1{{font-family:'Cormorant Garamond',serif;font-size:{54 if len(zag)<34 else 44}px;line-height:1.1;
- font-weight:600;color:#F6F1E8;letter-spacing:.3px}}
-p{{margin-top:18px;font-size:19px;line-height:1.5;color:#A79E93;max-width:560px}}
-.niz{{font-size:15px;color:#8A8175;letter-spacing:.4px}}
+body{{width:1200px;height:630px;background:#0E0C11;color:#E9E3DA;font-family:Montserrat,sans-serif;
+ position:relative;overflow:hidden}}
+.fon{{position:absolute;inset:0}}
+.fon img{{width:100%;height:100%;object-fit:cover;opacity:.62}}
+.fon::after{{content:"";position:absolute;inset:0;background:
+ radial-gradient(120% 92% at 50% 46%,rgba(14,12,17,.62) 0%,rgba(14,12,17,.9) 56%,#0E0C11 100%),
+ linear-gradient(180deg,rgba(14,12,17,.9) 0%,rgba(14,12,17,.34) 26%,rgba(14,12,17,.92) 100%)}}
+.in{{position:relative;z-index:2;height:630px;display:flex;flex-direction:column;
+ align-items:center;justify-content:space-between;text-align:center;padding:40px 60px 36px}}
+.znak{{display:flex;align-items:center;gap:11px;font-family:Prata,serif;font-size:23px;color:#F3EDE3}}
+.znak svg{{width:28px;height:28px;color:#C9A227}}
+.serdce{{display:flex;flex-direction:column;align-items:center;gap:15px;max-width:600px}}
+.metka{{font-family:Forum,serif;font-size:15px;letter-spacing:5px;text-transform:uppercase;color:#C9A227}}
+h1{{font-family:Prata,serif;font-size:{razmer}px;line-height:1.14;color:#F8F4EC;letter-spacing:.2px;
+ text-shadow:0 6px 30px rgba(0,0,0,.6)}}
+p{{font-size:19px;line-height:1.5;color:#C6BEB2;max-width:560px}}
+.puli{{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:4px}}
+.puly{{display:inline-flex;align-items:center;gap:9px;padding:10px 17px;border-radius:999px;
+ border:1px solid rgba(201,162,39,.42);background:rgba(201,162,39,.1);
+ font-size:16px;font-weight:600;color:#F0E7D2;white-space:nowrap}}
+.puly svg{{width:20px;height:20px;color:#E3C15B;flex:0 0 20px}}
+.niz{{font-size:15px;color:#9C9284;letter-spacing:.4px}}
 .niz b{{color:#C9A227;font-weight:600}}
-.prav{{position:absolute;right:0;top:0;width:620px;height:630px}}
-.prav img{{width:100%;height:100%;object-fit:cover;opacity:.95}}
-.prav::after{{content:"";position:absolute;inset:0;
- background:linear-gradient(90deg,#0E0C11 0%,rgba(14,12,17,.92) 22%,rgba(14,12,17,.35) 62%,rgba(14,12,17,.12) 100%)}}
-.polosa{{position:absolute;left:0;top:0;width:6px;height:630px;background:linear-gradient(180deg,#C9A227,#7A2033)}}
+.ramka{{position:absolute;inset:22px;border:1px solid rgba(201,162,39,.3);border-radius:14px;z-index:1}}
+.ugol{{position:absolute;width:34px;height:34px;border:2px solid #C9A227;z-index:3;opacity:.85}}
+.u1{{left:22px;top:22px;border-right:0;border-bottom:0;border-radius:14px 0 0 0}}
+.u2{{right:22px;bottom:22px;border-left:0;border-top:0;border-radius:0 0 14px 0}}
 </style>
-<div class="prav"><img src="{img}"></div>
-<div class="polosa"></div>
-<div class="lev">
-<div class="znak"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
- stroke-linecap="round"><circle cx="8" cy="8" r="3.6"/><path d="M10.6 10.6 20 20m-3-3 2-2m-4 1 1.6-1.6"/></svg>
-<span>Школа Ирины Волковой</span></div>
-<div><div class="metka">{metka}</div><h1>{zag}</h1><p>{pod}</p></div>
+<div class="fon"><img src="{img}"></div>
+<div class="ramka"></div><div class="ugol u1"></div><div class="ugol u2"></div>
+<div class="in">
+<div class="znak">{ZNAK}<span>Школа Ирины Волковой</span></div>
+<div class="serdce">
+<div class="metka">{metka}</div>
+<h1>{zag}</h1>
+<p>{pod}</p>
+<div class="puli">{puli}</div>
+</div>
 <div class="niz"><b>Таро · Магия · Обереги</b> &nbsp;·&nbsp; thebodymindcode.github.io/ira-shkola</div>
 </div>"""
+
 
 async def main():
     articles = json.load(open('content/articles.json', encoding='utf-8'))
     zadachi = [
-      ('glavnaya', 'Школа магии и таро', 'Таро, ритуальная магия, руны и домашние обереги. Обучение у Ирины Волковой.', 'images/obrazy/h-glavnaya.jpg', 'Школа'),
-      ('shkola', 'Как здесь учат', 'Закрытые каналы, задание после каждой темы, разбор работ вслух.', 'images/obrazy/h-shkola.jpg', 'Обучение'),
-      ('kursy', 'Курсы школы', 'Шесть направлений: Геката, руны, бесы, таро, обереги, личная работа.', 'images/obrazy/h-kursy.jpg', 'Курсы'),
-      ('gekata', 'Геката: ритуальная магия', 'Четыре ступени работы с богиней перекрёстков, ключей и факелов.', 'images/obrazy/k-gekata.jpg', 'Курс'),
-      ('runy', 'Руны: старший футарк', 'Двадцать четыре знака, рунические поэмы, работа с поставом.', 'images/obrazy/k-runy.jpg', 'Курс'),
-      ('besy', 'Славянская демонология', 'Кто такие бесы в народной вере и по каким правилам с ними обходились.', 'images/obrazy/k-besy.jpg', 'Курс'),
-      ('nastavnichestvo', 'Личная работа', 'Разбор своей практики один на один с Ириной Волковой.', 'images/obrazy/k-nastav.jpg', 'Наставничество'),
-      ('taro', 'Обучение таро', 'Вопрос, расклад, чтение связок и разговор с человеком.', 'images/obrazy/h-taro.jpg', 'Направление'),
-      ('zhurnal', 'Ведьмин дневник', 'Двадцать семь разборов про домашние обереги и нечистую силу.', 'images/obrazy/h-zhurnal.jpg', 'Дневник'),
-      ('oberegi', 'Обереги славянского дома', 'Нож на ночь, красный угол, крапива у порога, громничная свеча.', 'images/obrazy/h-oberegi.jpg', 'Раздел'),
-      ('nechist', 'Нечистая сила деревни', 'Домовой, леший, банник, полудница, мара. Двадцать разборов.', 'images/obrazy/h-nechist.jpg', 'Раздел'),
-      ('irina', 'Ирина Волкова', 'Первая колода в одиннадцать лет, практика с двадцати трёх, курсы с 2014 года.', 'images/obrazy/h-irina.jpg', 'Кто ведёт'),
-      ('vopros', 'Вопросы о школе', 'С чего начать, нужен ли дар, как идут потоки и чем занимается школа.', 'images/obrazy/h-vopros.jpg', 'Вопросы'),
-      ('kontakty', 'Как связаться', 'Телеграм-канал школы и Instagram Ирины Волковой.', 'images/obrazy/h-kontakty.jpg', 'Связь'),
+      ('glavnaya', 'Школа магии и таро', 'Таро, ритуальная магия, руны и домашние обереги. Обучение у Ирины Волковой.',
+       'images/obrazy/h-glavnaya.jpg', 'Школа',
+       [('karta', '22 аркана'), ('runa', '24 руны'), ('dom', '7 оберегов')]),
+      ('shkola', 'Как здесь учат', 'Закрытые каналы, задание после каждой темы, разбор работ вслух.',
+       'images/obrazy/h-shkola.jpg', 'Обучение',
+       [('kniga', 'Источник у темы'), ('ruka', 'Задание руками'), ('glaz', 'Разбор вслух')]),
+      ('kursy', 'Курсы школы', 'Шесть направлений: таро, Чёрный Гримуар, руны, бесы, обереги дома и личная работа.',
+       'images/obrazy/h-kursy.jpg', 'Курсы',
+       [('karta', 'Таро и арканы'), ('ogon', 'Ритуальная магия'), ('runa', 'Северные знаки')]),
+      ('grimuar', 'Чёрный Гримуар', 'Живой курс по колоде Некрономикон: девять ступеней от инструментов до ритуальной работы.',
+       'images/obrazy/k-grimuar.jpg', 'Курс',
+       [('kniga', '9 ступеней'), ('glaz', 'Диагностика'), ('chas', 'Дважды в неделю')]),
+      ('gekata', 'Геката: ритуальная магия', 'Четыре ступени работы с богиней перекрёстков, ключей и факелов.',
+       'images/obrazy/k-gekata.jpg', 'Курс',
+       [('perekryostok', 'Перекрёсток'), ('svecha', 'Обряд и свеча'), ('krug', '4 ступени')]),
+      ('runy', 'Руны: старший футарк', 'Двадцать четыре знака, рунические поэмы, работа с поставом.',
+       'images/obrazy/k-runy.jpg', 'Курс',
+       [('runa', '24 знака'), ('kniga', 'Рунические поэмы'), ('nit', 'Работа с поставом')]),
+      ('besy', 'Славянская демонология', 'Кого зовут, о чём просят и чем расплачиваются. Два ритуала призыва и четыре заговора.',
+       'images/obrazy/k-besy.jpg', 'Курс',
+       [('ogon', '2 ритуала'), ('nit', '4 заговора'), ('chas', '66 минут')]),
+      ('nastavnichestvo', 'Личная работа', 'Разбор своей практики один на один с Ириной Волковой.',
+       'images/obrazy/k-nastav.jpg', 'Наставничество',
+       [('ruka', 'Один на один'), ('glaz', 'Свои случаи'), ('krug', 'Своя система')]),
+      ('taro', 'Обучение таро', 'Вопрос, расклад, чтение связок и разговор с человеком.',
+       'images/obrazy/h-taro.jpg', 'Направление',
+       [('karta', '78 карт'), ('glaz', 'Чтение связок'), ('ruka', 'Разбор раскладов')]),
+      ('karty', 'Значения старших арканов', 'Двадцать два аркана: образ, прямое и перевёрнутое значение, совет чтецу.',
+       'images/obrazy/h-karty.jpg', 'Справочник',
+       [('karta', '22 аркана'), ('zerkalo', 'Прямое и перевёрнутое'), ('kniga', 'Колода Уэйта')]),
+      ('luna', 'Лунный круг', 'Восемь фаз и работа в каждой. Потоки школы идут по этому же кругу.',
+       'images/obrazy/h-luna.jpg', 'Как считают время',
+       [('luna', '8 фаз'), ('krug', '29,5 суток'), ('chas', 'Набор на молодую')]),
+      ('kviz', 'Какой аркан ведёт вас', 'Шесть вопросов, и колода назовёт карту, с которой у вас общий язык.',
+       'images/obrazy/h-taro.jpg', 'Вопросник',
+       [('karta', '6 вопросов'), ('zerkalo', 'Ваш аркан'), ('strela', 'Минута времени')]),
+      ('zhurnal', 'Ведьмин дневник', 'Двадцать семь разборов про домашние обереги и нечистую силу.',
+       'images/obrazy/h-zhurnal.jpg', 'Дневник',
+       [('dom', '7 оберегов'), ('les', '20 существ'), ('kniga', 'По источникам')]),
+      ('oberegi', 'Обереги славянского дома', 'Нож на ночь, красный угол, крапива у порога, громничная свеча.',
+       'images/obrazy/h-oberegi.jpg', 'Раздел',
+       [('dom', 'Порог и окна'), ('svecha', 'Громничная свеча'), ('podkova', 'Красный угол')]),
+      ('nechist', 'Нечистая сила деревни', 'Домовой, леший, банник, полудница, мара. Двадцать разборов.',
+       'images/obrazy/h-nechist.jpg', 'Раздел',
+       [('les', 'Лес и вода'), ('dom', 'Двор и баня'), ('chas', 'Свои часы')]),
+      ('slovar', 'Словарь школы', 'Слова, которые встречаются на занятиях и в разборах, простым языком.',
+       'images/obrazy/h-zhurnal.jpg', 'Справочник',
+       [('kniga', 'Термины'), ('glaz', 'Без тумана'), ('nit', 'Со ссылками')]),
+      ('irina', 'Ирина Волкова', 'Первая колода в одиннадцать лет, практика с двадцати трёх, курсы с 2014 года.',
+       'images/obrazy/h-irina.jpg', 'Кто ведёт',
+       [('svecha', 'С 2014 года'), ('kniga', 'Психология и гипноз'), ('luna', 'Работа по луне')]),
+      ('vopros', 'Вопросы о школе', 'С чего начать, нужен ли дар, как идут потоки и чем занимается школа.',
+       'images/obrazy/h-vopros.jpg', 'Вопросы',
+       [('glaz', 'Нужен ли дар'), ('strela', 'С чего начать'), ('chas', 'Как идут потоки')]),
+      ('kontakty', 'Как связаться', 'Телеграм-канал школы и Instagram Ирины Волковой.',
+       'images/obrazy/h-kontakty.jpg', 'Связь',
+       [('tg', 'Канал школы'), ('ig', 'Instagram'), ('ruka', 'Ответ лично')]),
     ]
     for a in articles:
+        oberegi = a['kind'] == 'oberegi'
         zadachi.append((f'st-{a["slug"]}', a['name'], a['anons'],
                         f'images/zhurnal/{a["slug"]}.jpg',
-                        'Обереги дома' if a['kind'] == 'oberegi' else 'Нечисть'))
+                        'Обереги дома' if oberegi else 'Нечисть',
+                        [('dom', 'Домашняя защита'), ('kniga', 'По записям собирателей'), ('ruka', 'Как делали')]
+                        if oberegi else
+                        [('les', 'Где живёт'), ('chas', 'Когда встречали'), ('podkova', 'Как обходились')]))
     async with async_playwright() as pw:
         br = await pw.chromium.launch()
         ctx = await br.new_context(viewport={'width': 1200, 'height': 630}, device_scale_factor=1)
         pg = await ctx.new_page()
-        for name, zag, pod, img, metka in zadachi:
-            await pg.set_content(shablon(zag, pod, b64(img), metka))
+        for name, zag, pod, img, metka, bullety in zadachi:
+            await pg.set_content(shablon(zag, pod, b64(img), metka, bullety))
             await pg.wait_for_timeout(700)
             await pg.screenshot(path=f'images/og/{name}.jpg', type='jpeg', quality=86)
         await ctx.close(); await br.close()

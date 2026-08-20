@@ -149,7 +149,8 @@ if(k){
   shemy.forEach(function(sh){
    if(sh.dataset.navedena) return;
    var zapas=sh.scrollWidth-sh.clientWidth;
-   if(zapas>20){ sh.scrollLeft=Math.round(zapas/2); sh.dataset.navedena='1'; }
+   if(zapas>20){ sh.scrollLeft=sh.dataset.nachalo? 0 : Math.round(zapas/2);
+    sh.dataset.navedena='1'; }
   });
  }
  navesti();
@@ -259,9 +260,46 @@ if(k){
  setTimeout(function(){ celi.forEach(function(el){ el.classList.add('vidno'); }); }, 2500);
 })();
 
-var b=document.getElementById('burger'),m=document.getElementById('mobmenu');
-if(b&&m){b.addEventListener('click',function(){var o=m.classList.toggle('open');
-b.setAttribute('aria-expanded',o?'true':'false');});
-m.addEventListener('click',function(e){if(e.target.tagName==='A'){m.classList.remove('open');
-b.setAttribute('aria-expanded','false');}});}
+/* ---- мобильное меню: панель, замок прокрутки, разделы гармошкой ---- */
+(function(){
+ var b=document.getElementById('burger'), m=document.getElementById('mobmenu'),
+     fon=document.getElementById('mobfon');
+ if(!b||!m) return;
+ var otkryto=false, sdvig=0;
+ function pokazat(){
+  if(otkryto) return;
+  otkryto=true; sdvig=window.scrollY;
+  m.classList.add('open'); if(fon){fon.hidden=false; requestAnimationFrame(function(){fon.classList.add('vidno');});}
+  b.classList.add('krest'); b.setAttribute('aria-expanded','true');
+  document.body.style.position='fixed'; document.body.style.top=(-sdvig)+'px';
+  document.body.style.left='0'; document.body.style.right='0';
+ }
+ function spryatat(){
+  if(!otkryto) return;
+  otkryto=false;
+  m.classList.remove('open'); if(fon){fon.classList.remove('vidno');
+   setTimeout(function(){ if(!otkryto) fon.hidden=true; },260);}
+  b.classList.remove('krest'); b.setAttribute('aria-expanded','false');
+  document.body.style.position=''; document.body.style.top='';
+  document.body.style.left=''; document.body.style.right='';
+  window.scrollTo(0, sdvig);
+ }
+ b.addEventListener('click', function(){ otkryto? spryatat() : pokazat(); });
+ if(fon) fon.addEventListener('click', spryatat);
+ addEventListener('keydown', function(e){ if(e.key==='Escape') spryatat(); });
+ m.addEventListener('click', function(e){ if(e.target.closest('a')) spryatat(); });
+ /* разделы раскрываются на месте, страница под ними не прыгает */
+ [].forEach.call(m.querySelectorAll('.mrask'), function(kn){
+  kn.addEventListener('click', function(){
+   var gr=kn.closest('.mgruppa'), otkryt=gr.classList.toggle('raskryt');
+   kn.setAttribute('aria-expanded', otkryt?'true':'false');
+  });
+ });
+ /* раздел текущей страницы открыт сразу */
+ var tek=m.querySelector('.mstroka.on');
+ if(tek){ var gr=tek.closest('.mgruppa');
+  if(gr && gr.querySelector('.mpod')){ gr.classList.add('raskryt');
+   var kn=gr.querySelector('.mrask'); if(kn) kn.setAttribute('aria-expanded','true'); } }
+ addEventListener('resize', function(){ if(window.innerWidth>1120) spryatat(); });
+})();
 });

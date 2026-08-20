@@ -246,4 +246,31 @@ for _p in sorted(glob.glob('images/obrazy/h-*.jpg')):
         _im.transpose(Image.FLIP_LEFT_RIGHT).save(_p, quality=86, optimize=True)
         print('  зеркально:', os.path.basename(_p))
 
+
+# ---- отдельный кадр шапки для телефона ----
+# На широкой полосе фигура стоит справа, и на узком экране слева остаётся пустота.
+# Поэтому для телефона режем свой кадр 4:3, где человек стоит по центру.
+MOBILNYE_SHAPKI = {
+    'h-glavnaya': '14-krug-svechej.jpg', 'h-irina': '21-svechi-oglyanulas.jpg',
+    'h-taro': '26-svecha-taro.jpg', 'h-shkola': '12-luna-nad-vodoj.jpg',
+    'h-kontakty': '20-svechi-plamya.jpg', 'h-karty': '23-taro-veer.jpg',
+    'h-luna': '17-luna-tyanetsya.jpg', 'h-zhurnal': '24-taro-stena.jpg',
+}
+for name, src in MOBILNYE_SHAPKI.items():
+    p = os.path.join(OBR, src)
+    if not os.path.exists(p):
+        continue
+    im = Image.open(p).convert('RGB')
+    W0, H0 = im.size
+    lico = centr_lica(im)
+    th = int(W0 * 3 / 4)                       # кадр 4:3
+    if lico is None:
+        top = int(H0 * 0.06)
+    else:
+        top = int(lico * H0 - th * 0.42)       # лицо на 42% высоты кадра
+    top = max(0, min(H0 - th, top))
+    im.crop((0, top, W0, top + th)).resize((1200, 900), Image.LANCZOS).save(
+        f'images/obrazy/{name}-m.jpg', quality=86, optimize=True)
+    n += 1
+
 print('картинок подготовлено:', n)

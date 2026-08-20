@@ -17,7 +17,12 @@ def hero(img, eyebrow, h1, lid, knopki='', portret=''):
 {lid_html}
 {knopki}"""
     vnutri = (f'<div class="ryad"><div>{telo}</div>{prav}</div>' if portret else telo)
-    return f"""<section class="hero"><div class="fon"><img src="{u(img)}" alt=""></div>
+    # у телефона свой кадр: на широкой полосе человек стоит справа и слева зияет пустота
+    mob = img.replace('.jpg', '-m.jpg')
+    est_mob = os.path.exists(mob)
+    kadr = (f'<picture><source media="(max-width:1000px)" srcset="{u(mob)}">'
+            f'<img src="{u(img)}" alt=""></picture>') if est_mob else f'<img src="{u(img)}" alt="">'
+    return f"""<section class="hero"><div class="fon">{kadr}</div>
 <div class="in"><div class="wrap">{vnutri}</div></div></section>"""
 
 KNOPKI_TG = f"""<div class="knopki">

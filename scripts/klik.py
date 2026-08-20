@@ -14,12 +14,15 @@ async def main():
             if not vis:
                 bad.append(f'@{w}: бургер не виден'); await ctx.close(); continue
             await pg.click('#burger')
+            await pg.wait_for_timeout(450)          # панель выезжает с анимацией
             if not await pg.is_visible('#mobmenu a'):
                 bad.append(f'@{w}: меню не открылось')
             await pg.click('#burger')
+            await pg.wait_for_timeout(450)
             if await pg.is_visible('#mobmenu a'):
                 bad.append(f'@{w}: меню не закрылось повторным нажатием')
             await pg.click('#burger')
+            await pg.wait_for_timeout(450)
             await pg.click('#mobmenu a:has-text("Курсы")')
             await pg.wait_for_load_state('networkidle')
             if 'kursy' not in pg.url:
