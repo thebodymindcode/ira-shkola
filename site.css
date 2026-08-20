@@ -90,8 +90,9 @@ svg.big{width:34px;height:34px}
 .hero .portret::after{content:"";position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(14,12,17,0) 55%,rgba(14,12,17,.55) 100%)}
 @media(max-width:1000px){
-  .hero .ryad{grid-template-columns:1fr!important;gap:30px}
-  .hero .portret{aspect-ratio:16/10;max-height:340px}
+  .hero .ryad{grid-template-columns:1fr!important;gap:26px}
+  .hero .portret{aspect-ratio:5/4;max-height:420px;order:-1}
+  .hero .portret img{object-position:50% 18%}
 }
 
 /* ---------- лента шагов ---------- */
