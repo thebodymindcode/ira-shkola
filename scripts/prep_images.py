@@ -88,15 +88,15 @@ for f in sorted(os.listdir('images/zhurnal')):
 # 3. образы под страницы: широкий (16:9) и портретный (3:4)
 # карточки и шапки курсов идут из сгенерированных сцен в _generacii (Runway, 20.08.2026)
 SCENY = {
-    'k-gekata': 'k-gekata.png', 'k-runy': 'k-runy.png', 'k-besy': 'k-besy.png',
-    'k-nastav': 'k-nastav.png', 'k-taro': 'k-taro.png', 'k-oberegi': 'k-oberegi3.png',
+    'k-gekata': 'b-gekata.png', 'k-runy': 'b-runy.png', 'k-besy': 'b-besy.png',
+    'k-nastav': 'b-nastav.png', 'k-taro': 'b-taro.png', 'k-oberegi': 'b-oberegi.png',
 }
 # шапки страниц: сцены без людей, поэтому лицо нигде не режется
 SCENY_SHAPOK = {
-    'h-kursy': 'h2-kursy.png', 'h-oberegi': 'h2-oberegi.png',
-    'h-nechist': 'h2-nechist.png', 'h-vopros': 'h2-vopros2.png',
+    'h-kursy': 'b-kursy.png', 'h-oberegi': 'b-oberegi.png',
+    'h-nechist': 'b-nechist.png', 'h-vopros': 'b-vopros.png',
 }
-STATI_SCENY = {'01-leshy': 'leshy-v3.png', '03-vodyanoy': 'vodyanoy-nb.png'}
+STATI_SCENY = {'01-leshy': 'b-leshy.png', '03-vodyanoy': 'b-vodyanoy.png'}
 
 WIDE = {
     # шапки страниц
