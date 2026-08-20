@@ -234,6 +234,15 @@ svg.big{width:34px;height:34px}
   .korotko,.toc summary{padding-left:20px;padding-right:20px}
 }
 
+/* ---------- инфографика ---------- */
+.shema{margin:36px 0 0;padding:26px 24px 20px;background:var(--sloy);border:1px solid var(--line);
+  border-radius:20px;overflow-x:auto}
+.shema svg{width:100%;height:auto;min-width:640px;display:block}
+.shema-podpis{margin:18px 0 0;color:var(--tihiy);font-size:15px;line-height:1.6;max-width:720px;
+  text-wrap:pretty}
+@media(max-width:640px){.shema{padding:18px 14px 14px;border-radius:16px}
+  .shema svg{min-width:560px}.shema-podpis{font-size:14px}}
+
 /* ---------- плашки-ссылки ---------- */
 .plashki{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
 .plashka{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:1px solid var(--line);

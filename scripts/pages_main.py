@@ -3,6 +3,7 @@ import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 from engine import ico, typo, TG, IG
 from layout import page, u
+import shemy
 
 T = typo
 
@@ -71,6 +72,7 @@ def glavnaya(articles):
 <section><div class="wrap">
 <p class="eyebrow">Как это устроено</p>
 <h2>Порядок обучения</h2>
+{shemy.put_uchenika()}
 <p class="lid">{T('Обучение идёт в закрытых телеграм-каналах. Материал выкладывается по частям, '
                   'работы разбираются, вопросы задают прямо в канале.')}</p>
 <ul class="stepline">{steps}</ul>

@@ -3,6 +3,7 @@ import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
 from engine import ico, typo, TG
 from layout import page, u
+import shemy
 from pages_main import hero, KNOPKI_TG
 from pages_kursy import finalny
 
@@ -181,6 +182,12 @@ def runy():
 </div></section>
 
 <section><div class="wrap">
+<p class="eyebrow">Как устроен футарк</p>
+<h2>Три ряда по восемь знаков</h2>
+{shemy.etty()}
+</div></section>
+
+<section><div class="wrap">
 <p class="eyebrow">Что даёт курс</p>
 <h2>Что остаётся после потока</h2>
 {dlist([
@@ -260,6 +267,12 @@ def besy(articles):
 <aside class="side"><h4>Откуда фактура</h4>
 <p>{T('Былички, записанные собирателями в деревнях, и словари народной веры. Все имена и приметы '
       'на курсе называются с указанием, откуда они взяты.')}</p></aside></div>
+</div></section>
+
+<section><div class="wrap">
+<p class="eyebrow">Кто где живёт</p>
+<h2>Места и часы</h2>
+{shemy.mesta_nechisti()}
 </div></section>
 
 <section><div class="wrap">
@@ -400,6 +413,12 @@ def taro():
 <aside class="side"><div class="cifra">56</div>
 <p>{T('Младших карт в колоде. Именно на них у Уэйта появились сцены, и именно они дают чтение '
       'по картинке.')}</p></aside></div>
+</div></section>
+
+<section><div class="wrap">
+<p class="eyebrow">Из чего она состоит</p>
+<h2>Строение колоды</h2>
+{shemy.koloda()}
 </div></section>
 
 <section><div class="wrap">

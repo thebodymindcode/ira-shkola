@@ -15,6 +15,7 @@ def sklonenie(n, odin, dva, mnogo):
 sys.path.insert(0, os.path.dirname(__file__))
 from engine import ico, typo, TG, DOMAIN
 from layout import page, u
+import shemy
 from pages_main import hero, KNOPKI_TG
 from pages_kursy import finalny
 
@@ -310,6 +311,7 @@ def razdel(kind, articles):
 <p>{T(SIDE_RAZDELA[kind])}</p></aside></div>
 </div></section>
 
+{shemy.dom_granicy() if kind == 'oberegi' else ''}
 <section><div class="wrap">
 <p class="eyebrow">Разборы</p>
 <h2>{'Чем держали дом' if kind == 'oberegi' else 'Кто есть кто'}</h2>
