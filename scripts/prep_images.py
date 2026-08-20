@@ -19,7 +19,7 @@ for f in sorted(os.listdir('images/zhurnal')):
         continue
     p = 'images/zhurnal/' + f
     im = Image.open(p).convert('RGB')
-    im = crop_ratio(im, 16 / 9).resize((1200, 675), Image.LANCZOS)
+    im = crop_ratio(im, 16 / 9).resize((1800, 1012), Image.LANCZOS)
     im.save(p, quality=82, optimize=True)
     n += 1
 
@@ -53,25 +53,25 @@ for name, src in SCENY.items():
     p = os.path.join('_generacii', src)
     if os.path.exists(p):
         im = Image.open(p).convert('RGB')
-        crop_ratio(im, 16 / 9).resize((1600, 900), Image.LANCZOS).save(
+        crop_ratio(im, 16 / 9).resize((2200, 1238), Image.LANCZOS).save(
             f'images/obrazy/{name}.jpg', quality=84, optimize=True)
         n += 1
 for name, src in STATI_SCENY.items():
     p = os.path.join('_generacii', src)
     if os.path.exists(p):
         im = Image.open(p).convert('RGB')
-        crop_ratio(im, 16 / 9).resize((1200, 675), Image.LANCZOS).save(
+        crop_ratio(im, 16 / 9).resize((1800, 1012), Image.LANCZOS).save(
             f'images/zhurnal/{name}.jpg', quality=84, optimize=True)
         n += 1
 
 for name, src in WIDE.items():
     im = Image.open(os.path.join(OBR, src)).convert('RGB')
-    crop_ratio(im, 16 / 9).resize((1600, 900), Image.LANCZOS).save(
+    crop_ratio(im, 16 / 9).resize((2200, 1238), Image.LANCZOS).save(
         f'images/obrazy/{name}.jpg', quality=82, optimize=True)
     n += 1
 for name, src in PORTRET.items():
     im = Image.open(os.path.join(OBR, src)).convert('RGB')
-    crop_ratio(im, 3 / 4).resize((900, 1200), Image.LANCZOS).save(
+    crop_ratio(im, 3 / 4).resize((1200, 1600), Image.LANCZOS).save(
         f'images/obrazy/{name}.jpg', quality=82, optimize=True)
     n += 1
 print('картинок подготовлено:', n)

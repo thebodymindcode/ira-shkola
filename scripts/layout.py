@@ -88,7 +88,7 @@ def schema_faq(body):
 
 
 
-SIROTA_TAGS = ('h1', 'h2', 'h3', 'h4', 'li', 'summary')
+SIROTA_TAGS = ('h1', 'h2', 'h3', 'h4', 'li', 'summary', 'b', 'a')
 
 
 def bez_sirot(html_text):
@@ -102,20 +102,30 @@ def bez_sirot(html_text):
             for i in range(len(hvost) - 1, -1, -1):
                 if hvost[i] and not hvost[i].startswith('<') and ' ' in hvost[i].strip():
                     sl = hvost[i].strip().split()
-                    if len(sl) >= 2 and len(sl[-1]) + len(sl[-2]) <= 15:
-                        hvost[i] = re.sub(r'\s+(\S+)\s*$', NB + r'\1', hvost[i])
+                    if len(sl) >= 2 and len(sl[-1]) + len(sl[-2]) <= 24:
+                        nv = re.sub(r'\s+(\S+)\s*$', NB + r'\1', hvost[i])
+                        if ' ' in nv.strip():
+                            hvost[i] = nv
                     break
             telo = ''.join(hvost)
         else:
             slova = telo.strip().split()
-            # склейка вредна, когда два последних слова вместе шире колонки
-            if len(slova) > 2 and len(slova[-1]) + len(slova[-2]) <= 15:
-                telo = re.sub(r'\s+(\S+)\s*$', NB + r'\1', telo)
+            if len(slova) > 2 and len(slova[-1]) + len(slova[-2]) <= 24:
+                novoe = re.sub(r'\s+(\S+)\s*$', NB + r'\1', telo)
+                # строка не должна стать неразрывной целиком: ей нужен хотя бы один обычный пробел
+                if ' ' in novoe.strip():
+                    telo = novoe
         return otkr + telo + zakr
 
     for tag in SIROTA_TAGS:
         html_text = re.sub(r'(<%s(?:\s[^>]*)?>)(.*?)(</%s>)' % (tag, tag),
                            skleit, html_text, flags=re.S)
+    # выноска-цитата, лид, подзаголовок и строки подвала
+    for pat in (r'(<div class="vrez">)(.*?)(</div>)',
+                r'(<p class="lid[^"]*">)(.*?)(</p>)',
+                r'(<p class="podzag">)(.*?)(</p>)',
+                r'(<span>)(© [^<]*?)(</span>)'):
+        html_text = re.sub(pat, skleit, html_text, flags=re.S)
     return html_text
 
 
@@ -149,7 +159,7 @@ def page(path, title, descr, body, active=None, og='obrazy/glavnaya.jpg', crumbs
 {kroshki(crumbs) if crumbs else ''}
 <main>{bez_sirot(body)}</main>
 <a class="plyv" href="{TG}" target="_blank" rel="noopener" aria-label="Написать в Telegram">{ico('tg')}<span>Написать в&nbsp;Telegram</span></a>
-{podval()}
+{bez_sirot(podval())}
 <script src="{u('site.js')}?v={VERSION}" defer></script>
 </body></html>"""
     out = os.path.join(path, 'index.html') if path else 'index.html'

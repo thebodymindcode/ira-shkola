@@ -22,8 +22,8 @@ a,button,summary,.plashka{touch-action:manipulation;-webkit-tap-highlight-color:
 h1,h2,h3,h4{font-family:var(--serif);font-weight:400;letter-spacing:.2px;margin:0 0 14px;
   line-height:1.14;color:#F3EDE3}
 h3{margin-bottom:10px}
-h1{font-size:clamp(30px,5.4vw,64px);overflow-wrap:break-word}
-h2{font-size:clamp(25px,3.6vw,44px);overflow-wrap:break-word;text-wrap:balance}
+h1{font-size:clamp(30px,5.4vw,64px);overflow-wrap:break-word;hyphens:auto}
+h2{font-size:clamp(25px,3.6vw,44px);overflow-wrap:break-word;text-wrap:balance;hyphens:auto}
 h3{font-size:clamp(21px,2.2vw,27px);line-height:1.24;text-wrap:balance}
 h1 em,h2 em{font-style:normal;color:var(--zoloto-svet)}
 p{margin:0 0 18px;text-wrap:pretty}
@@ -61,7 +61,8 @@ svg.big{width:34px;height:34px}
 @media(hover:hover){.nav a:hover{color:var(--zoloto-svet)}}
 
 /* ---------- кнопки ---------- */
-.btn{display:inline-flex;align-items:center;gap:9px;position:relative;
+.btn{display:inline-flex;align-items:center;gap:9px;position:relative;text-wrap:balance;
+  overflow-wrap:break-word;
   padding:14px 24px;border-radius:var(--r);font-size:15px;font-weight:600;
   border:1px solid transparent;min-height:48px;transition:transform .12s,background .18s}
 .btn::after{content:"";position:absolute;top:7px;right:7px;width:9px;height:9px;
@@ -118,17 +119,17 @@ svg.big{width:34px;height:34px}
 
 /* ---------- карточка-приглашение в сетке ---------- */
 .zov{border:1px solid rgba(201,162,39,.42);background:linear-gradient(160deg,rgba(201,162,39,.09),rgba(22,19,28,.9));
-  border-radius:18px;padding:26px;display:flex;flex-direction:column;justify-content:center;min-height:220px}
+  border-radius:18px;padding:26px;display:flex;flex-direction:column;justify-content:center;gap:2px;min-height:220px}
 .zov>svg{color:var(--zoloto);margin-bottom:14px}
 .zov span.more svg{margin:0;vertical-align:-3px}
 .zov h3{margin:0 0 8px}
 .zov p{color:var(--tihiy);font-size:15.5px;margin:0 0 14px;text-wrap:pretty}
-.zov span.more{margin-top:auto;font-size:14.5px;color:var(--zoloto-svet);font-weight:600}
+.zov span.more{margin-top:14px;font-size:14.5px;color:var(--zoloto-svet);font-weight:600}
 @media(hover:hover){a.zov:hover{border-color:var(--zoloto)}}
 
 /* ---------- сплит ---------- */
-.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.72fr);gap:52px;align-items:start;margin-top:36px}
-.split .ph{aspect-ratio:1/1;border-radius:18px;overflow:hidden;border:1px solid var(--line)}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.62fr);gap:52px;align-items:start;margin-top:36px}
+.split .ph{aspect-ratio:4/5;border-radius:18px;overflow:hidden;border:1px solid var(--line)}
 .split .ph img{width:100%;height:100%;object-fit:cover}
 .split.shir .ph{aspect-ratio:16/9}
 
@@ -158,7 +159,8 @@ svg.big{width:34px;height:34px}
 .art h2:first-of-type{margin-top:30px}
 .art p{max-width:var(--uzko)}
 .art .vrez{border-left:2px solid var(--zoloto);padding:2px 0 2px 20px;margin:26px 0;
-  font-family:var(--serif);font-size:23px;line-height:1.34;color:#F0E9DE;max-width:640px}
+  font-family:var(--serif);font-size:23px;line-height:1.34;color:#F0E9DE;max-width:640px;
+  text-wrap:balance}
 
 /* ---------- журнальная статья ---------- */
 .podzag{font-size:21px;line-height:1.5;color:var(--tihiy);max-width:640px;margin:14px 0 0;
@@ -177,7 +179,7 @@ svg.big{width:34px;height:34px}
 .korotko{background:var(--sloy);border:1px solid var(--line);border-left:3px solid var(--zoloto);
   border-radius:14px;padding:24px 26px;margin:0 0 28px;max-width:var(--uzko)}
 .korotko b{display:block;font-family:var(--anons);font-size:14px;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--zoloto);margin-bottom:14px}
+  color:var(--zoloto);margin-bottom:14px;font-weight:400}
 .korotko ul{list-style:none;margin:0;padding:0}
 .korotko li{position:relative;padding-left:24px;margin-bottom:11px;font-size:16.5px;line-height:1.55;
   color:#D6CFC5;text-wrap:pretty}
@@ -198,7 +200,7 @@ svg.big{width:34px;height:34px}
 @media(hover:hover){.toc a:hover{color:var(--zoloto-svet);border-bottom-color:rgba(201,162,39,.45)}}
 .istok{border-top:1px solid var(--line);margin:44px 0 0;padding-top:24px;max-width:var(--uzko)}
 .istok b{display:block;font-family:var(--anons);font-size:14px;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--tihiy);margin-bottom:12px}
+  color:var(--tihiy);margin-bottom:12px;font-weight:400}
 .istok p{font-size:15px;line-height:1.6;color:var(--tihiy);margin:0}
 .sosedi{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px;max-width:var(--uzko)}
 .sosedi a{flex:1 1 260px;border:1px solid var(--line);border-radius:14px;padding:18px 20px;
@@ -224,7 +226,7 @@ svg.big{width:34px;height:34px}
 .final{background:var(--sloy2);border:1px solid var(--line);border-radius:22px;padding:44px;
   display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:48px;align-items:start}
 .final .fside{border-left:2px solid var(--zoloto);padding:2px 0 2px 18px}
-.final .fside b{display:block;font-family:var(--serif);font-size:30px;color:#F3EDE3;line-height:1.1;
+.final .fside b{display:block;font-family:var(--serif);font-size:25px;color:#F3EDE3;line-height:1.15;
   font-weight:400;text-wrap:balance}
 .final .fside span{display:block;margin-top:10px;color:var(--tihiy);font-size:15px}
 .final h2{margin:0 0 14px}
@@ -258,6 +260,7 @@ svg.big{width:34px;height:34px}
 .kroshki{font-size:13.5px;color:#7E7669;padding:22px 0 0}
 .kroshki a{color:#9A9184}
 .kroshki span{margin:0 7px}
+.kroshki>span:last-child{white-space:nowrap;margin-right:0}
 
 /* ---------- плавающая связь ---------- */
 .plyv{position:fixed;right:20px;bottom:20px;z-index:70;display:inline-flex;align-items:center;gap:9px;

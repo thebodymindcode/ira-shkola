@@ -3,7 +3,7 @@
 import re
 
 BASE = '/ira-shkola/'
-VERSION = '2026082014'
+VERSION = '2026082015'
 DOMAIN = 'https://thebodymindcode.github.io/ira-shkola'
 TITLE_SITE = 'Школа Ирины Волковой'
 TG = 'https://t.me/ira_volkova_taro'
@@ -31,7 +31,7 @@ FOOTER_LINKS = [
 
 # ---------------------------------------------------------------- типографика
 SHORT = ('и в во на не но с со к ко о об от до за из у я по для при над под без'
-         ' же ли бы то а как что чем чуть уже ещё их его её их их').split()
+         ' же ли бы то а как что чем их его её').split()
 NUMWORDS = ('один одна одно два две три четыре пять шесть семь восемь девять десять'
             ' одиннадцать двенадцать двадцать тридцать сорок пятьдесят сто').split()
 
@@ -44,7 +44,7 @@ def typo(t):
     # короткие предлоги и союзы клеим к следующему слову
     def glue(m):
         return m.group(1) + m.group(2) + NB
-    pat = r'(^|[\s(«—,.;:!?])(' + '|'.join(SHORT + NUMWORDS) + r')\s+'
+    pat = r'(^|[\s(«,.;:!?])(' + '|'.join(SHORT) + r')\s+'
     for _ in range(3):
         t = re.sub(pat, glue, t, flags=re.IGNORECASE)
     return t
