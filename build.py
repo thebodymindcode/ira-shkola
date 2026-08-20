@@ -43,7 +43,7 @@ for i, a in enumerate(articles):
 paths = ['', 'shkola/', 'kursy/', 'kursy/gekata/', 'kursy/runy/', 'kursy/besy/',
          'kursy/nastavnichestvo/', 'taro/', 'zhurnal/', 'oberegi/', 'nechist/',
          'ob-irine/', 'vopros-otvet/', 'kontakty/', 'politika/'] + \
-        [f'zhurnal/{a["slug"]}/' for a in articles]
+        [f'zhurnal/{a["url"]}/' for a in articles]
 sm = ['<?xml version="1.0" encoding="UTF-8"?>',
       '<urlset xmlns="http://www.sitemap.org/schemas/sitemap/0.9">'.replace('sitemap.org', 'sitemaps.org')]
 for p in paths:

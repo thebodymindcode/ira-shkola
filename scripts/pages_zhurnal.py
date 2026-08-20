@@ -14,7 +14,7 @@ RAZDEL = {'oberegi': ('Обереги дома', 'oberegi/'), 'nechist': ('Не�
 
 def kadr(a, metka=True):
     m = f'<span class="metka">{RAZDEL[a["kind"]][0]}</span>' if metka else ''
-    return f"""<a class="kadr" href="{u('zhurnal/' + a['slug'] + '/')}">
+    return f"""<a class="kadr" href="{u('zhurnal/' + a['url'] + '/')}">
 <div class="ph"><img src="{u('images/zhurnal/' + a['slug'] + '.jpg')}" alt="{a['name']}" loading="lazy"></div>
 <div class="body">{m}<h3>{a['name']}</h3><p>{T(a['deck'][:110])}</p></div></a>"""
 
@@ -36,7 +36,7 @@ def statya(a, sosedi):
         "image": f"{DOMAIN}/images/zhurnal/{a['slug']}.jpg",
         "author": {"@type": "Person", "name": "Ирина Волкова"},
         "publisher": {"@type": "Organization", "name": "Школа Ирины Волковой"},
-        "mainEntityOfPage": f"{DOMAIN}/zhurnal/{a['slug']}/",
+        "mainEntityOfPage": f"{DOMAIN}/zhurnal/{a['url']}/",
     }, ensure_ascii=False)
     body = f"""
 <section style="padding-top:34px"><div class="wrap uzko">
@@ -67,7 +67,7 @@ def statya(a, sosedi):
          'Новые разборы про обереги и нечистую силу Ирина выкладывает в телеграм-канале школы. '
          'Там же выходят объявления о наборах на курсы.')}
 """
-    page(f'zhurnal/{a["slug"]}/', f'{a["name"]}: {a["deck"][:70].rstrip(",. ")}',
+    page(f'zhurnal/{a["url"]}/', f'{a["name"]}: {a["deck"][:70].rstrip(",. ")}',
          a['deck'][:180], body, active='zhurnal/',
          og=f'images/og/st-{a["slug"]}.jpg',
          crumbs=[HOME, ('Журнал', 'zhurnal/'), (razdel_name, razdel_path), (a['name'], None)],

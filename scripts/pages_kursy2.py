@@ -64,7 +64,7 @@ SVYAZ = """<section><div class="wrap">
 </div></section>"""
 
 def kadr_card(a):
-    return f"""<a class="kadr" href="{u('zhurnal/' + a['slug'] + '/')}">
+    return f"""<a class="kadr" href="{u('zhurnal/' + a['url'] + '/')}">
 <div class="ph"><img src="{u('images/zhurnal/' + a['slug'] + '.jpg')}" alt="{a['name']}" loading="lazy"></div>
 <div class="body"><h3>{a['name']}</h3><p>{T(a['deck'][:105])}</p></div></a>"""
 

@@ -36,6 +36,7 @@
    }
   ],
   "slug": "01-leshy",
+  "url": "leshy",
   "kind": "nechist"
  },
  {
@@ -75,6 +76,7 @@
    }
   ],
   "slug": "02-domovoy",
+  "url": "domovoy",
   "kind": "nechist"
  },
  {
@@ -114,6 +116,7 @@
    }
   ],
   "slug": "03-vodyanoy",
+  "url": "vodyanoy",
   "kind": "nechist"
  },
  {
@@ -153,6 +156,7 @@
    }
   ],
   "slug": "04-rusalka",
+  "url": "rusalka",
   "kind": "nechist"
  },
  {
@@ -192,6 +196,7 @@
    }
   ],
   "slug": "05-kikimora",
+  "url": "kikimora",
   "kind": "nechist"
  },
  {
@@ -231,6 +236,7 @@
    }
   ],
   "slug": "06-bannik",
+  "url": "bannik",
   "kind": "nechist"
  },
  {
@@ -270,6 +276,7 @@
    }
   ],
   "slug": "07-poludnica",
+  "url": "poludnica",
   "kind": "nechist"
  },
  {
@@ -309,6 +316,7 @@
    }
   ],
   "slug": "08-chort-u-bolota",
+  "url": "chort-u-bolota",
   "kind": "nechist"
  },
  {
@@ -348,6 +356,7 @@
    }
   ],
   "slug": "09-liho",
+  "url": "liho",
   "kind": "nechist"
  },
  {
@@ -387,6 +396,7 @@
    }
   ],
   "slug": "10-ovinnik",
+  "url": "ovinnik",
   "kind": "nechist"
  },
  {
@@ -426,6 +436,7 @@
    }
   ],
   "slug": "11-polevik",
+  "url": "polevik",
   "kind": "nechist"
  },
  {
@@ -465,6 +476,7 @@
    }
   ],
   "slug": "12-mara",
+  "url": "mara",
   "kind": "nechist"
  },
  {
@@ -504,6 +516,7 @@
    }
   ],
   "slug": "13-nochnica",
+  "url": "nochnica",
   "kind": "nechist"
  },
  {
@@ -543,6 +556,7 @@
    }
   ],
   "slug": "14-volkolak",
+  "url": "volkolak",
   "kind": "nechist"
  },
  {
@@ -582,6 +596,7 @@
    }
   ],
   "slug": "15-zalozhnyj-pokojnik",
+  "url": "zalozhnyj-pokojnik",
   "kind": "nechist"
  },
  {
@@ -621,6 +636,7 @@
    }
   ],
   "slug": "16-upyr",
+  "url": "upyr",
   "kind": "nechist"
  },
  {
@@ -660,6 +676,7 @@
    }
   ],
   "slug": "17-ognennyj-zmej",
+  "url": "ognennyj-zmej",
   "kind": "nechist"
  },
  {
@@ -699,6 +716,7 @@
    }
   ],
   "slug": "18-dvorovoy",
+  "url": "dvorovoy",
   "kind": "nechist"
  },
  {
@@ -738,6 +756,7 @@
    }
   ],
   "slug": "19-vstrechnik",
+  "url": "vstrechnik",
   "kind": "nechist"
  },
  {
@@ -777,6 +796,7 @@
    }
   ],
   "slug": "20-kladovik",
+  "url": "kladovik",
   "kind": "nechist"
  },
  {
@@ -816,6 +836,7 @@
    }
   ],
   "slug": "01-otlivka-voskom",
+  "url": "otlivka-voskom",
   "kind": "oberegi"
  },
  {
@@ -855,6 +876,7 @@
    }
   ],
   "slug": "02-vykatat-yajcom",
+  "url": "vykatat-yajcom",
   "kind": "oberegi"
  },
  {
@@ -894,6 +916,7 @@
    }
   ],
   "slug": "03-krasnyj-ugol",
+  "url": "krasnyj-ugol",
   "kind": "oberegi"
  },
  {
@@ -933,6 +956,7 @@
    }
   ],
   "slug": "04-krapiva-u-poroga",
+  "url": "krapiva-u-poroga",
   "kind": "oberegi"
  },
  {
@@ -972,6 +996,7 @@
    }
   ],
   "slug": "05-obereg-v-lyulku",
+  "url": "obereg-v-lyulku",
   "kind": "oberegi"
  },
  {
@@ -1011,6 +1036,7 @@
    }
   ],
   "slug": "06-gromnichnaya-svecha",
+  "url": "gromnichnaya-svecha",
   "kind": "oberegi"
  },
  {
@@ -1050,6 +1076,7 @@
    }
   ],
   "slug": "07-nozh-na-noch",
+  "url": "nozh-na-noch",
   "kind": "oberegi"
  }
 ]

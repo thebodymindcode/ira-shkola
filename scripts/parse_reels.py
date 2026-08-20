@@ -50,6 +50,7 @@ for d, kind in BASE_DIRS:
         slug = os.path.basename(folder.rstrip('/'))
         art = parse(p)
         art['slug'] = slug
+        art['url'] = re.sub(r'^\d+-', '', slug)
         art['kind'] = kind
         out.append(art)
 

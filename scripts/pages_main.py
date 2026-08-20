@@ -44,7 +44,7 @@ def glavnaya(articles):
     steps = ''.join(f"""<li><span class="nom">{n+1}</span>{ico(i)}<div class="txt">
 <h3>{T(h)}</h3><p>{T(d)}</p></div></li>""" for n, (i, h, d) in enumerate(shagi))
 
-    svezhie = ''.join(f"""<a class="kadr" href="{u('zhurnal/' + a['slug'] + '/')}">
+    svezhie = ''.join(f"""<a class="kadr" href="{u('zhurnal/' + a['url'] + '/')}">
 <div class="ph"><img src="{u('images/zhurnal/' + a['slug'] + '.jpg')}" alt="{a['name']}" loading="lazy"></div>
 <div class="body"><span class="metka">{'Обереги' if a['kind'] == 'oberegi' else 'Нечисть'}</span>
 <h3>{a['name']}</h3><p>{T(a['deck'][:110])}</p></div></a>""" for a in articles)
