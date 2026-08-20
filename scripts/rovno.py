@@ -31,6 +31,7 @@ async def main():
                     const b = el.getBoundingClientRect(); out.lefts.push(Math.round(b.left));
                   });
                   document.querySelectorAll('svg').forEach(el=>{
+                    if (el.closest('.shema')) return;   // инфографика живёт в своей прокрутке
                     const b = el.getBoundingClientRect();
                     if (b.width > 60 || b.height > 60) out.bigsvg.push([el.getAttribute('class')||'', Math.round(b.width), Math.round(b.height)]);
                   });

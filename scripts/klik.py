@@ -37,10 +37,10 @@ async def main():
             bad.append('вопрос не раскрылся кликом')
         # проходим все пункты меню кликом
         await pg.goto(ROOT, wait_until='networkidle')
-        n=await pg.locator('.nav a').count()
+        n=await pg.locator('.nav > a, .nav .hasmega > a').count()
         for i in range(n):
             await pg.goto(ROOT, wait_until='networkidle')
-            a=pg.locator('.nav a').nth(i)
+            a=pg.locator('.nav > a, .nav .hasmega > a').nth(i)
             name=(await a.inner_text()).strip()
             await a.click(); await pg.wait_for_load_state('networkidle')
             t=await pg.title()

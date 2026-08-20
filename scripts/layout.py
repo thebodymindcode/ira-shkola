@@ -10,17 +10,60 @@ INDEXING = True   # единственный выключатель индекс
 def u(path=''):
     return BASE + path
 
+MEGA_KURSY = [
+    ('kursy/gekata/', 'Геката', 'Ритуальная магия, четыре ступени', 'images/obrazy/k-gekata.jpg'),
+    ('kursy/runy/', 'Руны', 'Старший футарк и работа с поставом', 'images/obrazy/k-runy.jpg'),
+    ('kursy/besy/', 'Бесы', 'Славянская демонология по источникам', 'images/obrazy/k-besy.jpg'),
+    ('taro/', 'Таро', 'Чтение колоды как ремесло', 'images/obrazy/k-taro.jpg'),
+    ('oberegi/', 'Обереги дома', 'Домашняя защита деревни', 'images/obrazy/k-oberegi.jpg'),
+    ('kursy/nastavnichestvo/', 'Личная работа', 'Один на один с Ириной', 'images/obrazy/k-nastav.jpg'),
+]
+
+MEGA_DNEVNIK = [
+    ('oberegi/', 'Обереги дома', 'Семь разборов: порог, окно, красный угол', 'images/obrazy/z-oberegi.jpg'),
+    ('nechist/', 'Нечистая сила', 'Двадцать существ народной веры', 'images/obrazy/z-nechist.jpg'),
+    ('zhurnal/domovoy/', 'Домовой', 'Хозяин за печью и под порогом', 'images/zhurnal/02-domovoy.jpg'),
+    ('zhurnal/leshy/', 'Леший', 'Как выходили из его леса', 'images/zhurnal/01-leshy.jpg'),
+    ('zhurnal/bannik/', 'Банник', 'Баня после третьего пара', 'images/zhurnal/06-bannik.jpg'),
+    ('zhurnal/upyr/', 'Упырь', 'Записан за восемь веков до Дракулы', 'images/zhurnal/16-upyr.jpg'),
+]
+
+
+def mega_panel(punkty):
+    kletki = ''.join(f"""<a class="mk" href="{u(p)}">
+<span class="ph"><img src="{u(img)}" alt="" loading="lazy"></span>
+<b>{n}</b><i>{opis}</i></a>""" for p, n, opis, img in punkty)
+    return f'<div class="mega"><div class="wrap"><div class="mgrid">{kletki}</div></div></div>'
+
+
 def shapka(active):
-    nav = ''.join(f'<a href="{u(p)}" class="{"on" if (active is not None and p == active) else ""}">{n}</a>'
-                  for n, p in MENU)
-    mob = ''.join(f'<a href="{u(p)}" class="{"on" if (active is not None and p == active) else ""}">{n}</a>'
-                  for n, p in MENU)
+    MEGA = {'kursy/': mega_panel(MEGA_KURSY), 'zhurnal/': mega_panel(MEGA_DNEVNIK)}
+    nav = ''
+    for n, p in MENU:
+        on = ' class="on"' if (active is not None and p == active) else ''
+        if p in MEGA:
+            strelka = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
+                       'stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>')
+            nav += (f'<div class="hasmega"><a href="{u(p)}"{on}>{n}{strelka}</a>{MEGA[p]}</div>')
+        else:
+            nav += f'<a href="{u(p)}"{on}>{n}</a>'
+    mob = ''
+    for n, p in MENU:
+        on = ' class="on"' if (active is not None and p == active) else ''
+        mob += f'<a href="{u(p)}"{on}>{n}</a>'
+        if p == 'kursy/':
+            mob += ''.join(f'<a class="sub" href="{u(pp)}">{nn}</a>'
+                           for pp, nn, _, _ in MEGA_KURSY)
+        if p == 'zhurnal/':
+            mob += ''.join(f'<a class="sub" href="{u(pp)}">{nn}</a>'
+                           for pp, nn, _, _ in MEGA_DNEVNIK[:2])
     return f"""<header class="shapka"><div class="in">
 <a class="znak" href="{u()}">{ico('klyuch')}<span>Школа Ирины&nbsp;Волковой</span></a>
 <nav class="nav">{nav}</nav>
 <button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </div><div class="mob" id="mobmenu">{mob}</div></header>"""
+
 
 def podval():
     links = ''.join(f'<a class="plashka" href="{u(p)}">{n}</a>' for n, p in FOOTER_LINKS)
