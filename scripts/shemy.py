@@ -176,3 +176,43 @@ def put_duraka():
     return obertka(''.join(s), 1000, 350,
                    'Двадцать один аркан делится на три ряда по семь. Первый ряд про жизнь среди людей, '
                    'второй про испытания, третий про выход к целому.')
+
+
+def fazy_luny():
+    """Восемь фаз луны по кругу и работа в каждой."""
+    import math
+    fazy = [
+        ('Новолуние', 'замысел и тишина', 0.0),
+        ('Молодая', 'первый шаг', 0.125),
+        ('Первая четверть', 'усилие и правка', 0.25),
+        ('Прибывающая', 'набор силы', 0.375),
+        ('Полнолуние', 'пик и ясность', 0.5),
+        ('Убывающая', 'отдача лишнего', 0.625),
+        ('Последняя четверть', 'разбор итога', 0.75),
+        ('Старая луна', 'покой перед новым', 0.875),
+    ]
+    cx, cy, r = 300, 190, 128
+    s = [f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{L}" stroke-width="1.4"/>']
+    for i, (nazv, delo, t) in enumerate(fazy):
+        a = -math.pi / 2 + t * 2 * math.pi
+        x, y = cx + r * math.cos(a), cy + r * math.sin(a)
+        # рисуем саму фазу кружком с тенью
+        s.append(f'<circle cx="{x:.0f}" cy="{y:.0f}" r="17" fill="#0E0C11" stroke="{Z}" stroke-width="1.4"/>')
+        if 0 < t < 0.5:
+            s.append(f'<path d="M{x:.0f} {y - 17:.0f} A 17 17 0 0 1 {x:.0f} {y + 17:.0f} Z" fill="{ZS}" opacity=".9"/>')
+        elif t == 0.5:
+            s.append(f'<circle cx="{x:.0f}" cy="{y:.0f}" r="15" fill="{ZS}" opacity=".92"/>')
+        elif t > 0.5:
+            s.append(f'<path d="M{x:.0f} {y - 17:.0f} A 17 17 0 0 0 {x:.0f} {y + 17:.0f} Z" fill="{ZS}" opacity=".9"/>')
+        # подпись в столбце справа
+        ly = 46 + i * 42
+        s.append(f'<text x="520" y="{ly}" fill="{T}" style="{FS};font-size:20px">{nazv}</text>')
+        s.append(f'<text x="520" y="{ly + 20}" fill="{TT}" style="{F};font-size:13.5px">{delo}</text>')
+        s.append(f'<circle cx="{500}" cy="{ly - 6}" r="4" fill="{Z}" opacity=".75"/>')
+    s.append(f'<text x="{cx}" y="{cy - 6}" text-anchor="middle" fill="{Z}" '
+             f'style="{FS};font-size:19px;letter-spacing:2px">ЛУННЫЙ</text>')
+    s.append(f'<text x="{cx}" y="{cy + 20}" text-anchor="middle" fill="{Z}" '
+             f'style="{FS};font-size:19px;letter-spacing:2px">КРУГ</text>')
+    return obertka(''.join(s), 1000, 396,
+                   'Круг занимает около двадцати девяти с половиной суток. Работа привязана '
+                   'не к дню недели, а к тому, где сейчас луна.')

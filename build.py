@@ -34,6 +34,7 @@ pages_info.ob_irine()
 pages_info.vopros_otvet()
 pages_info.kontakty()
 pages_info.politika()
+pages_info.lunnyj_krug()
 pages_info.ne_nashlos()
 pages_karty.hab()
 for i, a in enumerate(ARKANY):
@@ -52,7 +53,7 @@ for i, a in enumerate(articles):
 # карта сайта
 paths = ['', 'shkola/', 'kursy/', 'kursy/gekata/', 'kursy/runy/', 'kursy/besy/',
          'kursy/nastavnichestvo/', 'taro/', 'karty/', 'zhurnal/', 'oberegi/', 'nechist/',
-         'ob-irine/', 'vopros-otvet/', 'kontakty/', 'politika/'] + \
+         'ob-irine/', 'luna/', 'vopros-otvet/', 'kontakty/', 'politika/'] + \
         [f'karty/{a["slug"]}/' for a in ARKANY] + \
         [f'zhurnal/{a["url"]}/' for a in articles]
 sm = ['<?xml version="1.0" encoding="UTF-8"?>',
