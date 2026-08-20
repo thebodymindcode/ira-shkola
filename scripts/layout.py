@@ -75,11 +75,8 @@ def shapka(active):
 
 
 def podval():
-    links = ''.join(
-        f'<a class="razdel" href="{u(p)}">'
-        f'<span class="rk"><img src="{u("images/" + img)}" alt="" loading="lazy"></span>'
-        f'<span class="rt"><b>{n}</b><i>{pod}</i></span></a>'
-        for n, p, img, pod in FOOTER_LINKS)
+    links = ''.join(f'<a class="plashka" href="{u(p)}">{n}</a>'
+                    for n, p, img, pod in FOOTER_LINKS)
     return f"""<footer class="podval"><div class="wrap">
 <div class="kol">
 <div>

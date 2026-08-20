@@ -543,28 +543,20 @@ section > .wrap{position:relative}
 
 /* ---------- плашки-ссылки ---------- */
 .razdely{margin-top:40px;padding-top:32px;border-top:1px solid var(--line)}
-.plashki{display:grid;grid-template-columns:repeat(auto-fill,minmax(252px,1fr));
-  gap:12px;margin-top:18px}
-/* Разделы стоят ровной сеткой: одинаковая высота, кадр слева, подпись под именем.
-   Раньше это была россыпь плашек разной ширины и рваными рядами. */
-.razdel{display:grid;grid-template-columns:56px minmax(0,1fr);align-items:center;gap:13px;
-  padding:10px 14px 10px 10px;border:1px solid var(--line);border-radius:14px;
-  background:var(--sloy);height:80px;transition:border-color .18s ease,transform .18s ease}
-.razdel .rk{width:56px;height:56px;border-radius:10px;overflow:hidden;position:relative;
-  border:1px solid rgba(201,162,39,.22);flex:0 0 56px}
-.razdel .rk img{width:100%;height:100%;object-fit:cover;display:block}
-.razdel .rt{display:flex;flex-direction:column;gap:3px;min-width:0}
-.razdel .rt b{font-family:var(--anons);font-size:16.5px;font-weight:400;color:#EDE6DC;
-  letter-spacing:.3px;line-height:1.2;overflow-wrap:normal;white-space:nowrap;
-  overflow:hidden;text-overflow:ellipsis}
-.razdel .rt i{font-style:normal;font-size:13px;color:#918878;line-height:1.3;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-@media(hover:hover){.razdel:hover{border-color:rgba(201,162,39,.5);transform:translateY(-2px)}
-  .razdel:hover .rt b{color:var(--zoloto-svet)}}
-@media(max-width:560px){.plashki{grid-template-columns:1fr}}
-.plashka{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:1px solid var(--line);
-  border-radius:11px;background:var(--sloy);font-size:14.5px;color:#CFC7BC}
+/* Плашки разделов стоят ровной сеткой: одинаковая ширина и высота, ряды не рваные. */
+.plashki{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:10px;margin-top:18px}
+.plashka{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:46px;padding:10px 14px;border:1px solid var(--line);border-radius:11px;
+  background:var(--sloy);font-size:14.5px;color:#CFC7BC;text-align:center;line-height:1.25}
+.soc .plashka{min-height:0}
+.soc{display:flex;gap:10px;margin-top:20px}
 @media(hover:hover){.plashka:hover{border-color:rgba(201,162,39,.5);color:var(--zoloto-svet)}}
+@media(max-width:560px){
+  .plashki{grid-template-columns:repeat(2,minmax(0,1fr))}
+  /* одинаковая высота у всех, даже когда имя ложится в две строки */
+  .plashka{min-height:54px;height:54px;font-size:13.8px;padding:8px 10px}
+}
+
 
 /* ---------- финал ---------- */
 .final{background:var(--sloy2);border:1px solid var(--line);border-radius:22px;padding:44px;
