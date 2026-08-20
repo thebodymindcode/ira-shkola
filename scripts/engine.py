@@ -3,7 +3,7 @@
 import re
 
 BASE = '/ira-shkola/'
-VERSION = '2026082012'
+VERSION = '2026082013'
 DOMAIN = 'https://thebodymindcode.github.io/ira-shkola'
 TITLE_SITE = 'Школа Ирины Волковой'
 TG = 'https://t.me/ira_volkova_taro'

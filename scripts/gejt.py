@@ -52,6 +52,20 @@ for f in pages:
     if n != 1:
         print('  H1 не один:', f, n)
 
+# смешение кириллицы и латиницы внутри слова (опечатка при правках)
+import html as _h
+mix = []
+for f2 in pages:
+    h = open(f2, encoding='utf-8').read()
+    m = re.search(r'<main>(.*?)</main>', h, re.S)
+    if not m:
+        continue
+    t = _h.unescape(re.sub(r'<[^>]+>', ' ',
+        re.sub(r'<(script|style|svg).*?</\1>', '', m.group(1), flags=re.S)))
+    for w in re.findall(r'\S*[А-Яа-яЁё]+[A-Za-z]+\S*|\S*[A-Za-z]+[А-Яа-яЁё]+\S*', t):
+        mix.append((f2, w))
+print('СЛОВ СО СМЕШЕНИЕМ АЛФАВИТОВ:', len(mix), mix[:5])
+
 # уникальность title и description
 import collections
 tt, dd = collections.Counter(), collections.Counter()
