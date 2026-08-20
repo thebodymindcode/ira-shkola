@@ -36,6 +36,36 @@ def polosa_portreta(src_path, out, dolya=0.72, verh=0.0, zapas=0.07):
     fon.save(out, quality=86, optimize=True)
 
 
+
+def bezopasnyj_portret(src_path, out, W=1000, H=1500, vozduh_verh=0.15, vozduh_niz=0.05):
+    """Портрет для колонки текста: фигура целиком внутри кадра, сверху воздух.
+    Колонка тянется по высоте текста и режет картинку по краям, поэтому лицо
+    держим с запасом: срез съедает воздух, а не голову."""
+    im = Image.open(src_path).convert('RGB')
+    Wi, Hi = im.size
+    hp = int(H * (1 - vozduh_verh - vozduh_niz))
+    k = hp / Hi
+    kadr = im.resize((max(1, int(Wi * k)), hp), Image.LANCZOS)
+    fon = crop_ratio(im, W / H, sverhu=0.5).resize((W, H), Image.LANCZOS)
+    fon = fon.filter(ImageFilter.GaussianBlur(46))
+    fon = Image.blend(fon, Image.new('RGB', (W, H), (14, 12, 17)), 0.6)
+    x = (W - kadr.size[0]) // 2
+    y = int(H * vozduh_verh)
+    if kadr.size[0] <= W:
+        maska = Image.new('L', kadr.size, 255)
+        d = ImageDraw.Draw(maska)
+        pero = max(40, int(kadr.size[0] * 0.06))
+        for i in range(pero):
+            v = int(255 * i / pero)
+            d.line([(i, 0), (i, hp)], fill=v)
+            d.line([(kadr.size[0] - 1 - i, 0), (kadr.size[0] - 1 - i, hp)], fill=v)
+        fon.paste(kadr, (x, y), maska)
+    else:
+        obr = kadr.crop(((kadr.size[0] - W) // 2, 0, (kadr.size[0] - W) // 2 + W, hp))
+        fon.paste(obr, (0, y))
+    fon.save(out, quality=86, optimize=True)
+
+
 def centr_lica(im):
     """Ищет вертикальный центр кожи: по нему кадрируем, чтобы лицо не резалось.
     Возвращает долю высоты (0..1) или None, если кожи в кадре нет."""
@@ -182,8 +212,6 @@ for name, src in WIDE.items():
     print(f'  {name}: лицо на {round((lico or 0)*100)}%, срез с {round(dolya*100)}%')
     n += 1
 for name, src in PORTRET.items():
-    im = Image.open(os.path.join(OBR, src)).convert('RGB')
-    crop_ratio(im, 3 / 4).resize((1200, 1600), Image.LANCZOS).save(
-        f'images/obrazy/{name}.jpg', quality=82, optimize=True)
+    bezopasnyj_portret(os.path.join(OBR, src), f'images/obrazy/{name}.jpg')
     n += 1
 print('картинок подготовлено:', n)

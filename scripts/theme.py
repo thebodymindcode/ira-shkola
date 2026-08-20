@@ -175,7 +175,8 @@ svg.big{width:34px;height:34px}
   align-items:stretch;margin-top:36px;grid-auto-rows:minmax(320px,auto);max-width:100%}
 .split .ph{position:relative;height:100%;min-height:0;border-radius:18px;
   overflow:hidden;border:1px solid var(--line)}
-.split .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.split .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  object-position:50% 16%;display:block}
 .split.shir .ph{aspect-ratio:auto}
 
 /* ---------- цифры ---------- */

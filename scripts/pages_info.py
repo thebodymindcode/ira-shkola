@@ -81,7 +81,7 @@ def ob_irine():
  ('svecha', 'Магию она называет образом жизни.'),
 ])}
 </div>
-<div class="ph"><img src="{u('images/obrazy/p-irina1.jpg')}" alt="Ирина Волкова" loading="lazy"></div>
+<div class="ph"><img src="{u('images/kursy/gr-kosti.jpg')}" alt="Рабочий стол" loading="lazy"></div>
 </div>
 </div></section>
 
