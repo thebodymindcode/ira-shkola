@@ -256,6 +256,31 @@ svg.big{width:34px;height:34px}
   .korotko,.toc summary{padding-left:20px;padding-right:20px}
 }
 
+/* ---------- живые искры в шапке ---------- */
+.hero .fon{overflow:hidden}
+canvas.iskry{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;
+  mix-blend-mode:screen}
+.hero .fon::after{z-index:2}
+.hero .fon img{will-change:transform;transform:scale(1.06)}
+
+/* ---------- переворот карты в вопроснике ---------- */
+@media (prefers-reduced-motion: no-preference){
+  .kviz-karta.perevorot{animation:perevorot .9s cubic-bezier(.2,.7,.2,1) both;
+    transform-style:preserve-3d;perspective:900px}
+  @keyframes perevorot{
+    0%{transform:rotateY(96deg) scale(.9);opacity:0;filter:brightness(.4)}
+    60%{filter:brightness(1.25)}
+    100%{transform:none;opacity:1;filter:none}
+  }
+  .kviz-otvet{transition:border-color .16s,transform .12s,background .2s}
+}
+
+/* ---------- золото дышит ---------- */
+@media (prefers-reduced-motion: no-preference){
+  .znak svg{animation:teplo 5.5s ease-in-out infinite}
+  @keyframes teplo{0%,100%{opacity:1}50%{opacity:.72}}
+}
+
 /* ---------- мягкое появление ---------- */
 @media (prefers-reduced-motion: no-preference){
   .poyav{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease}
