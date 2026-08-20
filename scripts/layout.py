@@ -197,8 +197,18 @@ def page(path, title, descr, body, active=None, og='obrazy/glavnaya.jpg', crumbs
 <meta property="og:title" content="{full}">
 <meta property="og:description" content="{descr}">
 <meta property="og:url" content="{canon}">
-<meta property="og:image" content="{DOMAIN}/{og}?v={VERSION}">
+<meta property="og:image" content="{DOMAIN}/{og}">
+<meta property="og:image:secure_url" content="{DOMAIN}/{og}">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{full}">
 <meta property="og:site_name" content="{TITLE_SITE}">
+<meta property="og:locale" content="ru_RU">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{full}">
+<meta name="twitter:description" content="{descr}">
+<meta name="twitter:image" content="{DOMAIN}/{og}">
 <meta name="theme-color" content="#0E0C11">
 <link rel="icon" href="{u('favicon.svg')}?v={VERSION}" type="image/svg+xml">
 <link rel="icon" href="{u('favicon-32.png')}?v={VERSION}" sizes="32x32">
