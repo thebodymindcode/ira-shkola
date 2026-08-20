@@ -104,7 +104,7 @@ svg.big{width:34px;height:34px}
 .hero .fon::after{content:"";position:absolute;inset:0;background:
   linear-gradient(90deg,rgba(14,12,17,.92) 0%,rgba(14,12,17,.78) 34%,rgba(14,12,17,.2) 58%,rgba(14,12,17,0) 74%),
   linear-gradient(180deg,rgba(14,12,17,.35) 0%,rgba(14,12,17,0) 30%,rgba(14,12,17,.55) 88%,var(--noch) 100%)}
-.hero .in{position:relative;width:100%;padding:60px 0 64px}
+.hero .in{position:relative;z-index:3;width:100%;padding:60px 0 64px}
 .hero .ryad{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.72fr);gap:56px;align-items:center}
 .hero .in>.wrap>*{max-width:620px}
 .hero p.lid{color:#DCD5CA}
@@ -288,8 +288,9 @@ canvas.iskry{position:absolute;inset:0;width:100%;height:100%;pointer-events:non
 
 /* ---------- мягкое появление ---------- */
 @media (prefers-reduced-motion: no-preference){
-  .poyav{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease}
+  .poyav{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
   .poyav.vidno{opacity:1;transform:none}
+  .hero .poyav{opacity:1!important;transform:none!important}
 }
 
 /* ---------- разделитель секций ---------- */
