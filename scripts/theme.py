@@ -107,9 +107,9 @@ svg.big{width:34px;height:34px}
 .knopki{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px}
 
 /* ---------- герой: текст слева, портрет справа ---------- */
-.hero{position:relative;padding:0;border:0;overflow:hidden;min-height:clamp(480px,64vh,660px);
+.hero{position:relative;padding:0;border:0;overflow:clip;min-height:clamp(480px,64vh,660px);
   display:flex;align-items:center}
-.hero .fon{position:absolute;inset:0;overflow:hidden}
+.hero .fon{position:absolute;inset:0;overflow:hidden;contain:paint}
 .hero .fon img{width:100%;height:100%;object-fit:cover;object-position:50% 50%;opacity:.95}
 .hero .fon::after{content:"";position:absolute;inset:0;background:
   linear-gradient(90deg,rgba(14,12,17,.92) 0%,rgba(14,12,17,.78) 34%,rgba(14,12,17,.2) 58%,rgba(14,12,17,0) 74%),
@@ -129,11 +129,13 @@ svg.big{width:34px;height:34px}
   .hero .ryad{grid-template-columns:1fr!important;gap:26px}
   .hero .portret{aspect-ratio:5/4;max-height:420px;order:-1}
   .hero .portret img{object-position:50% 18%}
-  .hero .fon img{object-position:80% 0%;opacity:.9}
+  .hero{display:block;min-height:0}
+  .hero .fon{position:relative;height:clamp(230px,42vh,340px);border-radius:0}
+  .hero .fon img{object-position:84% 16%;opacity:1}
+  .hero .in{padding:24px 0 34px}
   .hero .fon::after{background:
-    linear-gradient(180deg,rgba(14,12,17,.14) 0%,rgba(14,12,17,.42) 28%,rgba(14,12,17,.9) 58%,var(--noch) 100%)}
-  .hero{min-height:clamp(420px,58vh,540px);align-items:flex-end}
-  .hero .in{padding:0 0 34px}
+    linear-gradient(180deg,rgba(14,12,17,.1) 0%,rgba(14,12,17,0) 42%,rgba(14,12,17,.72) 86%,var(--noch) 100%)}
+
 }
 
 /* ---------- лента шагов ---------- */
@@ -619,7 +621,11 @@ section > .wrap{position:relative}
 /* превращалась в 7px. Держим схему в натуральную величину: она листается */
 /* вбок, зато читается без увеличения. */
 @media(max-width:640px){
-  .shema svg{min-width:960px}
+  .shema{position:relative}
+  /* видно, что схема продолжается вправо, иначе человек думает, что она обрезана */
+  .shema::after{content:"Схема шире экрана, её можно листать вбок";display:block;margin:12px 0 0;
+    font-size:13px;color:var(--zoloto-svet);letter-spacing:.04em;position:sticky;left:0;max-width:100%}
+  .shema svg{min-width:820px}
   .shema{scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
   /* подпись держится на месте, пока схему листают вбок */
   .shema-podpis{position:sticky;left:0;max-width:min(100%,720px)}

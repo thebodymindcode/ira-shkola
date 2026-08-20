@@ -105,18 +105,28 @@ if(k){
    var vsego=b.getBoundingClientRect().width;
    var lo=300, hi=Math.min(vsego*0.56, 640, vsego-zazor-360);
    if(hi<lo){ ph.style.setProperty('--shirina', Math.round(Math.max(260,hi))+'px'); return; }
+   b.style.alignItems='flex-start';          // иначе меряем растянутую колонку, а не текст
    var luchshaya=hi, luchshee=Infinity;
    for(var i=0;i<=9;i++){                                   // ширина влияет на высоту текста
     var w=lo+(hi-lo)*i/9;                                   // немонотонно, поэтому скан
     ph.style.setProperty('--shirina', Math.round(w)+'px');
-    var vysota=tx.getBoundingClientRect().height;
+    var vysota=tx.scrollHeight;
     var mesto=(ph===kadr)? 0 : 150;                       // место под плашку с фактом
     var raznica=Math.abs(vysota - (w/k + mesto));
     if(raznica<luchshee){ luchshee=raznica; luchshaya=w; }
    }
    ph.style.setProperty('--shirina', Math.round(luchshaya)+'px');
-   var ostatok=tx.getBoundingClientRect().height - ph.getBoundingClientRect().height;
+   b.style.removeProperty('align-items');
+   var ostatok=tx.scrollHeight - ph.getBoundingClientRect().height;
    ph.classList.toggle('plyvet', ostatok>160 && ph===kadr);
+   // текст короче колонки с кадром: разводим абзацы по высоте, верх остаётся вровень
+   var pervyj=tx.firstElementChild, posl=tx.lastElementChild;
+   if(pervyj && posl){
+    tx.style.justifyContent='';
+    var vysota_teksta=posl.getBoundingClientRect().bottom - pervyj.getBoundingClientRect().top;
+    var dyra=ph.getBoundingClientRect().height - vysota_teksta;
+    tx.style.justifyContent = (dyra>34 && dyra<240) ? 'space-between' : '';
+   }
   });
  }
  schitat();
@@ -128,6 +138,23 @@ if(k){
   var ro=new ResizeObserver(function(){ clearTimeout(t); t=setTimeout(schitat,80); });
   bloki.forEach(function(b){ if(b.firstElementChild) ro.observe(b.firstElementChild); });
  }
+})();
+
+/* ---- схема на узком экране открывается на рисунке, а не на пустом поле ---- */
+(function(){
+ var shemy=[].slice.call(document.querySelectorAll('.shema'));
+ if(!shemy.length) return;
+ function navesti(){
+  if(!window.matchMedia('(max-width:640px)').matches) return;
+  shemy.forEach(function(sh){
+   if(sh.dataset.navedena) return;
+   var zapas=sh.scrollWidth-sh.clientWidth;
+   if(zapas>20){ sh.scrollLeft=Math.round(zapas/2); sh.dataset.navedena='1'; }
+  });
+ }
+ navesti();
+ addEventListener('load', navesti);
+ addEventListener('resize', navesti);
 })();
 
 /* ---- живые искры в шапке ---- */
@@ -191,14 +218,18 @@ if(k){
   z.forEach(function(e){
    if(!e.isIntersecting) return;
    nabl.unobserve(e.target);
-   var el=e.target, m=(el.textContent||'').trim().match(/^(\D*)(\d[\d\s]*)(.*)$/);
+   var el=e.target, ish=(el.textContent||'');
+   // \u00a0 после числа не трогаем: иначе «6 направлений» слипается в «6направлений»
+   var m=ish.match(/^(\D*?)(\d+)([\s\S]*)$/);
    if(!m) return;
-   var do_=m[1], chislo=parseInt(m[2].replace(/\s/g,''),10), posle=m[3];
+   var do_=m[1], chislo=parseInt(m[2],10), posle=m[3];
    if(!isFinite(chislo) || chislo>100000) return;
+   var razryady = (m[2].length>4);        // год пишем как есть, без разбивки на разряды
    var t0=null;
    function tik(t){ if(!t0) t0=t;
     var k=Math.min(1,(t-t0)/900), e2=1-Math.pow(1-k,3);
-    el.textContent=do_+Math.round(chislo*e2).toLocaleString('ru-RU')+posle;
+    var v=Math.round(chislo*e2);
+    el.textContent=do_+(razryady? v.toLocaleString('ru-RU') : String(v))+posle;
     if(k<1) requestAnimationFrame(tik); }
    el.textContent=do_+'0'+posle; requestAnimationFrame(tik);
   });
