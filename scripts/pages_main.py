@@ -6,13 +6,17 @@ from layout import page, u
 
 T = typo
 
-def hero(img, eyebrow, h1, lid, knopki=''):
-    return f"""<section class="hero"><div class="fon"><img src="{u(img)}" alt=""></div>
-<div class="in"><div class="wrap">
-<p class="eyebrow">{eyebrow}</p>
+def hero(img, eyebrow, h1, lid, knopki='', portret=''):
+    """portret: путь к вертикальному кадру справа. Без него шапка обычная, в одну колонку."""
+    prav = (f'<div class="portret"><img src="{u(portret)}" alt="Ирина Волкова"></div>'
+            if portret else '')
+    telo = f"""<p class="eyebrow">{eyebrow}</p>
 <h1>{T(h1)}</h1>
 <p class="lid">{T(lid)}</p>
-{knopki}</div></div></section>"""
+{knopki}"""
+    vnutri = (f'<div class="ryad"><div>{telo}</div>{prav}</div>' if portret else telo)
+    return f"""<section class="hero"><div class="fon"><img src="{u(img)}" alt=""></div>
+<div class="in"><div class="wrap">{vnutri}</div></div></section>"""
 
 KNOPKI_TG = f"""<div class="knopki">
 <a class="btn btn-gold" href="{TG}" target="_blank" rel="noopener">{ico('tg')} Читать канал Ирины</a>
@@ -54,7 +58,7 @@ def glavnaya(articles):
       'Школа магии и таро Ирины Волковой',
       'Первая колода попала ей в руки в одиннадцать лет, в практике она с двадцати трёх. '
       'Занятия шли в Москве, Петербурге, Израиле и Париже. Здесь учат ремеслу: раскладу, обряду, '
-      'оберегу, работе с рунами.', KNOPKI_TG)}
+      'оберегу, работе с рунами.', KNOPKI_TG, portret='images/obrazy/p-glavnaya.jpg')}
 
 <section><div class="wrap">
 <p class="eyebrow">Куда идти</p>
