@@ -95,6 +95,7 @@ SCENY = {
 SCENY_SHAPOK = {
     'h-kursy': 'b-kursy.png', 'h-oberegi': 'b-oberegi.png',
     'h-nechist': 'b-nechist.png', 'h-vopros': 'b-vopros.png',
+    'h-zhurnal': 'h2-zhurnal.png',
 }
 STATI_SCENY = {'01-leshy': 'b-leshy.png', '03-vodyanoy': 'b-vodyanoy.png'}
 
@@ -142,7 +143,6 @@ SREZ_SHAPOK = {
     'h-glavnaya': dict(dolya=0.66, verh=0.02),
     'h-irina': dict(dolya=0.70, verh=0.02),
     'h-taro': dict(dolya=0.78, verh=0.04),
-    'h-zhurnal': dict(dolya=0.74, verh=0.02),
     'h-shkola': dict(dolya=0.96, verh=0.0, zapas=0.04),
     'h-kontakty': dict(dolya=0.80, verh=0.06),
 }
