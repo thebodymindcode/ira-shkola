@@ -32,20 +32,23 @@ for slug, src in (('01-leshy', '09-voron.jpg'), ('03-vodyanoy', '12-luna-nad-vod
 
 # 3. образы под страницы: широкий (16:9) и портретный (3:4)
 WIDE = {
-    'glavnaya': '06-oblozhka.jpg', 'shkola': '14-krug-svechej.jpg',
-    'kursy': '23-taro-veer.jpg', 'gekata': '20-svechi-plamya.jpg',
-    'runy': '13-ogonyok-v-ladoni.jpg', 'besy': '15-lico-iz-dyma.jpg',
-    'nastavnichestvo': '22-svechi-oreol.jpg', 'taro': '01-raspoklad.jpg',
-    'oberegi': '05-svecha-fazy-luny.jpg', 'nechist': '16-luna-utyos.jpg',
-    'zhurnal': '24-taro-stena.jpg', 'vopros': '18-luna-okno.jpg',
-    'kontakty': '17-luna-tyanetsya.jpg', 'praktika': '27-krug-svechej-taro.jpg',
-    'put': '03-tyomnoe-zerkalo.jpg', 'kolodа': '04-tasuet-kolodu.jpg',
+    # карточки курсов: разные планы, портрет крупно только один
+    'k-gekata': '16-luna-utyos.jpg', 'k-runy': '17-luna-tyanetsya.jpg',
+    'k-besy': '08-chyornoe-zerkalo.jpg', 'k-nastav': '11-renessans-portret.jpg',
+    'k-taro': '27-krug-svechej-taro.jpg', 'k-oberegi': '18-luna-okno.jpg',
+    # шапки страниц
+    'h-glavnaya': '06-oblozhka.jpg', 'h-kursy': '14-krug-svechej.jpg',
+    'h-shkola': '12-luna-nad-vodoj.jpg', 'h-taro': '26-svecha-taro.jpg',
+    'h-zhurnal': '24-taro-stena.jpg', 'h-oberegi': '22-svechi-oreol.jpg',
+    'h-nechist': '09-voron.jpg', 'h-vopros': '19-svechi-karta.jpg',
+    'h-kontakty': '20-svechi-plamya.jpg', 'h-irina': '21-svechi-oglyanulas.jpg',
+    # карточки разделов в журнале
+    'z-oberegi': '05-svecha-fazy-luny.jpg', 'z-nechist': '15-lico-iz-dyma.jpg',
 }
 PORTRET = {
-    'irina': '11-renessans-portret.jpg', 'irina-2': '02-karta-u-lica.jpg',
-    'irina-3': '21-svechi-oglyanulas.jpg', 'shar': '10-hrustalnyj-shar.jpg',
-    'levitaciya': '25-taro-levitaciya.jpg', 'zerkalo': '08-chyornoe-zerkalo.jpg',
-    'svecha-karta': '19-svechi-karta.jpg', 'oreol': '28-oreol-taro.jpg',
+    'p-glavnaya': '10-hrustalnyj-shar.jpg', 'p-irina1': '02-karta-u-lica.jpg',
+    'p-irina2': '13-ogonyok-v-ladoni.jpg', 'p-shkola': '04-tasuet-kolodu.jpg',
+    'p-taro': '25-taro-levitaciya.jpg',
 }
 for name, src in WIDE.items():
     im = Image.open(os.path.join(OBR, src)).convert('RGB')

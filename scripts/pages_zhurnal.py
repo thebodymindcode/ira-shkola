@@ -137,7 +137,7 @@ def zhurnal(articles):
     ob = [a for a in articles if a['kind'] == 'oberegi']
     ne = [a for a in articles if a['kind'] == 'nechist']
     body = f"""
-{hero('images/obrazy/zhurnal.jpg', 'Журнал', 'Разборы Ирины Волковой',
+{hero('images/obrazy/h-zhurnal.jpg', 'Журнал', 'Разборы Ирины Волковой',
       'Двадцать семь разборов о домашних оберегах и о нечистой силе славянской деревни. '
       'Всё собрано по записям этнографов и деревенским быличкам.', KNOPKI_TG)}
 
@@ -146,11 +146,11 @@ def zhurnal(articles):
 <h2>Куда смотреть</h2>
 <div class="grid2">
 <a class="kadr" href="{u('oberegi/')}">
-<div class="ph"><img src="{u('images/obrazy/oberegi.jpg')}" alt="Обереги дома" loading="lazy"></div>
+<div class="ph"><img src="{u('images/obrazy/z-oberegi.jpg')}" alt="Обереги дома" loading="lazy"></div>
 <div class="body"><h3>Обереги дома</h3><p>{T('Семь разборов: соль, нож, красный угол, крапива '
  'у порога, громничная свеча, отливка воском, оберег в люльку.')}</p></div></a>
 <a class="kadr" href="{u('nechist/')}">
-<div class="ph"><img src="{u('images/obrazy/nechist.jpg')}" alt="Нечисть" loading="lazy"></div>
+<div class="ph"><img src="{u('images/obrazy/z-nechist.jpg')}" alt="Нечисть" loading="lazy"></div>
 <div class="body"><h3>Нечисть</h3><p>{T('Двадцать разборов: домовой, леший, водяной, банник, '
  'полудница, мара, упырь и другие жители народной веры.')}</p></div></a>
 </div>
@@ -184,7 +184,7 @@ def razdel(kind, articles):
     arts = [a for a in articles if a['kind'] == kind]
     if kind == 'oberegi':
         title, h1 = 'Обереги дома', 'Обереги славянского дома'
-        eyebrow, img = 'Раздел журнала', 'oberegi'
+        eyebrow, img = 'Раздел журнала', 'h-oberegi'
         lid = ('Нож на ночь, красный угол, крапива у порога, громничная свеча. Семь разборов '
                'о том, чем деревня держала дом и откуда эти правила взялись.')
         vvod = [
@@ -199,7 +199,7 @@ def razdel(kind, articles):
         kurs = ('kursy/besy/', 'Курс по славянской демонологии')
     else:
         title, h1 = 'Нечисть', 'Нечистая сила славянской деревни'
-        eyebrow, img = 'Раздел журнала', 'nechist'
+        eyebrow, img = 'Раздел журнала', 'h-nechist'
         lid = ('Домовой, леший, водяной, банник, полудница, мара, упырь. Двадцать разборов '
                'о тех, кого деревня считала соседями по двору, лесу и воде.')
         vvod = [
@@ -242,4 +242,4 @@ def razdel(kind, articles):
 """
     page(f'{kind}/' if kind == 'oberegi' else 'nechist/',
          title + ': разборы по источникам', lid[:180], body, active='zhurnal/',
-         og=f'images/og/{img}.jpg', crumbs=[HOME, ('Журнал', 'zhurnal/'), (title, None)])
+         og=f'images/og/{"oberegi" if kind == "oberegi" else "nechist"}.jpg', crumbs=[HOME, ('Журнал', 'zhurnal/'), (title, None)])

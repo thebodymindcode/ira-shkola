@@ -60,7 +60,7 @@ def shkola():
     pl = ''.join(f'<li>{ico(i)}<span>{T(t)}</span></li>' for i, t in pravila)
 
     body = f"""
-{hero('images/obrazy/shkola.jpg', 'Школа', 'Как здесь учат',
+{hero('images/obrazy/h-shkola.jpg', 'Школа', 'Как здесь учат',
       'Обучение идёт в закрытых телеграм-каналах: тема, источники, задание, разбор работы. '
       'Ступени можно проходить подряд, а можно взять одно направление и остаться в нём.', KNOPKI_TG)}
 
@@ -94,7 +94,7 @@ def shkola():
       'на Гекату, если человек уже практиковал обряды и хочет собрать их в систему.')}</p>
 <div class="knopki"><a class="btn btn-ghost" href="{u('kursy/')}">Смотреть все курсы</a></div>
 </div>
-<div class="ph"><img src="{u('images/obrazy/put.jpg')}" alt="" loading="lazy"></div>
+<div class="ph"><img src="{u('images/obrazy/p-shkola.jpg')}" alt="" loading="lazy"></div>
 </div></div></section>
 
 {finalny('Когда ближайший набор',
@@ -110,16 +110,16 @@ def shkola():
 
 
 KURSY = [
-    dict(slug='gekata', name='Геката', ico='ogon', img='gekata',
+    dict(slug='gekata', name='Геката', ico='ogon', img='k-gekata',
          deck='Ритуальная магия и работа с богиней перекрёстков. Четыре ступени.',
          short='Самый длинный курс школы. Четыре ступени, от порядка в собственной практике до сложной обрядовой работы.'),
-    dict(slug='runy', name='Руны', ico='runa', img='runy',
+    dict(slug='runy', name='Руны', ico='runa', img='k-runy',
          deck='Старший футарк: двадцать четыре знака, имена, поставы.',
          short='Северная традиция. Знак за знаком, с именами, историей надписей и работой с поставом.'),
-    dict(slug='besy', name='Бесы', ico='glaz', img='besy',
+    dict(slug='besy', name='Бесы', ico='glaz', img='k-besy',
          deck='Славянская демонология и народная вера в нечистую силу.',
          short='Кто такие бесы в народной вере, откуда взялись рассказы про них и как деревня с ними обходилась.'),
-    dict(slug='nastavnichestvo', name='Личная работа', ico='ruka', img='nastavnichestvo',
+    dict(slug='nastavnichestvo', name='Личная работа', ico='ruka', img='k-nastav',
          deck='Наставничество один на один, разбор своей практики.',
          short='Для тех, кто уже практикует и хочет разбирать свои случаи с Ириной лично.'),
 ]
@@ -127,10 +127,10 @@ KURSY = [
 
 def kursy_katalog():
     extra = [
-        dict(slug='../taro', name='Таро', ico='karta', img='taro', path='taro/',
+        dict(slug='../taro', name='Таро', ico='karta', img='k-taro', path='taro/',
              deck='Колода как рабочий инструмент: вопрос, расклад, чтение позиций.',
              short='Чаще всего начинают отсюда: на колоде быстрее всего видно, где чтение сбивается.'),
-        dict(slug='../oberegi', name='Обереги дома', ico='dom', img='oberegi', path='oberegi/',
+        dict(slug='../oberegi', name='Обереги дома', ico='dom', img='k-oberegi', path='oberegi/',
              deck='Нож на ночь, красный угол, крапива у порога, громничная свеча.',
              short='Домашняя защита славянской деревни, разобранная по источникам. Открытый раздел журнала.'),
     ]
@@ -142,7 +142,7 @@ def kursy_katalog():
 <div class="body"><h3>{k['name']}</h3><p>{T(k['short'])}</p></div></a>""" for k in extra)
 
     body = f"""
-{hero('images/obrazy/kursy.jpg', 'Курсы', 'Курсы школы',
+{hero('images/obrazy/h-kursy.jpg', 'Курсы', 'Курсы школы',
       'Шесть направлений. Ритуальная магия, руны, демонология, таро, домашние обереги '
       'и личная работа с Ириной.', KNOPKI_TG)}
 

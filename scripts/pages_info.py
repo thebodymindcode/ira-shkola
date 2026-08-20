@@ -13,7 +13,7 @@ HOME = ('Главная', '')
 
 def ob_irine():
     body = f"""
-{hero('images/obrazy/irina-2.jpg', 'Кто ведёт школу', 'Ирина Волкова',
+{hero('images/obrazy/h-irina.jpg', 'Кто ведёт школу', 'Ирина Волкова',
       'Первая колода в одиннадцать лет, практика с двадцати трёх, первый авторский курс в 2014 году. '
       'Занятия шли в Москве, Петербурге, Израиле и Париже.', KNOPKI_TG)}
 
@@ -30,7 +30,7 @@ def ob_irine():
 <p>{T('Дальше пошли города: Москва, Петербург, Израиль, Париж. Везде одно и то же: группа, стол, '
       'колода, работа руками.')}</p>
 </div>
-<aside class="side"><div class="cifra">2014</div>
+<aside class="side"><div class="ph" style="aspect-ratio:3/4;border-radius:12px;overflow:hidden;margin-bottom:16px"><img src="{u('images/obrazy/p-irina1.jpg')}" alt="Ирина Волкова" loading="lazy" style="width:100%;height:100%;object-fit:cover"></div><div class="cifra">2014</div>
 <p>{T('Год первого авторского курса. С него у Ирины началось преподавание, '
       'а до того шла только частная практика.')}</p></aside></div>
 </div></section>
@@ -60,7 +60,7 @@ def ob_irine():
       'Через неё проходят чужие тяжёлые истории, и она остаётся собой. Сама Ирина считает это главным '
       'своим умением, важнее любой техники.')}</p>
 </div>
-<div class="ph"><img src="{u('images/obrazy/irina-3.jpg')}" alt="Ирина Волкова" loading="lazy"></div>
+<div class="ph"><img src="{u('images/obrazy/p-irina2.jpg')}" alt="Ирина Волкова" loading="lazy"></div>
 </div></div></section>
 
 <section><div class="wrap">
@@ -108,7 +108,7 @@ def ob_irine():
 
 def vopros_otvet():
     body = f"""
-{hero('images/obrazy/vopros.jpg', 'Вопросы', 'Вопросы о школе',
+{hero('images/obrazy/h-vopros.jpg', 'Вопросы', 'Вопросы о школе',
       'Что спрашивают перед тем, как пойти учиться: с чего начать, нужен ли особый дар, '
       'как идут потоки и чем школа занимается.', KNOPKI_TG)}
 
@@ -187,7 +187,7 @@ def vopros_otvet():
 
 def kontakty():
     body = f"""
-{hero('images/obrazy/kontakty.jpg', 'Связь', 'Как связаться',
+{hero('images/obrazy/h-kontakty.jpg', 'Связь', 'Как связаться',
       'Все вопросы про обучение, ступени и наборы Ирина разбирает в телеграме. Там же выходят '
       'разборы и объявления о потоках.')}
 

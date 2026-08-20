@@ -71,7 +71,7 @@ def kadr_card(a):
 
 def gekata():
     body = f"""
-{hero('images/obrazy/gekata.jpg', 'Курс, четыре ступени', 'Геката: ритуальная магия',
+{hero('images/obrazy/k-gekata.jpg', 'Курс, четыре ступени', 'Геката: ритуальная магия',
       'Самый длинный курс школы. Работа с богиней перекрёстков, ключей и факелов, '
       'собранная в четыре ступени.', KNOPKI_TG)}
 
@@ -157,7 +157,7 @@ def gekata():
 
 def runy():
     body = f"""
-{hero('images/obrazy/runy.jpg', 'Курс', 'Руны: старший футарк',
+{hero('images/obrazy/k-runy.jpg', 'Курс', 'Руны: старший футарк',
       'Двадцать четыре знака северной традиции. Имя, история, значение и работа с поставом.',
       KNOPKI_TG)}
 
@@ -238,7 +238,7 @@ def besy(articles):
              ('08-chort-u-bolota', '09-liho', '12-mara', '13-nochnica', '16-upyr', '14-volkolak')]
     cards = ''.join(kadr_card(a) for a in svyaz[:6])
     body = f"""
-{hero('images/obrazy/besy.jpg', 'Курс', 'Бесы: славянская демонология',
+{hero('images/obrazy/k-besy.jpg', 'Курс', 'Бесы: славянская демонология',
       'Кто такие бесы в народной вере, откуда взялись рассказы о них и по каким правилам '
       'с ними обходилась деревня.', KNOPKI_TG)}
 
@@ -308,7 +308,7 @@ def besy(articles):
 
 def nastavnichestvo():
     body = f"""
-{hero('images/obrazy/nastavnichestvo.jpg', 'Личная работа', 'Наставничество с Ириной',
+{hero('images/obrazy/k-nastav.jpg', 'Личная работа', 'Наставничество с Ириной',
       'Работа один на один для тех, кто уже практикует: разбор своих случаев, своей логики '
       'и своих ошибок.', KNOPKI_TG)}
 
@@ -378,7 +378,7 @@ def nastavnichestvo():
 
 def taro():
     body = f"""
-{hero('images/obrazy/taro.jpg', 'Направление', 'Таро: чтение колоды',
+{hero('images/obrazy/h-taro.jpg', 'Направление', 'Таро: чтение колоды',
       'Семьдесят восемь карт как рабочий инструмент. Вопрос, расклад, позиции и честное чтение '
       'того, что выпало.', KNOPKI_TG)}
 
@@ -427,7 +427,7 @@ def taro():
 <p>{T('Второму учат отдельно: вовремя остановиться. Колода отвечает не на всё, и умение сказать, '
       'что ответа тут нет, ценится выше красивой трактовки.')}</p>
 </div>
-<div class="ph"><img src="{u('images/obrazy/levitaciya.jpg')}" alt="" loading="lazy"></div>
+<div class="ph"><img src="{u('images/obrazy/p-taro.jpg')}" alt="" loading="lazy"></div>
 </div></div></section>
 
 <section><div class="wrap">

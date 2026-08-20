@@ -50,7 +50,7 @@ def glavnaya(articles):
 <h3>{a['name']}</h3><p>{T(a['anons'])}</p></div></a>""" for a in articles)
 
     body = f"""
-{hero('images/obrazy/glavnaya.jpg', 'Таро, ритуальная магия, руны, обереги',
+{hero('images/obrazy/h-glavnaya.jpg', 'Таро, ритуальная магия, руны, обереги',
       'Школа магии и таро Ирины Волковой',
       'Первая колода попала ей в руки в одиннадцать лет, в практике она с двадцати трёх. '
       'Занятия шли в Москве, Петербурге, Израиле и Париже. Здесь учат ремеслу: раскладу, обряду, '
@@ -101,7 +101,7 @@ def glavnaya(articles):
 <p>{T('График у неё построен по лунным циклам, и потоки школы собираются по тому же кругу.')}</p>
 <div class="knopki"><a class="btn btn-ghost" href="{u('ob-irine/')}">Читать про Ирину</a></div>
 </div>
-<div class="ph"><img src="{u('images/obrazy/irina.jpg')}" alt="Ирина Волкова" loading="lazy"></div>
+<div class="ph"><img src="{u('images/obrazy/p-glavnaya.jpg')}" alt="Ирина Волкова" loading="lazy"></div>
 </div></div></section>
 
 <section><div class="wrap">
