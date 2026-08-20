@@ -30,7 +30,7 @@ for f in sorted(os.listdir('images/zhurnal')):
 # карточки и шапки курсов идут из сгенерированных сцен в _generacii (Runway, 20.08.2026)
 SCENY = {
     'k-gekata': 'k-gekata.png', 'k-runy': 'k-runy.png', 'k-besy': 'k-besy.png',
-    'k-nastav': 'k-nastav.png', 'k-taro': 'k-taro.png', 'k-oberegi': 'k-oberegi2.png',
+    'k-nastav': 'k-nastav.png', 'k-taro': 'k-taro.png', 'k-oberegi': 'k-oberegi3.png',
 }
 STATI_SCENY = {'01-leshy': 'leshy-v3.png', '03-vodyanoy': 'vodyanoy-nb.png'}
 
