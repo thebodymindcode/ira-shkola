@@ -227,7 +227,7 @@ def kontakty():
 <a class="plashka" href="{u('shkola/')}">{ico('kniga')} Как устроено обучение</a>
 <a class="plashka" href="{u('kursy/')}">{ico('ogon')} Все курсы</a>
 <a class="plashka" href="{u('vopros-otvet/')}">{ico('glaz')} Вопросы о школе</a>
-<a class="plashka" href="{u('zhurnal/')}">{ico('karta')} Журнал разборов</a>
+<a class="plashka" href="{u('zhurnal/')}">{ico('karta')} Ведьмин дневник</a>
 <a class="plashka" href="{u('ob-irine/')}">{ico('ruka')} Об Ирине</a>
 </div>
 </div></section>
@@ -281,7 +281,7 @@ def ne_nashlos():
 <a class="plashka" href="{u('')}">{ico('dom')} Главная</a>
 <a class="plashka" href="{u('kursy/')}">{ico('ogon')} Курсы</a>
 <a class="plashka" href="{u('taro/')}">{ico('karta')} Таро</a>
-<a class="plashka" href="{u('zhurnal/')}">{ico('kniga')} Журнал разборов</a>
+<a class="plashka" href="{u('zhurnal/')}">{ico('kniga')} Ведьмин дневник</a>
 <a class="plashka" href="{u('ob-irine/')}">{ico('ruka')} Об Ирине</a>
 <a class="plashka" href="{u('kontakty/')}">{ico('tg')} Контакты</a>
 </div></div></section>

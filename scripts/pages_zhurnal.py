@@ -184,7 +184,7 @@ def statya(a, sosedi, sosed_prev, sosed_next):
 <div class="grid3">{dalshe}</div>
 <div class="plashki" style="margin-top:24px">
 <a class="plashka" href="{u(kurs[0])}">{ico('strela')} {kurs[1]}</a>
-<a class="plashka" href="{u('zhurnal/')}">{ico('kniga')} Весь журнал</a>
+<a class="plashka" href="{u('zhurnal/')}">{ico('kniga')} Весь дневник</a>
 </div>
 </div></section>
 
@@ -193,7 +193,7 @@ def statya(a, sosedi, sosed_prev, sosed_next):
     page(f'zhurnal/{a["url"]}/', f'{a["name"]}: {a["deck"][:70].rstrip(",. ")}',
          a['deck'][:180], body, active='zhurnal/',
          og=f'images/og/st-{a["slug"]}.jpg',
-         crumbs=[HOME, ('Журнал', 'zhurnal/'), (razdel_name, razdel_path), (a['name'], None)],
+         crumbs=[HOME, ('Ведьмин дневник', 'zhurnal/'), (razdel_name, razdel_path), (a['name'], None)],
          schema=f'<script type="application/ld+json">{schema}</script>')
 
 
@@ -201,7 +201,7 @@ def zhurnal(articles):
     ob = [a for a in articles if a['kind'] == 'oberegi']
     ne = [a for a in articles if a['kind'] == 'nechist']
     body = f"""
-{hero('images/obrazy/h-zhurnal.jpg', 'Журнал', 'Разборы Ирины Волковой',
+{hero('images/obrazy/h-zhurnal.jpg', 'Ведьмин дневник', 'Разборы Ирины Волковой',
       'Двадцать семь разборов о домашних оберегах и о нечистой силе славянской деревни. '
       'Всё собрано по записям этнографов и деревенским быличкам.', KNOPKI_TG)}
 
@@ -239,10 +239,10 @@ def zhurnal(articles):
          vtoraya=('shkola/', 'Как учат в школе'), knopka='Читать канал',
          side=('Раз в несколько дней', 'С такой частотой в канале школы выходит новый разбор.'))}
 """
-    page('zhurnal/', 'Журнал: разборы про обереги и нечистую силу',
+    page('zhurnal/', 'Ведьмин дневник: разборы про обереги и нечистую силу',
          'Двадцать семь разборов Ирины Волковой о домашних оберегах и нечистой силе славянской '
          'деревни, собранных по источникам.', body, active='zhurnal/',
-         og='images/og/zhurnal.jpg', crumbs=[HOME, ('Журнал', None)])
+         og='images/og/zhurnal.jpg', crumbs=[HOME, ('Ведьмин дневник', None)])
 
 
 SIDE_RAZDELA = {
@@ -320,4 +320,4 @@ def razdel(kind, articles):
 """
     page(f'{kind}/' if kind == 'oberegi' else 'nechist/',
          title + ': разборы по источникам', lid[:180], body, active='zhurnal/',
-         og=f'images/og/{"oberegi" if kind == "oberegi" else "nechist"}.jpg', crumbs=[HOME, ('Журнал', 'zhurnal/'), (title, None)])
+         og=f'images/og/{"oberegi" if kind == "oberegi" else "nechist"}.jpg', crumbs=[HOME, ('Ведьмин дневник', 'zhurnal/'), (title, None)])

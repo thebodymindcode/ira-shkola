@@ -105,12 +105,12 @@ def glavnaya(articles):
 </div></div></section>
 
 <section><div class="wrap">
-<p class="eyebrow">Журнал</p>
+<p class="eyebrow">Ведьмин дневник</p>
 <h2>Разборы, которые читают чаще всего</h2>
 <p class="lid">{T('Двадцать семь разборов о домашних оберегах и о нечистой силе славянской деревни. '
                   'Каждый собран по записям этнографов, с указанием, кто и где это записал.')}</p>
 <div class="grid3">{svezhie}</div>
-<div class="knopki"><a class="btn btn-ghost" href="{u('zhurnal/')}">Весь журнал</a></div>
+<div class="knopki"><a class="btn btn-ghost" href="{u('zhurnal/')}">Весь дневник</a></div>
 </div></section>
 
 <section><div class="wrap"><div class="final">
