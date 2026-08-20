@@ -378,7 +378,7 @@ def taro():
     body = f"""
 {hero('images/obrazy/h-taro.jpg', 'Направление', 'Таро: чтение колоды',
       'Семьдесят восемь карт как рабочий инструмент. Вопрос, расклад, позиции и честное чтение '
-      'того, что выпало.', KNOPKI_TG, portret='images/obrazy/p-taro.jpg')}
+      'того, что выпало.', KNOPKI_TG)}
 
 <section><div class="wrap">
 <p class="eyebrow">Про колоду</p>

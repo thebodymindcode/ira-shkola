@@ -1,10 +1,40 @@
 # -*- coding: utf-8 -*-
 """Готовит картинки сайта: кадры статей 16:9 и образы Иры под страницы."""
-from PIL import Image
+from PIL import Image, ImageFilter, ImageDraw
 import os, shutil
 
 OBR = os.path.expanduser('~/Instagram-Irina-Volkova/ФОТО-ОБРАЗЫ-ТАРО')
 os.makedirs('images/obrazy', exist_ok=True)
+
+def polosa_portreta(src_path, out, dolya=0.72, verh=0.0, zapas=0.07):
+    """Полоса шапки: портрет целиком справа на размытой подложке.
+    Так лицо не режется ни сверху, ни сбоку, а слева остаётся место под текст."""
+    W, H = 2400, 1000
+    im = Image.open(src_path).convert('RGB')
+    Wi, Hi = im.size
+    th = int(Hi * dolya)
+    top = int(Hi * verh)
+    kadr = im.crop((0, top, Wi, min(Hi, top + th)))
+    hp = int(H * (1 - zapas))
+    k = hp / kadr.size[1]
+    kadr = kadr.resize((int(kadr.size[0] * k), hp), Image.LANCZOS)
+    fon = im.crop((0, top, Wi, min(Hi, top + th))).resize((W, H), Image.LANCZOS)
+    fon = fon.filter(ImageFilter.GaussianBlur(40))
+    fon = Image.blend(fon, Image.new('RGB', (W, H), (14, 12, 17)), 0.74)
+    x = W - kadr.size[0] - int(W * 0.02)
+    y = H - hp
+    maska = Image.new('L', (kadr.size[0], hp), 255)
+    d = ImageDraw.Draw(maska)
+    for i in range(280):
+        d.line([(i, 0), (i, hp)], fill=int(255 * i / 280))
+    verh_maska = Image.new('L', (kadr.size[0], hp), 255)
+    dv = ImageDraw.Draw(verh_maska)
+    for j in range(150):
+        dv.line([(0, j), (kadr.size[0], j)], fill=int(255 * j / 150))
+    maska = Image.composite(maska, Image.new('L', maska.size, 0), verh_maska)
+    fon.paste(kadr, (x, y), maska)
+    fon.save(out, quality=86, optimize=True)
+
 
 def centr_lica(im):
     """Ищет вертикальный центр кожи: по нему кадрируем, чтобы лицо не резалось.
@@ -108,8 +138,14 @@ for name, src in SCENY_SHAPOK.items():
 
 # для карточек с портретом доля подобрана глазами: автопоиск ловит руки и грудь
 RUCHNOJ_SREZ = {'z-nechist': 0.18, 'z-oberegi': 0.06}
-SREZ_SHAPOK = {'h-glavnaya': 0.06, 'h-irina': 0.06, 'h-taro': 0.32,
-               'h-zhurnal': 0.32, 'h-shkola': 0.02, 'h-kontakty': 0.13}
+SREZ_SHAPOK = {
+    'h-glavnaya': dict(dolya=0.72, verh=0.0),
+    'h-irina': dict(dolya=0.70, verh=0.02),
+    'h-taro': dict(dolya=0.78, verh=0.04),
+    'h-zhurnal': dict(dolya=0.74, verh=0.02),
+    'h-shkola': dict(dolya=0.96, verh=0.0, zapas=0.04),
+    'h-kontakty': dict(dolya=0.80, verh=0.06),
+}
 
 for name, src in WIDE.items():
     if name in SCENY_SHAPOK:
@@ -127,11 +163,8 @@ for name, src in WIDE.items():
     # 2.4:1 это пропорция полосы шапки. Для портретов доля подобрана глазами,
     # автопоиск ловит руки и грудь и режет лицо.
     if name in SREZ_SHAPOK:
-        W0, H0 = im.size
-        th = int(W0 / 2.4)
-        top = int(H0 * SREZ_SHAPOK[name])
-        im.crop((0, top, W0, min(H0, top + th))).resize((2400, 1000), Image.LANCZOS).save(
-            f'images/obrazy/{name}.jpg', quality=84, optimize=True)
+        polosa_portreta(os.path.join(OBR, src), f'images/obrazy/{name}.jpg',
+                        **SREZ_SHAPOK[name])
         n += 1
         continue
     lico = centr_lica(im)
