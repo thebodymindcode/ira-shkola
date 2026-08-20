@@ -462,6 +462,8 @@ section > .wrap{position:relative}
 /* ---------- мобильное ---------- */
 @media(max-width:1000px){
   .split{flex-direction:column;gap:26px}
+  /* на телефоне кадр идёт первым: иначе человек листает экран текста, прежде чем увидит фото */
+  .split>.stolb,.split>.ph{order:-1}
   .split .ph,.split .stolb{width:100%!important;max-width:100%!important;min-width:0}
   .split .ph.plyvet{position:static}
   .split .ph{height:auto!important;min-height:0;position:relative}
@@ -491,6 +493,36 @@ section > .wrap{position:relative}
   .knopki .btn::after{right:9px}
   .art .vrez{font-size:20px}
 }
+/* ---------- разрядка у крупных чисел ---------- */
+/* В Prata пробел узкий, поэтому «6 направлений» читается как «6направлений». */
+.nail b,.side .cifra,.dobivka b,.fside b,.cifra-big,.stat b,.kviz-nomer{word-spacing:.2em}
+
+/* ---------- сетка без дыр ---------- */
+/* Одинокая карточка в последнем ряду разворачивается лентой во всю ширину,
+   пара занимает ряд без пустой ячейки. */
+.grid3>a.kadr:last-child:nth-child(3n+1){grid-column:1 / -1;display:grid;
+  grid-template-columns:minmax(0,.46fr) minmax(0,1fr);align-items:stretch}
+.grid3>a.kadr:last-child:nth-child(3n+1) .ph{aspect-ratio:auto!important;height:100%}
+.grid3>a.kadr:last-child:nth-child(3n+1) .body{display:flex;flex-direction:column;
+  justify-content:center;padding:30px 34px}
+.grid3>a.kadr:last-child:nth-child(3n+1) h3{font-size:clamp(24px,2.4vw,32px)}
+.grid3>a.kadr:last-child:nth-child(3n+2){grid-column:span 2}
+@media(max-width:860px){
+  .grid3>a.kadr:last-child:nth-child(3n+1){grid-template-columns:1fr}
+  .grid3>a.kadr:last-child:nth-child(3n+1) .ph{aspect-ratio:16/9!important;height:auto}
+  .grid3>a.kadr:last-child:nth-child(3n+2){grid-column:auto}
+}
+
+/* ---------- карточка направления с кадром ---------- */
+.card.s-foto{padding:0;overflow:hidden}
+.card.s-foto .ph{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border:0;border-radius:0}
+.card.s-foto .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.card.s-foto .ph::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(14,12,17,0) 45%,rgba(14,12,17,.78) 100%)}
+.card.s-foto .tel{display:flex;flex-direction:column;flex:1 1 auto;padding:24px 26px 26px}
+.card.s-foto .tel>svg{color:var(--zoloto);margin:-46px 0 14px;position:relative;z-index:2}
+@media(hover:hover){.card.s-foto:hover .ph img{transform:scale(1.04);transition:transform .5s ease}}
+.card.s-foto .ph img{transition:transform .5s ease}
 """
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'

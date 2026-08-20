@@ -118,6 +118,7 @@ for f in sorted(os.listdir('images/zhurnal')):
 # 3. образы под страницы: широкий (16:9) и портретный (3:4)
 # карточки и шапки курсов идут из сгенерированных сцен в _generacii (Runway, 20.08.2026)
 SCENY = {
+    'z-oberegi': 'b-oberegi.png', 'z-nechist': 'b-nechist.png',
     'k-gekata': 'b-gekata.png', 'k-runy': 'b-runy.png', 'k-besy': 'b-besy.png',
     'k-nastav': 'b-nastav.png', 'k-taro': 'b-taro.png', 'k-oberegi': 'b-oberegi.png',
 }
@@ -134,10 +135,10 @@ WIDE = {
     'h-glavnaya': '14-krug-svechej.jpg', 'h-kursy': '14-krug-svechej.jpg',
     'h-shkola': '12-luna-nad-vodoj.jpg', 'h-taro': '26-svecha-taro.jpg',
     'h-zhurnal': '24-taro-stena.jpg', 'h-oberegi': '05-svecha-fazy-luny.jpg',
-    'h-nechist': '15-lico-iz-dyma.jpg', 'h-vopros': '19-svechi-karta.jpg',
+    'h-nechist': '15-lico-iz-dyma.jpg', 'h-luna': '17-luna-tyanetsya.jpg',
+    'h-karty': '23-taro-veer.jpg', 'h-vopros': '19-svechi-karta.jpg',
     'h-kontakty': '20-svechi-plamya.jpg', 'h-irina': '21-svechi-oglyanulas.jpg',
     # карточки разделов в журнале
-    'z-oberegi': '05-svecha-fazy-luny.jpg', 'z-nechist': '09-voron.jpg',
 }
 PORTRET = {
     'p-glavnaya': '10-hrustalnyj-shar.jpg', 'p-irina1': '02-karta-u-lica.jpg',
@@ -177,7 +178,7 @@ SREZ_SHAPOK = {
     'h-kontakty': dict(dolya=0.80, verh=0.06),
 }
 
-ZELIKOM = {'z-oberegi', 'z-nechist'}
+ZELIKOM = set()
 for name, src in WIDE.items():
     if name in SCENY_SHAPOK:
         continue
