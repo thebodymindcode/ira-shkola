@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://thebodymindcode.github.io/ira-shkola/sitemap.xml

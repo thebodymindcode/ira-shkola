@@ -1,0 +1,99 @@
+# -*- coding: utf-8 -*-
+"""Каркас страницы: head, шапка, подвал, крошки."""
+import os, sys
+sys.path.insert(0, os.path.dirname(__file__))
+from engine import BASE, VERSION, DOMAIN, TITLE_SITE, TG, IG, MENU, FOOTER_LINKS, ico, typo
+from theme import CSS, FONTS
+
+INDEXING = True   # единственный выключатель индексации на весь сайт
+
+def u(path=''):
+    return BASE + path
+
+def shapka(active):
+    nav = ''.join(f'<a href="{u(p)}" class="{"on" if p == active else ""}">{n}</a>'
+                  for n, p in MENU)
+    mob = ''.join(f'<a href="{u(p)}">{n}</a>' for n, p in MENU)
+    return f"""<header class="shapka"><div class="in">
+<a class="znak" href="{u()}">{ico('klyuch')}<span>Школа Ирины&nbsp;Волковой</span></a>
+<nav class="nav">{nav}</nav>
+<button class="burger" id="burger" aria-label="Меню" aria-expanded="false">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div><div class="mob" id="mobmenu">{mob}</div></header>"""
+
+def podval():
+    links = ''.join(f'<a class="plashka" href="{u(p)}">{n}</a>' for n, p in FOOTER_LINKS)
+    return f"""<footer class="podval"><div class="wrap">
+<div class="kol">
+<div>
+<h4>Школа</h4>
+<p>Ирина Волкова учит таро, ритуальной магии, рунам и домашним оберегам. Обучение идёт в закрытых
+телеграм-каналах, поток за потоком, с разбором работ.</p>
+<div class="soc">
+<a class="plashka" href="{TG}" rel="noopener" target="_blank">{ico('tg')} Telegram</a>
+<a class="plashka" href="{IG}" rel="noopener" target="_blank">{ico('ig')} Instagram</a>
+</div>
+</div>
+<div>
+<h4>Разделы</h4>
+<div class="plashki">{links}</div>
+</div>
+</div>
+<div class="niz">
+<span>© Ирина Волкова, {2026}. Материалы сайта носят культурно-исторический и обучающий характер.</span>
+<a href="{u('politika/')}">Политика конфиденциальности</a>
+</div>
+</div></footer>"""
+
+def kroshki(items):
+    """items: [(name, path), ...] без последнего звена-ссылки."""
+    if not items:
+        return ''
+    out = []
+    for i, (n, p) in enumerate(items):
+        if p is None:
+            out.append(f'<span class="tihiy">{n}</span>')
+        else:
+            out.append(f'<a href="{u(p)}">{n}</a>')
+    return '<div class="wrap"><div class="kroshki">' + '<span>/</span>'.join(out) + '</div></div>'
+
+def page(path, title, descr, body, active='', og='obrazy/glavnaya.jpg', crumbs=None, schema=''):
+    """Собирает и пишет html. path: '' | 'kursy/' | 'zhurnal/domovoy/'."""
+    canon = DOMAIN + '/' + path
+    robots = '' if INDEXING else '<meta name="robots" content="noindex,nofollow">'
+    full = f'{title} | {TITLE_SITE}' if path else title
+    html = f"""<!doctype html><html lang="ru"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>{full}</title>
+<meta name="description" content="{descr}">
+<link rel="canonical" href="{canon}">{robots}
+<meta property="og:type" content="website">
+<meta property="og:title" content="{full}">
+<meta property="og:description" content="{descr}">
+<meta property="og:url" content="{canon}">
+<meta property="og:image" content="{DOMAIN}/{og}?v={VERSION}">
+<meta property="og:site_name" content="{TITLE_SITE}">
+<meta name="theme-color" content="#0E0C11">
+{FONTS}
+<link rel="stylesheet" href="{u('site.css')}?v={VERSION}">
+{schema}
+</head><body>
+{shapka(active)}
+{kroshki(crumbs) if crumbs else ''}
+<main>{body}</main>
+{podval()}
+<script src="{u('site.js')}?v={VERSION}" defer></script>
+</body></html>"""
+    out = os.path.join(path, 'index.html') if path else 'index.html'
+    os.makedirs(os.path.dirname(out) or '.', exist_ok=True)
+    open(out, 'w', encoding='utf-8').write(html)
+    return out
+
+JS = """document.addEventListener('DOMContentLoaded',function(){
+var b=document.getElementById('burger'),m=document.getElementById('mobmenu');
+if(b&&m){b.addEventListener('click',function(){var o=m.classList.toggle('open');
+b.setAttribute('aria-expanded',o?'true':'false');});
+m.addEventListener('click',function(e){if(e.target.tagName==='A'){m.classList.remove('open');
+b.setAttribute('aria-expanded','false');}});}
+});"""
