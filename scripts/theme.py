@@ -59,7 +59,7 @@ svg.big{width:34px;height:34px}
 .mob a{display:block;padding:15px 24px;border-bottom:1px solid var(--line);
   font-family:var(--anons);font-size:19px;letter-spacing:.5px}
 .mob a.on{color:var(--zoloto-svet)}
-@media(max-width:980px){.nav{display:none}.burger{display:flex}}
+@media(max-width:1120px){.nav{display:none}.burger{display:flex}}
 @media(hover:hover){.nav a:hover{color:var(--zoloto-svet)}}
 
 /* ---------- мега-меню ---------- */
@@ -83,7 +83,7 @@ svg.big{width:34px;height:34px}
   .hasmega:hover>a svg{transform:rotate(180deg)}
   .mk:hover{border-color:rgba(201,162,39,.45);background:rgba(201,162,39,.05)}
 }
-@media(max-width:980px){.mega{display:none!important}}
+@media(max-width:1120px){.mega{display:none!important}}
 .mob a.sub{padding:11px 24px 11px 44px;font-size:16.5px;color:#B9B1A5;border-bottom:1px solid rgba(232,226,217,.07)}
 
 /* ---------- кнопки ---------- */
@@ -260,6 +260,20 @@ svg.big{width:34px;height:34px}
   .byline b{font-size:13.5px}
   .korotko,.toc summary{padding-left:20px;padding-right:20px}
 }
+
+/* ---------- справочник арканов ---------- */
+.ark-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px;margin-top:34px}
+.ark-k{display:block;transition:transform .18s}
+.ark-k svg.ark{width:100%;height:auto;display:block;border-radius:14px}
+@media(hover:hover){.ark-k:hover{transform:translateY(-4px)}
+  .ark-k:hover svg.ark rect:first-of-type{stroke:var(--zoloto-svet)}}
+.ark-verh{display:grid;grid-template-columns:220px minmax(0,1fr);gap:44px;align-items:center}
+.ark-foto svg.ark{width:100%;height:auto;display:block}
+.ark-txt h1{margin-top:4px}
+@media(max-width:1000px){.ark-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .ark-verh{grid-template-columns:1fr!important;gap:24px}
+  .ark-foto{max-width:190px}}
+@media(max-width:640px){.ark-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px}}
 
 /* ---------- инфографика ---------- */
 .shema{margin:36px 0 0;padding:26px 24px 20px;background:var(--sloy);border:1px solid var(--line);

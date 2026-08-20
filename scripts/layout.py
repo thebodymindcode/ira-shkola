@@ -19,6 +19,15 @@ MEGA_KURSY = [
     ('kursy/nastavnichestvo/', 'Личная работа', 'Один на один с Ириной', 'images/obrazy/k-nastav.jpg'),
 ]
 
+MEGA_TARO = [
+    ('taro/', 'Курс по таро', 'Вопрос, расклад, чтение связок', 'images/obrazy/k-taro.jpg'),
+    ('karty/', 'Значения карт', 'Справочник 22 старших арканов', 'images/obrazy/h-taro.jpg'),
+    ('karty/durak/', 'Шут', 'Аркан 0: начало без опыта', 'images/obrazy/k-gekata.jpg'),
+    ('karty/luna/', 'Луна', 'Аркан 18: морок и неясность', 'images/obrazy/h-nechist.jpg'),
+    ('karty/bashnya/', 'Башня', 'Аркан 16: внезапный слом', 'images/obrazy/k-besy.jpg'),
+    ('karty/zvezda/', 'Звезда', 'Аркан 17: надежда после бури', 'images/obrazy/k-nastav.jpg'),
+]
+
 MEGA_DNEVNIK = [
     ('oberegi/', 'Обереги дома', 'Семь разборов: порог, окно, красный угол', 'images/obrazy/z-oberegi.jpg'),
     ('nechist/', 'Нечистая сила', 'Двадцать существ народной веры', 'images/obrazy/z-nechist.jpg'),
@@ -37,7 +46,8 @@ def mega_panel(punkty):
 
 
 def shapka(active):
-    MEGA = {'kursy/': mega_panel(MEGA_KURSY), 'zhurnal/': mega_panel(MEGA_DNEVNIK)}
+    MEGA = {'kursy/': mega_panel(MEGA_KURSY), 'taro/': mega_panel(MEGA_TARO),
+            'zhurnal/': mega_panel(MEGA_DNEVNIK)}
     nav = ''
     for n, p in MENU:
         on = ' class="on"' if (active is not None and p == active) else ''
@@ -54,6 +64,8 @@ def shapka(active):
         if p == 'kursy/':
             mob += ''.join(f'<a class="sub" href="{u(pp)}">{nn}</a>'
                            for pp, nn, _, _ in MEGA_KURSY)
+        if p == 'taro/':
+            mob += f'<a class="sub" href="{u("karty/")}">Значения карт</a>'
         if p == 'zhurnal/':
             mob += ''.join(f'<a class="sub" href="{u(pp)}">{nn}</a>'
                            for pp, nn, _, _ in MEGA_DNEVNIK[:2])

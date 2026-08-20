@@ -5,7 +5,9 @@ sys.path.insert(0, 'scripts')
 from engine import BASE, VERSION, DOMAIN
 from layout import JS, INDEXING, page
 from theme import CSS
-import pages_main, pages_kursy, pages_kursy2, pages_zhurnal, pages_info
+sys.path.insert(0, 'content')
+import pages_main, pages_kursy, pages_kursy2, pages_zhurnal, pages_info, pages_karty
+from arkany import ARKANY
 
 articles = json.load(open('content/articles.json', encoding='utf-8'))
 ob = [a for a in articles if a['kind'] == 'oberegi']
@@ -33,6 +35,10 @@ pages_info.vopros_otvet()
 pages_info.kontakty()
 pages_info.politika()
 pages_info.ne_nashlos()
+pages_karty.hab()
+for i, a in enumerate(ARKANY):
+    pages_karty.stranica(a, ARKANY[i - 1] if i > 0 else None,
+                         ARKANY[i + 1] if i + 1 < len(ARKANY) else None)
 
 for i, a in enumerate(articles):
     same = [x for x in articles if x['kind'] == a['kind'] and x['slug'] != a['slug']]
@@ -45,8 +51,9 @@ for i, a in enumerate(articles):
 
 # карта сайта
 paths = ['', 'shkola/', 'kursy/', 'kursy/gekata/', 'kursy/runy/', 'kursy/besy/',
-         'kursy/nastavnichestvo/', 'taro/', 'zhurnal/', 'oberegi/', 'nechist/',
+         'kursy/nastavnichestvo/', 'taro/', 'karty/', 'zhurnal/', 'oberegi/', 'nechist/',
          'ob-irine/', 'vopros-otvet/', 'kontakty/', 'politika/'] + \
+        [f'karty/{a["slug"]}/' for a in ARKANY] + \
         [f'zhurnal/{a["url"]}/' for a in articles]
 sm = ['<?xml version="1.0" encoding="UTF-8"?>',
       '<urlset xmlns="http://www.sitemap.org/schemas/sitemap/0.9">'.replace('sitemap.org', 'sitemaps.org')]

@@ -143,3 +143,36 @@ def put_uchenika():
                      f'stroke-width="1.4" fill="none" opacity=".65"/>')
     return obertka(''.join(s), 1000, 240,
                    'Порядок один во всех направлениях: сначала источник, потом руки, потом разбор.')
+
+
+def put_duraka():
+    """Путь Дурака: нулевая карта и три ряда по семь арканов."""
+    import sys, os
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'content'))
+    from arkany import ARKANY
+    ryady = [('Мир людей', ARKANY[1:8]), ('Мир испытаний', ARKANY[8:15]),
+             ('Мир целого', ARKANY[15:22])]
+    s = []
+    # нулевая карта отдельно
+    s.append(f'<rect x="20" y="86" width="92" height="132" rx="10" fill="none" '
+             f'stroke="{Z}" stroke-width="1.6"/>')
+    s.append(f'<text x="66" y="140" text-anchor="middle" fill="{ZS}" '
+             f'style="{FS};font-size:30px">0</text>')
+    s.append(f'<text x="66" y="172" text-anchor="middle" fill="{T}" style="{FS};font-size:17px">Шут</text>')
+    s.append(f'<text x="66" y="242" text-anchor="middle" fill="{TT}" style="{F};font-size:12.5px">вне счёта</text>')
+    s.append(f'<path d="M124 152 h26 m-8 -5 l8 5 -8 5" stroke="{Z}" stroke-width="1.4" fill="none"/>')
+    for r, (nazv, ryad) in enumerate(ryady):
+        y = 30 + r * 108
+        s.append(f'<text x="168" y="{y + 14}" fill="{Z}" style="{FS};font-size:15px;'
+                 f'letter-spacing:2px">{nazv.upper()}</text>')
+        for i, a in enumerate(ryad):
+            x = 168 + i * 116
+            s.append(f'<rect x="{x}" y="{y + 24}" width="100" height="62" rx="8" fill="none" '
+                     f'stroke="{L}" stroke-width="1.2"/>')
+            s.append(f'<text x="{x + 50}" y="{y + 50}" text-anchor="middle" fill="{ZS}" '
+                     f'style="{FS};font-size:19px">{a["n"]}</text>')
+            s.append(f'<text x="{x + 50}" y="{y + 72}" text-anchor="middle" fill="{TT}" '
+                     f'style="{F};font-size:11.5px">{a["name"][:13]}</text>')
+    return obertka(''.join(s), 1000, 350,
+                   'Двадцать один аркан делится на три ряда по семь. Первый ряд про жизнь среди людей, '
+                   'второй про испытания, третий про выход к целому.')
