@@ -98,7 +98,7 @@ def shkola():
     page('shkola/', 'Как учат в школе Ирины Волковой',
          'Формат обучения: закрытые телеграм-каналы, задания после каждой темы, разбор работ, '
          'темп по лунным циклам.', body, active='shkola/',
-         og='images/obrazy/shkola.jpg', crumbs=[KR_HOME, ('Школа', None)])
+         og='images/og/shkola.jpg', crumbs=[KR_HOME, ('Школа', None)])
 
 
 KURSY = [
@@ -164,4 +164,4 @@ def kursy_katalog():
     page('kursy/', 'Курсы школы Ирины Волковой',
          'Шесть направлений: ритуальная магия Гекаты, руны, славянская демонология, таро, '
          'домашние обереги, личная работа.', body, active='kursy/',
-         og='images/obrazy/kursy.jpg', crumbs=[KR_HOME, ('Курсы', None)])
+         og='images/og/kursy.jpg', crumbs=[KR_HOME, ('Курсы', None)])

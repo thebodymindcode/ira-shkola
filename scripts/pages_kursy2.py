@@ -148,7 +148,7 @@ def gekata():
     page('kursy/gekata/', 'Геката: курс ритуальной магии',
          'Четыре ступени работы с Гекатой, богиней перекрёстков: источники, обрядовая практика, '
          'разбор работ в закрытом канале.', body, active='kursy/',
-         og='images/obrazy/gekata.jpg', crumbs=KR + [('Геката', None)])
+         og='images/og/gekata.jpg', crumbs=KR + [('Геката', None)])
 
 
 def runy():
@@ -226,7 +226,7 @@ def runy():
     page('kursy/runy/', 'Руны: курс по старшему футарку',
          'Двадцать четыре знака старшего футарка: имена, рунические поэмы, значения и работа '
          'с поставом. Обучение в закрытом канале.', body, active='kursy/',
-         og='images/obrazy/runy.jpg', crumbs=KR + [('Руны', None)])
+         og='images/og/runy.jpg', crumbs=KR + [('Руны', None)])
 
 
 def besy(articles):
@@ -295,7 +295,7 @@ def besy(articles):
     page('kursy/besy/', 'Бесы: курс славянской демонологии',
          'Народная вера в нечистую силу по записям этнографов: кто есть кто, правила обхождения, '
          'обереги против конкретной беды.', body, active='kursy/',
-         og='images/obrazy/besy.jpg', crumbs=KR + [('Бесы', None)])
+         og='images/og/besy.jpg', crumbs=KR + [('Бесы', None)])
 
 
 def nastavnichestvo():
@@ -364,7 +364,7 @@ def nastavnichestvo():
     page('kursy/nastavnichestvo/', 'Наставничество: личная работа с Ириной Волковой',
          'Разбор своей практики один на один: расклады, обряды, работа с людьми, сборка '
          'собственной системы.', body, active='kursy/',
-         og='images/obrazy/nastavnichestvo.jpg', crumbs=KR + [('Личная работа', None)])
+         og='images/og/nastavnichestvo.jpg', crumbs=KR + [('Личная работа', None)])
 
 
 def taro():
@@ -448,4 +448,4 @@ def taro():
     page('taro/', 'Обучение таро у Ирины Волковой',
          'Чтение колоды как ремесло: постановка вопроса, расклады, чтение связок, разговор '
          'с человеком. Занятия в закрытом канале.', body, active='taro/',
-         og='images/obrazy/taro.jpg', crumbs=[('Главная', ''), ('Таро', None)])
+         og='images/og/taro.jpg', crumbs=[('Главная', ''), ('Таро', None)])

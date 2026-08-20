@@ -100,7 +100,7 @@ def ob_irine():
     page('ob-irine/', 'Ирина Волкова: таролог, практик, преподаватель',
          'Путь Ирины Волковой: первая колода в одиннадцать лет, практика с двадцати трёх, '
          'первый курс в 2014 году, занятия в Москве, Петербурге, Израиле и Париже.',
-         body, active='ob-irine/', og='images/obrazy/irina-2.jpg',
+         body, active='ob-irine/', og='images/og/irina.jpg',
          crumbs=[HOME, ('Об Ирине', None)])
 
 
@@ -163,7 +163,7 @@ def vopros_otvet():
     page('vopros-otvet/', 'Вопросы о школе Ирины Волковой',
          'С чего начать обучение, нужен ли дар, как идут потоки в телеграме, чем занимается '
          'школа и чего не обещает.', body, active='',
-         og='images/obrazy/vopros.jpg', crumbs=[HOME, ('Вопросы', None)])
+         og='images/og/vopros.jpg', crumbs=[HOME, ('Вопросы', None)])
 
 
 def kontakty():
@@ -213,7 +213,7 @@ def kontakty():
     page('kontakty/', 'Контакты школы Ирины Волковой',
          'Как связаться с Ириной Волковой: телеграм-канал школы и Instagram. Что написать, '
          'чтобы получить ответ по делу.', body, active='kontakty/',
-         og='images/obrazy/kontakty.jpg', crumbs=[HOME, ('Контакты', None)])
+         og='images/og/kontakty.jpg', crumbs=[HOME, ('Контакты', None)])
 
 
 def politika():
@@ -245,7 +245,7 @@ def politika():
 """
     page('politika/', 'Политика конфиденциальности',
          'Что происходит со сведениями посетителя сайта школы Ирины Волковой.',
-         body, active='', og='images/obrazy/glavnaya.jpg',
+         body, active='', og='images/og/glavnaya.jpg',
          crumbs=[HOME, ('Политика конфиденциальности', None)])
 
 
@@ -266,4 +266,4 @@ def ne_nashlos():
 """
     page('__404__/', 'Страница не найдена',
          'Такой страницы на сайте школы Ирины Волковой нет. Основные разделы собраны ниже.',
-         body, active='', og='images/obrazy/glavnaya.jpg')
+         body, active='', og='images/og/glavnaya.jpg')

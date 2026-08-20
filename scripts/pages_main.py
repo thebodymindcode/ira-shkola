@@ -125,4 +125,4 @@ def glavnaya(articles):
     page('', 'Школа магии и таро Ирины Волковой',
          'Обучение таро, ритуальной магии, рунам и домашним оберегам у Ирины Волковой. '
          'Закрытые потоки в телеграме, разбор работ, журнал разборов.',
-         body, active='', og='images/obrazy/glavnaya.jpg')
+         body, active='', og='images/og/glavnaya.jpg')

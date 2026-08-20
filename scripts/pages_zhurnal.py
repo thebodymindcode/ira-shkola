@@ -69,7 +69,7 @@ def statya(a, sosedi):
 """
     page(f'zhurnal/{a["slug"]}/', f'{a["name"]}: {a["deck"][:70].rstrip(",. ")}',
          a['deck'][:180], body, active='zhurnal/',
-         og=f'images/zhurnal/{a["slug"]}.jpg',
+         og=f'images/og/st-{a["slug"]}.jpg',
          crumbs=[HOME, ('Журнал', 'zhurnal/'), (razdel_name, razdel_path), (a['name'], None)],
          schema=f'<script type="application/ld+json">{schema}</script>')
 
@@ -115,7 +115,7 @@ def zhurnal(articles):
     page('zhurnal/', 'Журнал: разборы про обереги и нечистую силу',
          'Двадцать семь разборов Ирины Волковой о домашних оберегах и нечистой силе славянской '
          'деревни, собранных по источникам.', body, active='zhurnal/',
-         og='images/obrazy/zhurnal.jpg', crumbs=[HOME, ('Журнал', None)])
+         og='images/og/zhurnal.jpg', crumbs=[HOME, ('Журнал', None)])
 
 
 def razdel(kind, articles):
@@ -178,4 +178,4 @@ def razdel(kind, articles):
 """
     page(f'{kind}/' if kind == 'oberegi' else 'nechist/',
          title + ': разборы по источникам', lid[:180], body, active='zhurnal/',
-         og=f'images/obrazy/{img}.jpg', crumbs=[HOME, ('Журнал', 'zhurnal/'), (title, None)])
+         og=f'images/og/{img}.jpg', crumbs=[HOME, ('Журнал', 'zhurnal/'), (title, None)])
