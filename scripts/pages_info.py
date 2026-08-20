@@ -30,7 +30,7 @@ def ob_irine():
 <p>{T('Дальше пошли города: Москва, Петербург, Израиль, Париж. Везде одно и то же: группа, стол, '
       'колода, работа руками.')}</p>
 </div>
-<aside class="side"><div class="ph" style="aspect-ratio:3/4;border-radius:12px;overflow:hidden;margin-bottom:16px"><img src="{u('images/obrazy/p-irina1.jpg')}" alt="Ирина Волкова" loading="lazy" style="width:100%;height:100%;object-fit:cover"></div><div class="cifra">2014</div>
+<aside class="side"><div class="cifra">2014</div>
 <p>{T('Год первого авторского курса. С него у Ирины началось преподавание, '
       'а до того шла только частная практика.')}</p></aside></div>
 </div></section>
@@ -66,12 +66,16 @@ def ob_irine():
 <section><div class="wrap">
 <p class="eyebrow">Из чего состоит её работа</p>
 <h2>График по луне</h2>
+<div class="split"><div>
 {dlist([
  ('luna', 'Работа расписана по лунным циклам, от них зависит, какой день на что годится.'),
  ('ruka', 'Алтари и артефакты она делает сама, руками. Это часть практики.'),
  ('kniga', 'Каждая тема сначала проверяется по источникам и только потом попадает в курс.'),
  ('svecha', 'Магию она называет образом жизни.'),
 ])}
+</div>
+<div class="ph"><img src="{u('images/obrazy/p-irina1.jpg')}" alt="Ирина Волкова" loading="lazy"></div>
+</div>
 </div></section>
 
 <section><div class="wrap">

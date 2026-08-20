@@ -125,8 +125,8 @@ svg.big{width:34px;height:34px}
 @media(hover:hover){a.zov:hover{border-color:var(--zoloto)}}
 
 /* ---------- сплит ---------- */
-.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);gap:52px;align-items:start;margin-top:36px}
-.split .ph{aspect-ratio:3/4;border-radius:18px;overflow:hidden;border:1px solid var(--line)}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.72fr);gap:52px;align-items:center;margin-top:36px}
+.split .ph{aspect-ratio:4/5;border-radius:18px;overflow:hidden;border:1px solid var(--line)}
 .split .ph img{width:100%;height:100%;object-fit:cover}
 .split.shir .ph{aspect-ratio:16/9}
 
