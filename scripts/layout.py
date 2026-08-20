@@ -10,44 +10,23 @@ INDEXING = True   # единственный выключатель индекс
 def u(path=''):
     return BASE + path
 
-MEGA_KURSY = [
-    ('kursy/gekata/', 'Геката', 'Ритуальная магия, четыре ступени', 'images/obrazy/k-gekata.jpg'),
-    ('kursy/runy/', 'Руны', 'Старший футарк и работа с поставом', 'images/obrazy/k-runy.jpg'),
-    ('kursy/besy/', 'Бесы', 'Славянская демонология по источникам', 'images/obrazy/k-besy.jpg'),
-    ('taro/', 'Таро', 'Чтение колоды как ремесло', 'images/obrazy/k-taro.jpg'),
-    ('oberegi/', 'Обереги дома', 'Домашняя защита деревни', 'images/obrazy/k-oberegi.jpg'),
-    ('kursy/nastavnichestvo/', 'Личная работа', 'Один на один с Ириной', 'images/obrazy/k-nastav.jpg'),
-]
-
-MEGA_TARO = [
-    ('taro/', 'Курс по таро', 'Вопрос, расклад, чтение связок', 'images/obrazy/k-taro.jpg'),
-    ('karty/', 'Значения карт', 'Справочник 22 старших арканов', 'images/obrazy/h-taro.jpg'),
-    ('karty/durak/', 'Шут', 'Аркан 0: начало без опыта', 'images/obrazy/k-gekata.jpg'),
-    ('karty/luna/', 'Луна', 'Аркан 18: морок и неясность', 'images/obrazy/h-nechist.jpg'),
-    ('karty/bashnya/', 'Башня', 'Аркан 16: внезапный слом', 'images/obrazy/k-besy.jpg'),
-    ('karty/zvezda/', 'Звезда', 'Аркан 17: надежда после бури', 'images/obrazy/k-nastav.jpg'),
-]
-
-MEGA_DNEVNIK = [
-    ('oberegi/', 'Обереги дома', 'Семь разборов: порог, окно, красный угол', 'images/obrazy/z-oberegi.jpg'),
-    ('nechist/', 'Нечистая сила', 'Двадцать существ народной веры', 'images/obrazy/z-nechist.jpg'),
-    ('zhurnal/domovoy/', 'Домовой', 'Хозяин за печью и под порогом', 'images/zhurnal/02-domovoy.jpg'),
-    ('zhurnal/leshy/', 'Леший', 'Как выходили из его леса', 'images/zhurnal/01-leshy.jpg'),
-    ('zhurnal/bannik/', 'Банник', 'Баня после третьего пара', 'images/zhurnal/06-bannik.jpg'),
-    ('zhurnal/upyr/', 'Упырь', 'Записан за восемь веков до Дракулы', 'images/zhurnal/16-upyr.jpg'),
-]
+PODMENU = {
+    'kursy/': [('kursy/gekata/', 'Геката'), ('kursy/runy/', 'Руны'), ('kursy/besy/', 'Бесы'),
+               ('kursy/nastavnichestvo/', 'Личная работа'), ('shkola/', 'Как проходит обучение')],
+    'taro/': [('taro/', 'Курс по таро'), ('karty/', 'Значения 22 арканов'),
+              ('kviz/', 'Вопросник: ваш аркан'), ('luna/', 'Лунный круг')],
+    'zhurnal/': [('oberegi/', 'Обереги дома'), ('nechist/', 'Нечистая сила'),
+                 ('zhurnal/', 'Все разборы'), ('slovar/', 'Словарь')],
+}
 
 
-def mega_panel(punkty):
-    kletki = ''.join(f"""<a class="mk" href="{u(p)}">
-<span class="ph"><img src="{u(img)}" alt="" loading="lazy"></span>
-<b>{n}</b><i>{opis}</i></a>""" for p, n, opis, img in punkty)
-    return f'<div class="mega"><div class="wrap"><div class="mgrid">{kletki}</div></div></div>'
+def podpanel(punkty):
+    ssylki = ''.join(f'<a href="{u(p)}">{n}</a>' for p, n in punkty)
+    return f'<div class="pod"><div class="pod-in">{ssylki}</div></div>'
 
 
 def shapka(active):
-    MEGA = {'kursy/': mega_panel(MEGA_KURSY), 'taro/': mega_panel(MEGA_TARO),
-            'zhurnal/': mega_panel(MEGA_DNEVNIK)}
+    MEGA = {p: podpanel(v) for p, v in PODMENU.items()}
     nav = ''
     for n, p in MENU:
         on = ' class="on"' if (active is not None and p == active) else ''
@@ -61,14 +40,8 @@ def shapka(active):
     for n, p in MENU:
         on = ' class="on"' if (active is not None and p == active) else ''
         mob += f'<a href="{u(p)}"{on}>{n}</a>'
-        if p == 'kursy/':
-            mob += ''.join(f'<a class="sub" href="{u(pp)}">{nn}</a>'
-                           for pp, nn, _, _ in MEGA_KURSY)
-        if p == 'taro/':
-            mob += f'<a class="sub" href="{u("karty/")}">Значения карт</a>'
-        if p == 'zhurnal/':
-            mob += ''.join(f'<a class="sub" href="{u(pp)}">{nn}</a>'
-                           for pp, nn, _, _ in MEGA_DNEVNIK[:2])
+        if p in PODMENU:
+            mob += ''.join(f'<a class="sub" href="{u(pp)}">{nn}</a>' for pp, nn in PODMENU[p])
     return f"""<header class="shapka"><div class="in">
 <a class="znak" href="{u()}">{ico('klyuch')}<span>Школа Ирины&nbsp;Волковой</span></a>
 <nav class="nav">{nav}</nav>

@@ -62,29 +62,24 @@ svg.big{width:34px;height:34px}
 @media(max-width:1120px){.nav{display:none}.burger{display:flex}}
 @media(hover:hover){.nav a:hover{color:var(--zoloto-svet)}}
 
-/* ---------- мега-меню ---------- */
+/* ---------- выпадающее подменю ---------- */
 .hasmega{position:relative}
 .hasmega>a{display:inline-flex;align-items:center;gap:6px}
-.hasmega>a svg{width:13px;height:13px;opacity:.6;transition:transform .18s;flex:none}
-.mega{position:absolute;left:50%;transform:translateX(-50%);top:100%;padding-top:14px;
-  width:min(96vw,1060px);display:none;z-index:70}
-.mega>.wrap{background:linear-gradient(180deg,#1B1724,var(--sloy));border:1px solid var(--line);
-  border-top:2px solid var(--zoloto);border-radius:0 0 20px 20px;padding:26px;
-  box-shadow:0 34px 80px rgba(0,0,0,.6);max-width:none}
-.mgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.mk{display:flex;flex-direction:column;border:1px solid transparent;border-radius:14px;
-  padding:10px;transition:border-color .16s,background .16s}
-.mk .ph{display:block;aspect-ratio:16/9;border-radius:10px;overflow:hidden;margin-bottom:10px}
-.mk .ph img{width:100%;height:100%;object-fit:cover;display:block}
-.mk b{font-family:var(--serif);font-weight:400;font-size:18.5px;color:#F0E9DE;line-height:1.2}
-.mk i{font-style:normal;font-size:13px;color:var(--tihiy);margin-top:4px;line-height:1.45}
+.hasmega>a svg{width:12px;height:12px;opacity:.55;transition:transform .18s;flex:none}
+.pod{position:absolute;left:-14px;top:100%;padding-top:12px;display:none;z-index:70}
+.pod-in{background:#181420;border:1px solid var(--line);border-top:2px solid var(--zoloto);
+  border-radius:0 0 14px 14px;padding:8px;min-width:236px;
+  box-shadow:0 22px 50px rgba(0,0,0,.55)}
+.pod-in a{display:block;padding:11px 16px;border-radius:9px;font-family:var(--sans);
+  font-size:15px;letter-spacing:0;color:#CFC7BC;white-space:nowrap}
 @media(hover:hover){
-  .hasmega:hover .mega,.hasmega:focus-within .mega{display:block}
+  .hasmega:hover .pod,.hasmega:focus-within .pod{display:block}
   .hasmega:hover>a svg{transform:rotate(180deg)}
-  .mk:hover{border-color:rgba(201,162,39,.45);background:rgba(201,162,39,.05)}
+  .pod-in a:hover{background:rgba(201,162,39,.1);color:var(--zoloto-svet)}
 }
-@media(max-width:1120px){.mega{display:none!important}}
-.mob a.sub{padding:11px 24px 11px 44px;font-size:16.5px;color:#B9B1A5;border-bottom:1px solid rgba(232,226,217,.07)}
+@media(max-width:1120px){.pod{display:none!important}}
+.mob a.sub{padding:11px 24px 11px 44px;font-size:16.5px;color:#B9B1A5;
+  border-bottom:1px solid rgba(232,226,217,.07)}
 
 /* ---------- кнопки ---------- */
 .btn{display:inline-flex;align-items:center;gap:9px;position:relative;text-wrap:balance;
@@ -122,11 +117,11 @@ svg.big{width:34px;height:34px}
   .hero .ryad{grid-template-columns:1fr!important;gap:26px}
   .hero .portret{aspect-ratio:5/4;max-height:420px;order:-1}
   .hero .portret img{object-position:50% 18%}
-  .hero .fon img{object-position:64% 22%;opacity:.8}
+  .hero .fon img{object-position:62% 26%;opacity:.86}
   .hero .fon::after{background:
-    linear-gradient(180deg,rgba(14,12,17,.28) 0%,rgba(14,12,17,.72) 42%,rgba(14,12,17,.94) 72%,var(--noch) 100%)}
-  .hero{min-height:clamp(560px,86vh,760px);align-items:flex-end}
-  .hero .in{padding:0 0 46px}
+    linear-gradient(180deg,rgba(14,12,17,.2) 0%,rgba(14,12,17,.55) 34%,rgba(14,12,17,.88) 66%,var(--noch) 100%)}
+  .hero{min-height:clamp(420px,58vh,540px);align-items:flex-end}
+  .hero .in{padding:0 0 34px}
 }
 
 /* ---------- лента шагов ---------- */
