@@ -77,37 +77,27 @@ def etty():
 def dom_granicy():
     """Границы дома и чем их закрывали."""
     s = []
-    # силуэт избы
     s.append(f'<path d="M120 300 L120 170 L330 60 L540 170 L540 300 Z" fill="none" '
              f'stroke="{L}" stroke-width="2"/>')
-    s.append(f'<path d="M120 300 L540 300" stroke="{Z}" stroke-width="2"/>')
+    s.append(f'<path d="M120 300 L540 300" stroke="{Z}" stroke-width="2.4"/>')
+    # точки на доме и подписи справа на равных интервалах, без наложений
     tochki = [
-        (330, 300, 'Порог', 'крапива, нож, соль', 'низ'),
-        (200, 220, 'Окно', 'громничная свеча', 'lev'),
-        (470, 205, 'Красный угол', 'рушник и свеча', 'prav'),
-        (330, 150, 'Печь', 'угощение домовому', 'verh'),
+        (330, 150, 'Печь', 'угощение домовому'),
+        (200, 220, 'Окно', 'громничная свеча'),
+        (470, 205, 'Красный угол', 'рушник и свеча'),
+        (330, 300, 'Порог', 'крапива, нож, соль'),
     ]
-    for x, y, zag, txt, storona in tochki:
+    for i, (x, y, zag, txt) in enumerate(tochki):
+        ly = 96 + i * 74
+        s.append(f'<path d="M{x} {y} C {x + 90} {y}, 560 {ly}, 630 {ly}" fill="none" '
+                 f'stroke="{L}" stroke-width="1"/>')
         s.append(f'<circle cx="{x}" cy="{y}" r="7" fill="{Z}"/>')
-        s.append(f'<circle cx="{x}" cy="{y}" r="15" fill="none" stroke="{Z}" stroke-width="1" opacity=".5"/>')
-        if storona == 'lev':
-            lx, ly, ank = 640, y, 'start'
-            s.append(f'<path d="M{x + 16} {y} H620" stroke="{L}" stroke-width="1"/>')
-        elif storona == 'prav':
-            lx, ly, ank = 640, y, 'start'
-            s.append(f'<path d="M{x + 16} {y} H620" stroke="{L}" stroke-width="1"/>')
-        elif storona == 'verh':
-            lx, ly, ank = 640, y, 'start'
-            s.append(f'<path d="M{x + 16} {y} H620" stroke="{L}" stroke-width="1"/>')
-        else:
-            lx, ly, ank = 640, y, 'start'
-            s.append(f'<path d="M{x + 16} {y} H620" stroke="{L}" stroke-width="1"/>')
-        s.append(f'<text x="{lx}" y="{ly - 4}" fill="{T}" text-anchor="{ank}" '
-                 f'style="{FS};font-size:21px">{zag}</text>')
-        s.append(f'<text x="{lx}" y="{ly + 18}" fill="{TT}" text-anchor="{ank}" '
-                 f'style="{F};font-size:14px">{txt}</text>')
-    return obertka(''.join(s), 1000, 360,
-                   'Оберег ставили не в доме вообще, а на границе: у порога, окна, красного угла и печи.')
+        s.append(f'<circle cx="{x}" cy="{y}" r="14" fill="none" stroke="{Z}" stroke-width="1" opacity=".45"/>')
+        s.append(f'<text x="646" y="{ly - 3}" fill="{T}" style="{FS};font-size:22px">{zag}</text>')
+        s.append(f'<text x="646" y="{ly + 22}" fill="{TT}" style="{F};font-size:14.5px">{txt}</text>')
+    return obertka(''.join(s), 1000, 380,
+                   'Оберег ставили на границе дома: у порога, окна, красного угла и печи. '
+                   'Там, где чужое могло войти внутрь.')
 
 
 def mesta_nechisti():
