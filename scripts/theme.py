@@ -542,7 +542,26 @@ section > .wrap{position:relative}
   .shema svg{min-width:560px}.shema-podpis{font-size:14px}}
 
 /* ---------- плашки-ссылки ---------- */
-.plashki{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.razdely{margin-top:40px;padding-top:32px;border-top:1px solid var(--line)}
+.plashki{display:grid;grid-template-columns:repeat(auto-fill,minmax(252px,1fr));
+  gap:12px;margin-top:18px}
+/* Разделы стоят ровной сеткой: одинаковая высота, кадр слева, подпись под именем.
+   Раньше это была россыпь плашек разной ширины и рваными рядами. */
+.razdel{display:grid;grid-template-columns:56px minmax(0,1fr);align-items:center;gap:13px;
+  padding:10px 14px 10px 10px;border:1px solid var(--line);border-radius:14px;
+  background:var(--sloy);height:80px;transition:border-color .18s ease,transform .18s ease}
+.razdel .rk{width:56px;height:56px;border-radius:10px;overflow:hidden;position:relative;
+  border:1px solid rgba(201,162,39,.22);flex:0 0 56px}
+.razdel .rk img{width:100%;height:100%;object-fit:cover;display:block}
+.razdel .rt{display:flex;flex-direction:column;gap:3px;min-width:0}
+.razdel .rt b{font-family:var(--anons);font-size:16.5px;font-weight:400;color:#EDE6DC;
+  letter-spacing:.3px;line-height:1.2;overflow-wrap:normal;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis}
+.razdel .rt i{font-style:normal;font-size:13px;color:#918878;line-height:1.3;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(hover:hover){.razdel:hover{border-color:rgba(201,162,39,.5);transform:translateY(-2px)}
+  .razdel:hover .rt b{color:var(--zoloto-svet)}}
+@media(max-width:560px){.plashki{grid-template-columns:1fr}}
 .plashka{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:1px solid var(--line);
   border-radius:11px;background:var(--sloy);font-size:14.5px;color:#CFC7BC}
 @media(hover:hover){.plashka:hover{border-color:rgba(201,162,39,.5);color:var(--zoloto-svet)}}

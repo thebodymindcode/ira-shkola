@@ -75,7 +75,11 @@ def shapka(active):
 
 
 def podval():
-    links = ''.join(f'<a class="plashka" href="{u(p)}">{n}</a>' for n, p in FOOTER_LINKS)
+    links = ''.join(
+        f'<a class="razdel" href="{u(p)}">'
+        f'<span class="rk"><img src="{u("images/" + img)}" alt="" loading="lazy"></span>'
+        f'<span class="rt"><b>{n}</b><i>{pod}</i></span></a>'
+        for n, p, img, pod in FOOTER_LINKS)
     return f"""<footer class="podval"><div class="wrap">
 <div class="kol">
 <div>
@@ -88,9 +92,14 @@ def podval():
 </div>
 </div>
 <div>
+<h4>Куда идти дальше</h4>
+<p>Курсы школы, справочник арканов, лунный круг и открытый журнал разборов.
+Всё, что уже готово к чтению, собрано ниже.</p>
+</div>
+</div>
+<div class="razdely">
 <h4>Разделы</h4>
 <div class="plashki">{links}</div>
-</div>
 </div>
 <div class="niz">
 <span>© Ирина Волкова, {2026}. Материалы сайта носят культурно-исторический и обучающий характер.</span>

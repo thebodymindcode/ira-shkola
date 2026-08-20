@@ -3,7 +3,7 @@
 import re
 
 BASE = '/ira-shkola/'
-VERSION = '2026082051'
+VERSION = '2026082052'
 DOMAIN = 'https://thebodymindcode.github.io/ira-shkola'
 TITLE_SITE = 'Школа Ирины Волковой'
 TG = 'https://t.me/ira_volkova_life'
@@ -21,13 +21,28 @@ MENU = [
     ('Контакты', 'kontakty/'),
 ]
 
+# Разделы в подвале: имя, адрес, кадр раздела, короткая подпись.
+# Кадр и подпись нужны, чтобы сетка читалась как витрина, а не как россыпь плашек.
 FOOTER_LINKS = [
-    ('Главная', ''), ('Школа', 'shkola/'), ('Курсы', 'kursy/'),
-    ('Чёрный Гримуар', 'kursy/grimuar/'), ('Бесы', 'kursy/besy/'),
-    ('Геката', 'kursy/gekata/'), ('Руны', 'kursy/runy/'),
-    ('Наставничество', 'kursy/nastavnichestvo/'), ('Таро', 'taro/'),
-    ('Обереги дома', 'oberegi/'), ('Нечисть', 'nechist/'), ('Ведьмин дневник', 'zhurnal/'),
-    ('Об Ирине', 'ob-irine/'), ('Вопросы', 'vopros-otvet/'), ('Контакты', 'kontakty/'),
+    ('Главная', '', 'obrazy/p-glavnaya.jpg', 'Школа целиком'),
+    ('Школа', 'shkola/', 'obrazy/k-besy.jpg', 'Как здесь учат'),
+    ('Курсы', 'kursy/', 'obrazy/h-kursy.jpg', 'Шесть направлений'),
+    ('Чёрный Гримуар', 'kursy/grimuar/', 'obrazy/k-grimuar.jpg', 'Девять ступеней'),
+    ('Бесы', 'kursy/besy/', 'obrazy/k-besy.jpg', 'Занятие в записи'),
+    ('Геката', 'kursy/gekata/', 'obrazy/k-gekata.jpg', 'Ритуальная магия'),
+    ('Руны', 'kursy/runy/', 'obrazy/k-runy.jpg', 'Старший футарк'),
+    ('Личная работа', 'kursy/nastavnichestvo/', 'obrazy/k-nastav.jpg', 'Один на один'),
+    ('Таро', 'taro/', 'obrazy/k-taro.jpg', 'Чтение колоды'),
+    ('Значения арканов', 'karty/', 'karty/mini/durak.jpg', 'Двадцать два аркана'),
+    ('Лунный круг', 'luna/', 'obrazy/h-nechist.jpg', 'Восемь фаз'),
+    ('Вопросник', 'kviz/', 'karty/mini/luna.jpg', 'Ваш аркан'),
+    ('Обереги дома', 'oberegi/', 'obrazy/h-oberegi.jpg', 'Семь разборов'),
+    ('Нечисть', 'nechist/', 'obrazy/h-nechist.jpg', 'Двадцать существ'),
+    ('Ведьмин дневник', 'zhurnal/', 'obrazy/h-zhurnal.jpg', 'Все разборы'),
+    ('Словарь', 'slovar/', 'obrazy/k-grimuar.jpg', 'Слова занятий'),
+    ('Об Ирине', 'ob-irine/', 'obrazy/p-irina1.jpg', 'Кто ведёт школу'),
+    ('Вопросы', 'vopros-otvet/', 'obrazy/k-gekata.jpg', 'Частые вопросы'),
+    ('Контакты', 'kontakty/', 'obrazy/p-taro.jpg', 'Связаться'),
 ]
 
 # ---------------------------------------------------------------- типографика
