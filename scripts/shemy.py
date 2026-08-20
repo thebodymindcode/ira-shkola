@@ -126,6 +126,15 @@ def mesta_nechisti():
                    'У каждого своё место и свой час. Половина запретов держится именно на времени суток.')
 
 
+ZNAKI_PUTI = [
+    '<path d="M-9 -12v24M-9 -7l11-5M-9 -1l11-5"/>',
+    '<path d="M-9 12V-6c0-3.4 2.6-6 6-6h.6c3.4 0 6 2.6 6 6V12"/>',
+    '<path d="M-9 -12v24M-9 -7l10 5.4-10 5.4"/>',
+    '<path d="M-9 -12v24M-9 -7l10-4.4M-9 -0.6l10-4.4"/>',
+    '<path d="M-9 -12v24M-9 -12h7.4a4.6 4.6 0 0 1 0 9.2H-9M-1.6 -2.8 4 12"/>',
+]
+
+
 def put_uchenika():
     """Как идёт поток."""
     shagi = [('Источник', 'откуда пришёл обряд'), ('Практика', 'делают руками'),
@@ -135,7 +144,9 @@ def put_uchenika():
     for i, (zag, txt) in enumerate(shagi):
         x = 100 + i * 267
         s.append(f'<circle cx="{x}" cy="110" r="34" fill="#16131C" stroke="{Z}" stroke-width="1.6"/>')
-        s.append(f'<text x="{x}" y="119" fill="{ZS}" text-anchor="middle" style="{FS};font-size:26px">{i + 1}</text>')
+        s.append(f'<circle cx="{x}" cy="110" r="28" fill="none" stroke="{Z}" stroke-width=".8" opacity=".4"/>')
+        s.append(f'<g transform="translate({x},110)" fill="none" stroke="{ZS}" stroke-width="2" '
+                 f'stroke-linecap="round" stroke-linejoin="round">{ZNAKI_PUTI[i % len(ZNAKI_PUTI)]}</g>')
         s.append(f'<text x="{x}" y="182" fill="{T}" text-anchor="middle" style="{FS};font-size:23px">{zag}</text>')
         s.append(f'<text x="{x}" y="210" fill="{TT}" text-anchor="middle" style="{F};font-size:14px">{txt}</text>')
         if i < len(shagi) - 1:

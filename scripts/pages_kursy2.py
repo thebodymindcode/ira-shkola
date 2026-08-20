@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
-from engine import ico, typo, TG
+from engine import ico, typo, TG, runa_nomer
 from layout import page, u
 import shemy
 from pages_main import hero, KNOPKI_TG
@@ -21,7 +21,7 @@ def cards2(items):
 
 def steps(items):
     return '<ul class="stepline">' + ''.join(
-        f'<li><span class="nom">{n+1}</span>{ico(i)}<div class="txt"><h3>{T(h)}</h3><p>{T(d)}</p></div></li>'
+        f'<li><span class="nom">{runa_nomer(n+1)}</span>{ico(i)}<div class="txt"><h3>{T(h)}</h3><p>{T(d)}</p></div></li>'
         for n, (i, h, d) in enumerate(items)) + '</ul>'
 
 def voprosy(items):
@@ -41,7 +41,7 @@ FORMAT = {
  ],
  'runy': [
   ('runa', 'Знак за знаком', 'На каждый свой заход: имя, строфа из поэмы, разбор значения, задание.'),
-  ('runa', 'Резать и раскладывать самому', 'Постав собирают руками, и Ирина смотрит собранное: где знаки не сошлись между собой.'),
+  ('runa', 'Резать самому', 'Постав собирают руками, и Ирина смотрит собранное: где знаки не сошлись между собой.'),
   ('chas', 'Три этта, три отрезка потока', 'Следующий ряд начинается, когда предыдущий пройден целиком.'),
  ],
  'besy': [

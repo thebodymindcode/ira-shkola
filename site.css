@@ -124,7 +124,10 @@ svg.big{width:34px;height:34px}
 /* ---------- лента шагов ---------- */
 .stepline{margin:34px 0 0;padding:0;list-style:none;border-top:1px solid var(--line)}
 .stepline li{display:flex;gap:20px;align-items:flex-start;padding:22px 0;border-bottom:1px solid var(--line)}
-.stepline .nom{font-family:var(--anons);font-size:27px;color:var(--zoloto);width:38px;flex:none;line-height:1}
+
+.stepline .nom{width:60px;flex:none;display:flex;align-items:center;justify-content:center;
+  margin-top:2px}
+.stepline .nom svg.rn{display:block}
 .stepline .txt{max-width:760px}
 .stepline h3{margin:0 0 6px}
 .stepline p{margin:0;color:var(--tihiy);font-size:16px;text-wrap:pretty}
@@ -165,10 +168,12 @@ svg.big{width:34px;height:34px}
 @media(hover:hover){a.zov:hover{border-color:var(--zoloto)}}
 
 /* ---------- сплит ---------- */
-.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.62fr);gap:52px;align-items:start;margin-top:36px}
-.split .ph{aspect-ratio:4/5;border-radius:18px;overflow:hidden;border:1px solid var(--line)}
-.split .ph img{width:100%;height:100%;object-fit:cover}
-.split.shir .ph{aspect-ratio:16/9}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.62fr);gap:52px;
+  align-items:stretch;margin-top:36px}
+.split .ph{aspect-ratio:auto;height:100%;min-height:340px;border-radius:18px;
+  overflow:hidden;border:1px solid var(--line)}
+.split .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.split.shir .ph{aspect-ratio:auto}
 
 /* ---------- цифры ---------- */
 .nails{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:34px}
@@ -414,7 +419,8 @@ section > .wrap{position:relative}
 
 /* ---------- мобильное ---------- */
 @media(max-width:1000px){
-  .split{grid-template-columns:1fr!important;gap:30px}
+  .split{grid-template-columns:1fr!important;gap:26px}
+  .split .ph{height:auto!important;aspect-ratio:5/4;min-height:0}
   .final{grid-template-columns:1fr!important;gap:30px}
   .tside{grid-template-columns:1fr!important;gap:30px}
   .side{position:static}

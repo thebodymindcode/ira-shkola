@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
-from engine import ico, typo, TG, IG
+from engine import ico, typo, TG, IG, runa_nomer
 from layout import page, u
 import shemy
 
@@ -46,7 +46,7 @@ def glavnaya(articles):
         ('krug', 'Своя практика',
          'К концу потока человек ведёт работу сам и объясняет каждый её шаг.'),
     ]
-    steps = ''.join(f"""<li><span class="nom">{n+1}</span>{ico(i)}<div class="txt">
+    steps = ''.join(f"""<li><span class="nom">{runa_nomer(n+1)}</span>{ico(i)}<div class="txt">
 <h3>{T(h)}</h3><p>{T(d)}</p></div></li>""" for n, (i, h, d) in enumerate(shagi))
 
     svezhie = ''.join(f"""<a class="kadr" href="{u('zhurnal/' + a['url'] + '/')}">
@@ -62,8 +62,28 @@ def glavnaya(articles):
       'оберегу, работе с рунами.', KNOPKI_TG)}
 
 <section><div class="wrap">
+<p class="eyebrow">Главный курс</p>
+<h2>Чёрный Гримуар. Некрономикон</h2>
+<div class="split"><div>
+<p class="lid">{T('Живой курс по колоде, которая показывает причину, а не картинку события. '
+                  'Девять ступеней: от инструментов и знакомства с эгрегором до диагностики '
+                  'магического негатива и сложной ритуальной работы.')}</p>
+<div class="dlist" style="margin-top:22px"><ul>
+<li>{ico('karta')}<span>{T('Двадцать два старших аркана подробно, каждый в предсказании и в работе.')}</span></li>
+<li>{ico('zerkalo')}<span>{T('Диагностика воздействия: есть ли оно, какое и откуда пришло.')}</span></li>
+<li>{ico('chas')}<span>{T('Занятия дважды в неделю, записи остаются у вас.')}</span></li>
+</ul></div>
+<div class="knopki">
+<a class="btn btn-gold" href="{u('kursy/grimuar/')}">{ico('strela')} Смотреть курс</a>
+<a class="btn btn-ghost" href="{u('kursy/')}">Все направления</a></div>
+</div>
+<div class="ph"><img src="{u('images/obrazy/k-grimuar.jpg')}" alt="Чёрный Гримуар" loading="lazy"></div>
+</div>
+</div></section>
+
+<section><div class="wrap">
 <p class="eyebrow">Куда идти</p>
-<h2>Чему учат в школе</h2>
+<h2>Чему ещё учат в школе</h2>
 <p class="lid">{T('Шесть направлений. Одни начинают с таро и остаются в нём, другие идут в ритуальную '
                   'магию и руны. Порядок каждый выбирает сам.')}</p>
 <div class="grid3">{cards}</div>

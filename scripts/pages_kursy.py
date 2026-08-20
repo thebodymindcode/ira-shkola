@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys, os
 sys.path.insert(0, os.path.dirname(__file__))
-from engine import ico, typo, TG
+from engine import ico, typo, TG, runa_nomer
 from layout import page, u
 from pages_main import hero, KNOPKI_TG
 
@@ -34,7 +34,7 @@ def shkola():
         ('krug', 'Итог потока',
          'К финалу человек ведёт работу сам, а Ирина только проверяет ход.'),
     ]
-    steps = ''.join(f"""<li><span class="nom">{n+1}</span>{ico(i)}<div class="txt">
+    steps = ''.join(f"""<li><span class="nom">{runa_nomer(n+1)}</span>{ico(i)}<div class="txt">
 <h3>{T(h)}</h3><p>{T(d)}</p></div></li>""" for n, (i, h, d) in enumerate(poryadok))
 
     komu = [
