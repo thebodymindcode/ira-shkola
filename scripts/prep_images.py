@@ -24,18 +24,17 @@ for f in sorted(os.listdir('images/zhurnal')):
     n += 1
 
 # 2. два кадра из образов для статей без видео
-for slug, src in (('01-leshy', '09-voron.jpg'), ('03-vodyanoy', '12-luna-nad-vodoj.jpg')):
-    im = Image.open(os.path.join(OBR, src)).convert('RGB')
-    crop_ratio(im, 16 / 9).resize((1200, 675), Image.LANCZOS).save(
-        f'images/zhurnal/{slug}.jpg', quality=82, optimize=True)
-    n += 1
+
 
 # 3. образы под страницы: широкий (16:9) и портретный (3:4)
+# карточки и шапки курсов идут из сгенерированных сцен в _generacii (Runway, 20.08.2026)
+SCENY = {
+    'k-gekata': 'k-gekata.png', 'k-runy': 'k-runy.png', 'k-besy': 'k-besy.png',
+    'k-nastav': 'k-nastav.png', 'k-taro': 'k-taro.png', 'k-oberegi': 'k-oberegi2.png',
+}
+STATI_SCENY = {'01-leshy': 'leshy-v3.png', '03-vodyanoy': 'vodyanoy-nb.png'}
+
 WIDE = {
-    # карточки курсов: разные планы, портрет крупно только один
-    'k-gekata': '16-luna-utyos.jpg', 'k-runy': '17-luna-tyanetsya.jpg',
-    'k-besy': '08-chyornoe-zerkalo.jpg', 'k-nastav': '11-renessans-portret.jpg',
-    'k-taro': '27-krug-svechej-taro.jpg', 'k-oberegi': '18-luna-okno.jpg',
     # шапки страниц
     'h-glavnaya': '06-oblozhka.jpg', 'h-kursy': '14-krug-svechej.jpg',
     'h-shkola': '12-luna-nad-vodoj.jpg', 'h-taro': '26-svecha-taro.jpg',
@@ -50,6 +49,21 @@ PORTRET = {
     'p-irina2': '13-ogonyok-v-ladoni.jpg', 'p-shkola': '04-tasuet-kolodu.jpg',
     'p-taro': '25-taro-levitaciya.jpg',
 }
+for name, src in SCENY.items():
+    p = os.path.join('_generacii', src)
+    if os.path.exists(p):
+        im = Image.open(p).convert('RGB')
+        crop_ratio(im, 16 / 9).resize((1600, 900), Image.LANCZOS).save(
+            f'images/obrazy/{name}.jpg', quality=84, optimize=True)
+        n += 1
+for name, src in STATI_SCENY.items():
+    p = os.path.join('_generacii', src)
+    if os.path.exists(p):
+        im = Image.open(p).convert('RGB')
+        crop_ratio(im, 16 / 9).resize((1200, 675), Image.LANCZOS).save(
+            f'images/zhurnal/{name}.jpg', quality=84, optimize=True)
+        n += 1
+
 for name, src in WIDE.items():
     im = Image.open(os.path.join(OBR, src)).convert('RGB')
     crop_ratio(im, 16 / 9).resize((1600, 900), Image.LANCZOS).save(
