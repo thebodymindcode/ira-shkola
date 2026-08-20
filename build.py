@@ -6,7 +6,7 @@ from engine import BASE, VERSION, DOMAIN
 from layout import JS, INDEXING, page
 from theme import CSS
 sys.path.insert(0, 'content')
-import pages_main, pages_kursy, pages_kursy2, pages_zhurnal, pages_info, pages_karty, pages_kviz
+import pages_main, pages_kursy, pages_kursy2, pages_zhurnal, pages_info, pages_karty, pages_kviz, pages_kursy3
 from arkany import ARKANY
 
 articles = json.load(open('content/articles.json', encoding='utf-8'))
@@ -24,7 +24,8 @@ pages_kursy.shkola()
 pages_kursy.kursy_katalog()
 pages_kursy2.gekata()
 pages_kursy2.runy()
-pages_kursy2.besy(articles)
+pages_kursy3.besy_nastoyashchie(articles)
+pages_kursy3.grimuar()
 pages_kursy2.nastavnichestvo()
 pages_kursy2.taro()
 pages_zhurnal.zhurnal(articles)
@@ -54,7 +55,7 @@ for i, a in enumerate(articles):
 
 # карта сайта
 paths = ['', 'shkola/', 'kursy/', 'kursy/gekata/', 'kursy/runy/', 'kursy/besy/',
-         'kursy/nastavnichestvo/', 'taro/', 'karty/', 'zhurnal/', 'oberegi/', 'nechist/',
+         'kursy/nastavnichestvo/', 'kursy/grimuar/', 'taro/', 'karty/', 'zhurnal/', 'oberegi/', 'nechist/',
          'ob-irine/', 'luna/', 'kviz/', 'slovar/', 'vopros-otvet/', 'kontakty/', 'politika/'] + \
         [f'karty/{a["slug"]}/' for a in ARKANY] + \
         [f'zhurnal/{a["url"]}/' for a in articles]

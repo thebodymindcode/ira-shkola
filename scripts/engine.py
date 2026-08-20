@@ -3,7 +3,7 @@
 import re
 
 BASE = '/ira-shkola/'
-VERSION = '2026082032'
+VERSION = '2026082033'
 DOMAIN = 'https://thebodymindcode.github.io/ira-shkola'
 TITLE_SITE = 'Школа Ирины Волковой'
 TG = 'https://t.me/ira_volkova_life'
@@ -23,7 +23,8 @@ MENU = [
 
 FOOTER_LINKS = [
     ('Главная', ''), ('Школа', 'shkola/'), ('Курсы', 'kursy/'),
-    ('Геката', 'kursy/gekata/'), ('Руны', 'kursy/runy/'), ('Бесы', 'kursy/besy/'),
+    ('Чёрный Гримуар', 'kursy/grimuar/'), ('Бесы', 'kursy/besy/'),
+    ('Геката', 'kursy/gekata/'), ('Руны', 'kursy/runy/'),
     ('Наставничество', 'kursy/nastavnichestvo/'), ('Таро', 'taro/'),
     ('Обереги дома', 'oberegi/'), ('Нечисть', 'nechist/'), ('Ведьмин дневник', 'zhurnal/'),
     ('Об Ирине', 'ob-irine/'), ('Вопросы', 'vopros-otvet/'), ('Контакты', 'kontakty/'),

@@ -38,7 +38,7 @@ for b in broken[:20]:
     print('   ', b)
 
 # «появится здесь» и заглушки
-stub = re.compile(r'появится здесь|готовится|следующими волнами|прототип|уточнить|TODO|заглушка', re.I)
+stub = re.compile(r'появится здесь|готовится к запуску|следующими волнами|прототип|TODO|заглушка|текст будет', re.I)
 st = [(f, m.group(0)) for f in pages for m in [stub.search(open(f, encoding='utf-8').read())] if m]
 print('ЗАГЛУШЕК:', len(st), st[:5])
 

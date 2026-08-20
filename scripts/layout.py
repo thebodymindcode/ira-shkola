@@ -11,7 +11,8 @@ def u(path=''):
     return BASE + path
 
 PODMENU = {
-    'kursy/': [('kursy/gekata/', 'Геката'), ('kursy/runy/', 'Руны'), ('kursy/besy/', 'Бесы'),
+    'kursy/': [('kursy/grimuar/', 'Чёрный Гримуар'), ('kursy/besy/', 'Бесы'),
+               ('kursy/gekata/', 'Геката'), ('kursy/runy/', 'Руны'),
                ('kursy/nastavnichestvo/', 'Личная работа'), ('shkola/', 'Как проходит обучение')],
     'taro/': [('taro/', 'Курс по таро'), ('karty/', 'Значения 22 арканов'),
               ('kviz/', 'Вопросник: ваш аркан'), ('luna/', 'Лунный круг')],
