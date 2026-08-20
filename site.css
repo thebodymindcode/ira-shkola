@@ -258,6 +258,51 @@ svg.big{width:34px;height:34px}
   .korotko,.toc summary{padding-left:20px;padding-right:20px}
 }
 
+/* ---------- мягкое появление ---------- */
+@media (prefers-reduced-motion: no-preference){
+  .poyav{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease}
+  .poyav.vidno{opacity:1;transform:none}
+}
+
+/* ---------- разделитель секций ---------- */
+section + section > .wrap::before{content:"✦";position:absolute;left:50%;transform:translateX(-50%);
+  margin-top:-52px;color:rgba(201,162,39,.5);font-size:13px;letter-spacing:6px}
+section > .wrap{position:relative}
+
+/* ---------- словарь ---------- */
+.slovar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:34px}
+.slovo{background:var(--sloy);border:1px solid var(--line);border-left:2px solid var(--zoloto);
+  border-radius:14px;padding:20px 22px}
+.slovo b{display:block;font-family:var(--serif);font-weight:400;font-size:22px;color:#F0E9DE;
+  margin-bottom:8px}
+.slovo p{margin:0;color:var(--tihiy);font-size:15.5px;line-height:1.6;text-wrap:pretty}
+@media(max-width:900px){.slovar{grid-template-columns:1fr!important}}
+
+/* ---------- вопросник ---------- */
+.kviz{background:var(--sloy);border:1px solid var(--line);border-radius:20px;padding:34px}
+.kviz-shag{display:flex;align-items:center;gap:18px;margin-bottom:22px}
+.kviz-nomer{font-family:var(--anons);font-size:13.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--zoloto);white-space:nowrap}
+.kviz-polosa{flex:1;height:3px;background:rgba(232,226,217,.12);border-radius:2px;overflow:hidden}
+.kviz-polosa i{display:block;height:100%;background:var(--zoloto);transition:width .3s}
+.kviz-vopros{font-size:clamp(23px,3vw,32px);margin:0 0 22px}
+.kviz-otvety{display:grid;gap:12px}
+.kviz-otvet{text-align:left;font:inherit;font-size:16.5px;color:#DCD5CA;background:var(--sloy2);
+  border:1px solid var(--line);border-radius:14px;padding:16px 20px;cursor:pointer;
+  transition:border-color .16s,transform .12s;min-height:52px}
+.kviz-otvet:active{transform:scale(.995)}
+@media(hover:hover){.kviz-otvet:hover{border-color:rgba(201,162,39,.55);color:#F0E9DE}}
+.kviz-itog{display:grid;grid-template-columns:180px minmax(0,1fr);gap:32px;align-items:center;
+  margin-top:8px}
+.kviz-itog svg.ark{width:100%;height:auto;display:block}
+.kviz-itog h3{margin:2px 0 12px;font-size:30px}
+.kviz-itog p{color:var(--tihiy);font-size:16.5px;margin:0 0 12px}
+.kviz-klyuchi{color:var(--zoloto-svet)!important;font-size:15px!important}
+@media(max-width:640px){.kviz{padding:22px 18px}
+  .kviz-itog{grid-template-columns:1fr!important;gap:20px;justify-items:center;text-align:center}
+  .kviz-itog .kviz-karta{max-width:170px}
+  .kviz-itog .knopki{justify-content:center}}
+
 /* ---------- справочник арканов ---------- */
 .ark-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px;margin-top:34px}
 .ark-k{display:block;transition:transform .18s}

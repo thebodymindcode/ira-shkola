@@ -6,7 +6,7 @@ from engine import BASE, VERSION, DOMAIN
 from layout import JS, INDEXING, page
 from theme import CSS
 sys.path.insert(0, 'content')
-import pages_main, pages_kursy, pages_kursy2, pages_zhurnal, pages_info, pages_karty
+import pages_main, pages_kursy, pages_kursy2, pages_zhurnal, pages_info, pages_karty, pages_kviz
 from arkany import ARKANY
 
 articles = json.load(open('content/articles.json', encoding='utf-8'))
@@ -35,6 +35,8 @@ pages_info.vopros_otvet()
 pages_info.kontakty()
 pages_info.politika()
 pages_info.lunnyj_krug()
+pages_kviz.kviz()
+pages_info.slovar()
 pages_info.ne_nashlos()
 pages_karty.hab()
 for i, a in enumerate(ARKANY):
@@ -53,7 +55,7 @@ for i, a in enumerate(articles):
 # карта сайта
 paths = ['', 'shkola/', 'kursy/', 'kursy/gekata/', 'kursy/runy/', 'kursy/besy/',
          'kursy/nastavnichestvo/', 'taro/', 'karty/', 'zhurnal/', 'oberegi/', 'nechist/',
-         'ob-irine/', 'luna/', 'vopros-otvet/', 'kontakty/', 'politika/'] + \
+         'ob-irine/', 'luna/', 'kviz/', 'slovar/', 'vopros-otvet/', 'kontakty/', 'politika/'] + \
         [f'karty/{a["slug"]}/' for a in ARKANY] + \
         [f'zhurnal/{a["url"]}/' for a in articles]
 sm = ['<?xml version="1.0" encoding="UTF-8"?>',

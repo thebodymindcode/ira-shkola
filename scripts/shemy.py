@@ -216,3 +216,35 @@ def fazy_luny():
     return obertka(''.join(s), 1000, 396,
                    'Круг занимает около двадцати девяти с половиной суток. Работа привязана '
                    'не к дню недели, а к тому, где сейчас луна.')
+
+
+def timeline_iry():
+    """Путь Иры: от первой колоды до школы."""
+    vehi = [
+        ('11 лет', 'первая колода', 'Карты попали в руки и остались.'),
+        ('23 года', 'практика', 'К ней начали приходить люди.'),
+        ('2014', 'первый курс', 'Собран авторский курс, началось преподавание.'),
+        ('Города', 'четыре страны', 'Москва, Петербург, Израиль, Париж.'),
+        ('Сегодня', 'школа', 'Потоки в закрытых каналах, разбор работ.'),
+    ]
+    s = []
+    s.append(f'<line x1="70" y1="120" x2="930" y2="120" stroke="{L}" stroke-width="2"/>')
+    for i, (kogda, chto, opis) in enumerate(vehi):
+        x = 110 + i * 195
+        s.append(f'<circle cx="{x}" cy="120" r="9" fill="{Z}"/>')
+        s.append(f'<circle cx="{x}" cy="120" r="19" fill="none" stroke="{Z}" stroke-width="1" opacity=".45"/>')
+        s.append(f'<text x="{x}" y="82" text-anchor="middle" fill="{ZS}" style="{FS};font-size:25px">{kogda}</text>')
+        s.append(f'<text x="{x}" y="170" text-anchor="middle" fill="{T}" style="{FS};font-size:18px">{chto}</text>')
+        slova = opis.split()
+        stroki, tek = [], ''
+        for w in slova:
+            if len(tek + ' ' + w) > 24:
+                stroki.append(tek); tek = w
+            else:
+                tek = (tek + ' ' + w).strip()
+        stroki.append(tek)
+        for j, st in enumerate(stroki):
+            s.append(f'<text x="{x}" y="{196 + j * 19}" text-anchor="middle" fill="{TT}" '
+                     f'style="{F};font-size:13px">{st}</text>')
+    return obertka(''.join(s), 1000, 270,
+                   'Путь от первой колоды до школы занял больше двадцати лет.')
