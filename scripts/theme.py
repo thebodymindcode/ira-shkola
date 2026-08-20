@@ -22,8 +22,9 @@ a,button,summary,.plashka{touch-action:manipulation;-webkit-tap-highlight-color:
 h1,h2,h3,h4{font-family:var(--serif);font-weight:400;letter-spacing:.2px;margin:0 0 14px;
   line-height:1.14;color:#F3EDE3}
 h3{margin-bottom:10px}
-h1{font-size:clamp(30px,5.4vw,64px);overflow-wrap:break-word;hyphens:auto}
-h2{font-size:clamp(25px,3.6vw,44px);overflow-wrap:break-word;text-wrap:balance;hyphens:auto}
+h1,h2,h3,h4,.zag,.kicker{hyphens:none!important;-webkit-hyphens:none!important}
+h1{font-size:clamp(30px,5.4vw,64px);overflow-wrap:normal;word-break:normal;text-wrap:balance}
+h2{font-size:clamp(25px,3.6vw,44px);overflow-wrap:normal;word-break:normal;text-wrap:balance}
 h3{font-size:clamp(21px,2.2vw,27px);line-height:1.24;text-wrap:balance}
 h1 em,h2 em{font-style:normal;color:var(--zoloto-svet)}
 p{margin:0 0 18px;text-wrap:pretty}
@@ -107,7 +108,9 @@ svg.big{width:34px;height:34px}
 .hero .in{position:relative;z-index:5;width:100%;padding:60px 0 64px}
 .hero .ryad{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.72fr);gap:56px;align-items:center}
 .hero .in>.wrap>*{max-width:620px}
+.hero h1{max-width:780px}
 .hero p.lid{color:#DCD5CA}
+.hero .eyebrow{text-shadow:0 2px 10px rgba(10,8,12,.85),0 0 26px rgba(10,8,12,.7)}
 .hero .portret{position:relative;border-radius:20px;overflow:hidden;border:1px solid rgba(201,162,39,.35);
   aspect-ratio:4/5;box-shadow:0 30px 70px rgba(0,0,0,.55)}
 .hero .portret img{width:100%;height:100%;object-fit:cover;object-position:50% 22%;display:block}
@@ -117,7 +120,7 @@ svg.big{width:34px;height:34px}
   .hero .ryad{grid-template-columns:1fr!important;gap:26px}
   .hero .portret{aspect-ratio:5/4;max-height:420px;order:-1}
   .hero .portret img{object-position:50% 18%}
-  .hero .fon img{object-position:62% 26%;opacity:.86}
+  .hero .fon img{object-position:88% 18%;opacity:.9}
   .hero .fon::after{background:
     linear-gradient(180deg,rgba(14,12,17,.2) 0%,rgba(14,12,17,.55) 34%,rgba(14,12,17,.88) 66%,var(--noch) 100%)}
   .hero{min-height:clamp(420px,58vh,540px);align-items:flex-end}

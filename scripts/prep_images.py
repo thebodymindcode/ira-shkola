@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Готовит картинки сайта: кадры статей 16:9 и образы Иры под страницы."""
 from PIL import Image, ImageFilter, ImageDraw
-import os, shutil
+import os, shutil, glob
 
 OBR = os.path.expanduser('~/Instagram-Irina-Volkova/ФОТО-ОБРАЗЫ-ТАРО')
 os.makedirs('images/obrazy', exist_ok=True)
@@ -214,4 +214,22 @@ for name, src in WIDE.items():
 for name, src in PORTRET.items():
     bezopasnyj_portret(os.path.join(OBR, src), f'images/obrazy/{name}.jpg')
     n += 1
+ZERKALIT_NELZYA = set(SREZ_SHAPOK) | {'h-irina'}  # там портрет Иры, его не трогаем
+
+
+# Текст шапки лежит слева, поэтому смысловая часть кадра должна быть справа.
+# Если правая треть заметно темнее левой, зеркалим сцену: в кадре нет ни людей, ни надписей.
+from PIL import ImageStat
+for _p in sorted(glob.glob('images/obrazy/h-*.jpg')):
+    _im = Image.open(_p).convert('RGB')
+    _g = _im.convert('L')
+    _W, _H = _g.size
+    _l = ImageStat.Stat(_g.crop((0, 0, _W // 3, _H))).mean[0]
+    _r = ImageStat.Stat(_g.crop((2 * _W // 3, 0, _W, _H))).mean[0]
+    if os.path.basename(_p)[:-4] in ZERKALIT_NELZYA:
+        continue
+    if _r < _l * 0.75 or _r < 9:
+        _im.transpose(Image.FLIP_LEFT_RIGHT).save(_p, quality=86, optimize=True)
+        print('  зеркально:', os.path.basename(_p))
+
 print('картинок подготовлено:', n)
