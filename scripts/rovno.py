@@ -7,7 +7,7 @@ ROOT = 'http://127.0.0.1:8899/ira-shkola/'
 PAGES = ['', 'shkola/', 'kursy/', 'kursy/gekata/', 'kursy/runy/', 'kursy/besy/',
          'kursy/nastavnichestvo/', 'taro/', 'zhurnal/', 'oberegi/', 'nechist/',
          'ob-irine/', 'vopros-otvet/', 'kontakty/', 'politika/',
-         'zhurnal/02-domovoy/', 'zhurnal/16-upyr/', 'zhurnal/01-otlivka-voskom/']
+         'zhurnal/domovoy/', 'zhurnal/upyr/', 'zhurnal/otlivka-voskom/']
 SHIRINY = [1440, 1024, 430, 390, 375]
 
 async def main():

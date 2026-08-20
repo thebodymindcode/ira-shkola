@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Каркас страницы: head, шапка, подвал, крошки."""
-import os, sys
+import os, sys, json, re, html as _html
 sys.path.insert(0, os.path.dirname(__file__))
 from engine import BASE, VERSION, DOMAIN, TITLE_SITE, TG, IG, MENU, FOOTER_LINKS, ico, typo
 from theme import CSS, FONTS
@@ -57,9 +57,39 @@ def kroshki(items):
             out.append(f'<a href="{u(p)}">{n}</a>')
     return '<div class="wrap"><div class="kroshki">' + '<span>/</span>'.join(out) + '</div></div>'
 
+def schema_crumbs(crumbs, title):
+    items, pos = [], 1
+    for n, p in (crumbs or []):
+        items.append({"@type": "ListItem", "position": pos, "name": n,
+                      "item": DOMAIN + '/' + (p or '')})
+        pos += 1
+    if not items:
+        return ''
+    d = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": items}
+    return f'<script type="application/ld+json">{json.dumps(d, ensure_ascii=False)}</script>'
+
+
+def schema_faq(body):
+    """Собирает FAQPage из уже готовых блоков вопросов на странице."""
+    qa = re.findall(r'<summary>.*?<span>(.*?)</span></summary>\s*<div class="otvet">(.*?)</div>',
+                    body, re.S)
+    if len(qa) < 2:
+        return ''
+    items = []
+    for q, a in qa:
+        txt = _html.unescape(re.sub(r'<[^>]+>', ' ', a)).replace('\xa0', ' ')
+        txt = re.sub(r'\s+', ' ', txt).strip()
+        items.append({"@type": "Question",
+                      "name": _html.unescape(re.sub(r'<[^>]+>', '', q)).replace('\xa0', ' ').strip(),
+                      "acceptedAnswer": {"@type": "Answer", "text": txt}})
+    d = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": items}
+    return f'<script type="application/ld+json">{json.dumps(d, ensure_ascii=False)}</script>'
+
+
 def page(path, title, descr, body, active='', og='obrazy/glavnaya.jpg', crumbs=None, schema=''):
     """Собирает и пишет html. path: '' | 'kursy/' | 'zhurnal/domovoy/'."""
     canon = DOMAIN + '/' + path
+    schema = schema + schema_crumbs(crumbs, title) + schema_faq(body)
     robots = '' if INDEXING else '<meta name="robots" content="noindex,nofollow">'
     full = f'{title} | {TITLE_SITE}' if path else title
     html = f"""<!doctype html><html lang="ru"><head>
@@ -82,6 +112,7 @@ def page(path, title, descr, body, active='', og='obrazy/glavnaya.jpg', crumbs=N
 {shapka(active)}
 {kroshki(crumbs) if crumbs else ''}
 <main>{body}</main>
+<a class="plyv" href="{TG}" target="_blank" rel="noopener">{ico('tg')} Написать в Telegram</a>
 {podval()}
 <script src="{u('site.js')}?v={VERSION}" defer></script>
 </body></html>"""

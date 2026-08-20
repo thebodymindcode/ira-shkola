@@ -179,6 +179,15 @@ svg.big{width:34px;height:34px}
 .kroshki a{color:#9A9184}
 .kroshki span{margin:0 7px}
 
+/* ---------- плавающая связь ---------- */
+.plyv{position:fixed;right:20px;bottom:20px;z-index:70;display:inline-flex;align-items:center;gap:9px;
+  padding:13px 18px;border-radius:14px;background:var(--zoloto);color:#151009;font-size:14.5px;
+  font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.5);min-height:48px}
+.plyv svg{width:19px;height:19px}
+.plyv:active{transform:scale(.97)}
+@media(hover:hover){.plyv:hover{background:var(--zoloto-svet)}}
+@media(max-width:640px){.plyv{right:14px;bottom:14px;padding:12px 15px;font-size:14px}}
+
 /* ---------- мобильное ---------- */
 @media(max-width:1000px){
   .split{grid-template-columns:1fr!important;gap:30px}
