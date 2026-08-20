@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import sys, os, json, html
+import sys, os, json, html, re
 sys.path.insert(0, os.path.dirname(__file__))
 from engine import ico, typo, TG, DOMAIN
 from layout import page, u
@@ -12,24 +12,75 @@ HOME = ('Главная', '')
 RAZDEL = {'oberegi': ('Обереги дома', 'oberegi/'), 'nechist': ('Нечисть', 'nechist/')}
 
 
+def zov(icon, zag, txt, href, podpis):
+    return (f'<a class="zov" href="{u(href)}">{ico(icon, "ic big")}<h3>{T(zag)}</h3>'
+            f'<p>{T(txt)}</p><span class="more">{podpis} {ico("strela")}</span></a>')
+
+
+def dobit(cards_html, n, dobavki):
+    """Добивает сетку до кратности трём карточками-приглашениями."""
+    nado = (-n) % 3
+    return cards_html + ''.join(dobavki[:nado])
+
+
+DOBAVKI = {
+ 'oberegi': [
+  zov('ogon', 'Разобрать это на курсе',
+      'Обереги в потоке разбирают подробнее: откуда пришли, против чего ставились, что изменилось за век.',
+      'kursy/besy/', 'Курс по демонологии'),
+  zov('kniga', 'Как здесь учат',
+      'Закрытый канал, задание после каждой темы и разбор работы вслух.',
+      'shkola/', 'Устройство обучения'),
+ ],
+ 'nechist': [
+  zov('ogon', 'Пройти это курсом',
+      'В потоке по демонологии существ разбирают по одному: имя, место, приметы, обереги и источник записи.',
+      'kursy/besy/', 'Смотреть курс'),
+  zov('dom', 'Обереги дома',
+      'Вторая половина журнала: чем деревня закрывала порог, окно и красный угол.',
+      'oberegi/', 'Читать разборы'),
+ ],
+}
+
+
 def kadr(a, metka=True):
     m = f'<span class="metka">{RAZDEL[a["kind"]][0]}</span>' if metka else ''
     return f"""<a class="kadr" href="{u('zhurnal/' + a['url'] + '/')}">
 <div class="ph"><img src="{u('images/zhurnal/' + a['slug'] + '.jpg')}" alt="{a['name']}" loading="lazy"></div>
-<div class="body">{m}<h3>{a['name']}</h3><p>{T(a['deck'][:110])}</p></div></a>"""
+<div class="body">{m}<h3>{a['name']}</h3><p>{T(a['anons'])}</p></div></a>"""
 
 
-def statya(a, sosedi):
+def statya(a, sosedi, sosed_prev, sosed_next):
     razdel_name, razdel_path = RAZDEL[a['kind']]
-    secs = ''
-    for i, s in enumerate(a['sections']):
-        ps = ''.join(f'<p>{T(html.escape(p))}</p>' for p in s['p'])
-        secs += f'<h2>{T(html.escape(s["h"]))}</h2>{ps}'
-        if i == 1 and a['deck']:
-            secs += f'<div class="vrez">{T(html.escape(a["deck"]))}</div>'
+    # врезка: живая присказка в кавычках, если она в статье есть
+    vrez, vrez_posle = '', -1
+    for i, sec in enumerate(a['sections']):
+        for p in sec['p']:
+            m = re.search(r'«([^»]{18,150})»', p)
+            if m and not vrez:
+                vrez, vrez_posle = m.group(1).strip(), i
+    secs, toc = '', []
+    for i, sec in enumerate(a['sections']):
+        aid = f'r{i + 1}'
+        toc.append(f'<li><a href="#{aid}">{html.escape(sec["h"])}</a></li>')
+        ps = ''.join(f'<p>{T(html.escape(p))}</p>' for p in sec['p'])
+        secs += f'<h2 id="{aid}">{T(html.escape(sec["h"]))}</h2>{ps}'
+        if i == vrez_posle and vrez:
+            secs += f'<div class="vrez">{T(html.escape(vrez))}</div>'
+    # «Коротко»: заголовки разделов, то есть карта статьи, ничего не выдумано
+    korotko = ''.join(f'<li>{T(html.escape(x["h"]))}</li>' for x in a['sections'])
     dalshe = ''.join(kadr(x, metka=False) for x in sosedi[:3])
     kurs = ('kursy/besy/', 'Курс по славянской демонологии') if a['kind'] == 'nechist' \
         else ('oberegi/', 'Все обереги дома')
+    sosedi_bl = ''
+    if sosed_prev:
+        sosedi_bl += (f'<a href="{u("zhurnal/" + sosed_prev["url"] + "/")}">'
+                      f'<span>Предыдущий разбор</span><b>{sosed_prev["name"]}</b></a>')
+    if sosed_next:
+        sosedi_bl += (f'<a href="{u("zhurnal/" + sosed_next["url"] + "/")}">'
+                      f'<span>Следующий разбор</span><b>{sosed_next["name"]}</b></a>')
+    istochnik = ('Разбор собран по записям этнографов и деревенским быличкам. Народные приметы '
+                 'приводятся так, как они записаны собирателями, без позднейших дополнений.')
     schema = json.dumps({
         "@context": "https://schema.org", "@type": "Article",
         "headline": a['name'], "description": a['deck'][:180],
@@ -42,15 +93,22 @@ def statya(a, sosedi):
 <section style="padding-top:34px"><div class="wrap uzko">
 <p class="eyebrow">{razdel_name}</p>
 <h1>{T(html.escape(a['name']))}</h1>
-<p class="lid">{T(html.escape(a['deck']))}</p>
+<p class="podzag">{T(html.escape(a['anons']))}</p>
 </div>
-<div class="wrap" style="margin-top:30px">
-<div class="kadr"><div class="ph"><img src="{u('images/zhurnal/' + a['slug'] + '.jpg')}"
+<div class="wrap" style="margin-top:26px">
+<div class="kadr art-kadr"><div class="ph"><img src="{u('images/zhurnal/' + a['slug'] + '.jpg')}"
  alt="{html.escape(a['name'])}"></div></div>
 </div>
-<div class="wrap"><div class="art" style="margin-top:34px">
-<p class="lid">{T(html.escape(a['lead']))}</p>
+<div class="wrap"><div class="art" style="margin-top:30px">
+<p class="lead drop">{T(html.escape(a['lead']))}</p>
+<div class="byline"><b>Ирина Волкова</b><span class="dot"></span>
+<span class="tag">{razdel_name}</span><span class="dot"></span>
+<span>{len(a['sections'])} раздела</span></div>
+<div class="korotko"><b>Коротко</b><ul>{korotko}</ul></div>
+<details class="toc"><summary>Что внутри разбора</summary><ol>{''.join(toc)}</ol></details>
 {secs}
+<div class="istok"><b>Откуда это известно</b><p>{T(istochnik)}</p></div>
+<div class="sosedi">{sosedi_bl}</div>
 </div></div></section>
 
 <section><div class="wrap">
@@ -63,9 +121,10 @@ def statya(a, sosedi):
 </div>
 </div></section>
 
-{finalny('Разборы выходят в канале',
-         'Новые разборы про обереги и нечистую силу Ирина выкладывает в телеграм-канале школы. '
-         'Там же выходят объявления о наборах на курсы.')}
+{finalny('Читать дальше в канале',
+         'Каждый новый разбор Ирина сначала выкладывает в телеграм-канал школы.',
+         vtoraya=('kursy/besy/', 'Курс по демонологии'), knopka='Открыть канал',
+         side=('27 разборов', 'Семь про домашние обереги и двадцать про нечистую силу.'))}
 """
     page(f'zhurnal/{a["url"]}/', f'{a["name"]}: {a["deck"][:70].rstrip(",. ")}',
          a['deck'][:180], body, active='zhurnal/',
@@ -100,17 +159,20 @@ def zhurnal(articles):
 <section><div class="wrap">
 <p class="eyebrow">Обереги дома</p>
 <h2>Домашняя защита деревни</h2>
-<div class="grid3">{''.join(kadr(a, metka=False) for a in ob)}</div>
+<div class="grid3">{dobit(''.join(kadr(a, metka=False) for a in ob), len(ob), DOBAVKI['oberegi'])}</div>
 </div></section>
 
 <section><div class="wrap">
 <p class="eyebrow">Нечисть</p>
 <h2>Кто жил рядом с человеком</h2>
-<div class="grid3">{''.join(kadr(a, metka=False) for a in ne)}</div>
+<div class="grid3">{dobit(''.join(kadr(a, metka=False) for a in ne), len(ne), DOBAVKI['nechist'])}</div>
 </div></section>
 
-{finalny('Новые разборы выходят в канале',
-         'Ирина выкладывает разборы в телеграм-канале школы. Там же объявляются наборы на курсы.')}
+{finalny('Что выходит дальше',
+         'Свежие разборы и объявления о наборах появляются в телеграм-канале школы раньше, '
+         'чем где-либо ещё.',
+         vtoraya=('shkola/', 'Как учат в школе'), knopka='Читать канал',
+         side=('По источникам', 'У каждой приметы назван собиратель, который её записал.'))}
 """
     page('zhurnal/', 'Журнал: разборы про обереги и нечистую силу',
          'Двадцать семь разборов Ирины Волковой о домашних оберегах и нечистой силе славянской '
@@ -123,17 +185,16 @@ def razdel(kind, articles):
     if kind == 'oberegi':
         title, h1 = 'Обереги дома', 'Обереги славянского дома'
         eyebrow, img = 'Раздел журнала', 'oberegi'
-        lid = ('Соль, нож, красный угол, крапива у порога, громничная свеча. Семь разборов '
+        lid = ('Нож на ночь, красный угол, крапива у порога, громничная свеча. Семь разборов '
                'о том, чем деревня держала дом и откуда эти правила взялись.')
         vvod = [
-            'Домашний оберег в деревне был работой с границей: где вход, '
-            'где порог, где угол, где окно. У каждой границы находился свой предмет и своё правило, '
-            'и правило это знали все, от хозяйки до ребёнка.',
+            'Домашний оберег в деревне был работой с границей: где вход, где порог, где угол, где окно. '
+            'У каждой границы свой предмет и своё правило. Знали их все, от хозяйки до ребёнка.',
             'Логика везде одна. Опасность приходит снаружи и заходит через щель, поэтому щель '
             'закрывают: солью, ножом, крапивой, огнём освящённой свечи, красным углом с рушником. '
             'Отсюда и запреты, которые сегодня выглядят суеверием, а на деле были частью порядка.',
-            'В разборах ниже собрано, что именно делали, в какие дни и почему. Источники называются '
-            'прямо в тексте, догадки от записанного отделены.',
+            'В разборах ниже собрано, что именно делали, в какие дни и почему. Источник называется '
+            'прямо в тексте.',
         ]
         kurs = ('kursy/besy/', 'Курс по славянской демонологии')
     else:
@@ -142,14 +203,14 @@ def razdel(kind, articles):
         lid = ('Домовой, леший, водяной, банник, полудница, мара, упырь. Двадцать разборов '
                'о тех, кого деревня считала соседями по двору, лесу и воде.')
         vvod = [
-            'В народной вере нечисть не была одной серой массой. У каждого существа своё место, '
-            'свой час и свои правила: домовой держится печи, банник приходит в четвёртый пар, '
-            'полудница выходит в полдень над полем, водяной сидит в омуте.',
-            'Отсюда и разные обереги. Против того, кто живёт в доме, работает угощение и поклон. '
-            'Против того, кто пришёл с погоста, работает счёт зёрен и осина. Одинаковых средств '
-            'не было, потому что и беды считались разными.',
-            'В разборах собрано, кто есть кто, по каким приметам его узнавали и как с ним '
-            'обходились. Всё, что записано у собирателей, отделено от позднейших выдумок.',
+            'Народная вера различала нечисть очень подробно. У каждого своё место, свой час и свои правила: '
+            'домовой держится печи, банник остаётся в бане после третьего пара, полудница выходит '
+            'в полдень над полем, водяной сидит в омуте.',
+            'Отсюда и разные обереги. Того, кто живёт в доме, задабривали угощением и поклоном. '
+            'От пришедшего с погоста закрывались осиной и рассыпанным зерном. Общего средства '
+            'не было: против каждого работало своё, и в каждой местности набор отличался.',
+            'В разборах собрано, кто есть кто, по каким приметам его узнавали и как с ним обходились. '
+            'У каждой приметы назван собиратель, который её записал.',
         ]
         kurs = ('kursy/besy/', 'Курс по славянской демонологии')
 
@@ -164,17 +225,20 @@ def razdel(kind, articles):
 <div class="plashki"><a class="plashka" href="{u(kurs[0])}">{ico('strela')} {kurs[1]}</a></div>
 </div>
 <aside class="side"><div class="cifra">{len(arts)}</div>
-<p>{T('разборов в этом разделе, каждый с источниками и без страшилок.')}</p></aside></div>
+<p>{T('разборов в этом разделе, у каждого назван источник записи.')}</p></aside></div>
 </div></section>
 
 <section><div class="wrap">
 <p class="eyebrow">Разборы</p>
 <h2>{'Чем держали дом' if kind == 'oberegi' else 'Кто есть кто'}</h2>
-<div class="grid3">{''.join(kadr(a, metka=False) for a in arts)}</div>
+<div class="grid3">{dobit(''.join(kadr(a, metka=False) for a in arts), len(arts), DOBAVKI[kind])}</div>
 </div></section>
 
-{finalny('Новые разборы в канале',
-         'Ирина выкладывает разборы в телеграм-канале школы, там же объявляются наборы на курсы.')}
+{finalny('Куда идут разборы дальше',
+         'Разобранное здесь на курсах разворачивается подробнее: с источниками, спорными местами '
+         'и практикой.',
+         vtoraya=('kursy/', 'Все курсы'), knopka='Читать канал школы',
+         side=('Из деревни', 'Материал взят из быличек и записей этнографов, а не из современных подборок.'))}
 """
     page(f'{kind}/' if kind == 'oberegi' else 'nechist/',
          title + ': разборы по источникам', lid[:180], body, active='zhurnal/',

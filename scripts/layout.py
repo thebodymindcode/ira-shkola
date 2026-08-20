@@ -11,7 +11,7 @@ def u(path=''):
     return BASE + path
 
 def shapka(active):
-    nav = ''.join(f'<a href="{u(p)}" class="{"on" if p == active else ""}">{n}</a>'
+    nav = ''.join(f'<a href="{u(p)}" class="{"on" if (active is not None and p == active) else ""}">{n}</a>'
                   for n, p in MENU)
     mob = ''.join(f'<a href="{u(p)}">{n}</a>' for n, p in MENU)
     return f"""<header class="shapka"><div class="in">
@@ -86,7 +86,39 @@ def schema_faq(body):
     return f'<script type="application/ld+json">{json.dumps(d, ensure_ascii=False)}</script>'
 
 
-def page(path, title, descr, body, active='', og='obrazy/glavnaya.jpg', crumbs=None, schema=''):
+
+SIROTA_TAGS = ('h1', 'h2', 'h3', 'h4', 'li', 'summary')
+
+
+def bez_sirot(html_text):
+    """Клеит последнее слово неразрывным пробелом в заголовках и пунктах."""
+    NB = '\u00a0'
+
+    def skleit(m):
+        otkr, telo, zakr = m.group(1), m.group(2), m.group(3)
+        if '<' in telo and '>' in telo:
+            hvost = re.split(r'(<[^>]+>)', telo)
+            for i in range(len(hvost) - 1, -1, -1):
+                if hvost[i] and not hvost[i].startswith('<') and ' ' in hvost[i].strip():
+                    sl = hvost[i].strip().split()
+                    if len(sl) >= 2 and len(sl[-1]) + len(sl[-2]) <= 15:
+                        hvost[i] = re.sub(r'\s+(\S+)\s*$', NB + r'\1', hvost[i])
+                    break
+            telo = ''.join(hvost)
+        else:
+            slova = telo.strip().split()
+            # склейка вредна, когда два последних слова вместе шире колонки
+            if len(slova) > 2 and len(slova[-1]) + len(slova[-2]) <= 15:
+                telo = re.sub(r'\s+(\S+)\s*$', NB + r'\1', telo)
+        return otkr + telo + zakr
+
+    for tag in SIROTA_TAGS:
+        html_text = re.sub(r'(<%s(?:\s[^>]*)?>)(.*?)(</%s>)' % (tag, tag),
+                           skleit, html_text, flags=re.S)
+    return html_text
+
+
+def page(path, title, descr, body, active=None, og='obrazy/glavnaya.jpg', crumbs=None, schema=''):
     """Собирает и пишет html. path: '' | 'kursy/' | 'zhurnal/domovoy/'."""
     canon = DOMAIN + '/' + path
     schema = schema + schema_crumbs(crumbs, title) + schema_faq(body)
@@ -111,7 +143,7 @@ def page(path, title, descr, body, active='', og='obrazy/glavnaya.jpg', crumbs=N
 </head><body>
 {shapka(active)}
 {kroshki(crumbs) if crumbs else ''}
-<main>{body}</main>
+<main>{bez_sirot(body)}</main>
 <a class="plyv" href="{TG}" target="_blank" rel="noopener">{ico('tg')} Написать в Telegram</a>
 {podval()}
 <script src="{u('site.js')}?v={VERSION}" defer></script>

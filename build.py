@@ -37,7 +37,11 @@ pages_info.ne_nashlos()
 for i, a in enumerate(articles):
     same = [x for x in articles if x['kind'] == a['kind'] and x['slug'] != a['slug']]
     sosedi = (same + articles)[i % max(1, len(same)):][:3] or same[:3]
-    pages_zhurnal.statya(a, sosedi)
+    ryad = ob if a['kind'] == 'oberegi' else ne
+    j = ryad.index(a)
+    pages_zhurnal.statya(a, sosedi,
+                         ryad[j - 1] if j > 0 else None,
+                         ryad[j + 1] if j + 1 < len(ryad) else None)
 
 # карта сайта
 paths = ['', 'shkola/', 'kursy/', 'kursy/gekata/', 'kursy/runy/', 'kursy/besy/',

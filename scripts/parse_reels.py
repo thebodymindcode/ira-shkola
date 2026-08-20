@@ -7,7 +7,7 @@ BASE_DIRS = [
     (os.path.expanduser('~/Reels Instagram/2026-08-06-мистика-ира'), 'oberegi'),
 ]
 
-EMOJI = re.compile('[\U0001F000-\U0001FAFF☀-➿️⬀-⯿]')
+EMOJI = re.compile('[\U0001F000-\U0001FAFF☀-➿⬀-⯿\uFE0F\u200D\u2640\u2642]')
 
 def parse(path):
     raw = open(path, encoding='utf-8').read().strip()
@@ -51,6 +51,14 @@ for d, kind in BASE_DIRS:
         art = parse(p)
         art['slug'] = slug
         art['url'] = re.sub(r'^\d+-', '', slug)
+        # аннотация для витрины: дек без хвоста-формулы «Вот как ...»
+        an = re.split(r'\s+Вот\s', art['deck'])[0].rstrip(' ,:;').strip()
+        # где в хуке звучит обращение на «ты», витрину берём из первой фразы лида
+        if re.search(r'\b(ты|тебе|тебя|тобой|тво[йяёеи]\w*)\b', an, re.I):
+            an = re.split(r'(?<=[.!?])\s+', art['lead'])[0].strip()
+        if not an.endswith(('.', '!', '?')):
+            an += '.'
+        art['anons'] = an
         art['kind'] = kind
         out.append(art)
 

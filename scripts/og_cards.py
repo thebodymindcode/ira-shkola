@@ -56,17 +56,14 @@ async def main():
       ('nastavnichestvo', 'Личная работа', 'Разбор своей практики один на один с Ириной Волковой.', 'images/obrazy/nastavnichestvo.jpg', 'Наставничество'),
       ('taro', 'Обучение таро', 'Вопрос, расклад, чтение связок и разговор с человеком.', 'images/obrazy/taro.jpg', 'Направление'),
       ('zhurnal', 'Журнал разборов', 'Двадцать семь разборов про домашние обереги и нечистую силу.', 'images/obrazy/zhurnal.jpg', 'Журнал'),
-      ('oberegi', 'Обереги славянского дома', 'Соль, нож, красный угол, громничная свеча. Семь разборов по источникам.', 'images/obrazy/oberegi.jpg', 'Раздел'),
+      ('oberegi', 'Обереги славянского дома', 'Нож на ночь, красный угол, крапива у порога, громничная свеча.', 'images/obrazy/oberegi.jpg', 'Раздел'),
       ('nechist', 'Нечистая сила деревни', 'Домовой, леший, банник, полудница, мара. Двадцать разборов.', 'images/obrazy/nechist.jpg', 'Раздел'),
       ('irina', 'Ирина Волкова', 'Первая колода в одиннадцать лет, практика с двадцати трёх, курсы с 2014 года.', 'images/obrazy/irina-2.jpg', 'Кто ведёт'),
       ('vopros', 'Вопросы о школе', 'С чего начать, нужен ли дар, как идут потоки и чем занимается школа.', 'images/obrazy/vopros.jpg', 'Вопросы'),
       ('kontakty', 'Как связаться', 'Телеграм-канал школы и Instagram Ирины Волковой.', 'images/obrazy/kontakty.jpg', 'Связь'),
     ]
     for a in articles:
-        pod = a['deck'].split('. ')[0].rstrip(' :,') + '.'
-        if len(pod) > 118:
-            pod = pod[:115].rsplit(' ', 1)[0] + '…'
-        zadachi.append((f'st-{a["slug"]}', a['name'], pod,
+        zadachi.append((f'st-{a["slug"]}', a['name'], a['anons'],
                         f'images/zhurnal/{a["slug"]}.jpg',
                         'Обереги дома' if a['kind'] == 'oberegi' else 'Нечисть'))
     async with async_playwright() as pw:

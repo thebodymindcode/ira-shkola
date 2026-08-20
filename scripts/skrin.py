@@ -5,7 +5,7 @@ PAGES=[('','glavnaya'),('shkola/','shkola'),('kursy/','kursy'),('kursy/gekata/',
        ('kursy/runy/','runy'),('kursy/besy/','besy'),('kursy/nastavnichestvo/','nastav'),
        ('taro/','taro'),('zhurnal/','zhurnal'),('oberegi/','oberegi'),('nechist/','nechist'),
        ('ob-irine/','irina'),('vopros-otvet/','faq'),('kontakty/','kontakty'),
-       ('zhurnal/02-domovoy/','statya-domovoy'),('politika/','politika')]
+       ('zhurnal/domovoy/','statya-domovoy'),('zhurnal/upyr/','statya-upyr'),('politika/','politika')]
 async def main():
     async with async_playwright() as pw:
         br=await pw.chromium.launch()
