@@ -100,7 +100,7 @@ STATI_SCENY = {'01-leshy': 'leshy-v3.png', '03-vodyanoy': 'vodyanoy-nb.png'}
 
 WIDE = {
     # шапки страниц
-    'h-glavnaya': '06-oblozhka.jpg', 'h-kursy': '14-krug-svechej.jpg',
+    'h-glavnaya': '14-krug-svechej.jpg', 'h-kursy': '14-krug-svechej.jpg',
     'h-shkola': '12-luna-nad-vodoj.jpg', 'h-taro': '26-svecha-taro.jpg',
     'h-zhurnal': '24-taro-stena.jpg', 'h-oberegi': '05-svecha-fazy-luny.jpg',
     'h-nechist': '15-lico-iz-dyma.jpg', 'h-vopros': '19-svechi-karta.jpg',
@@ -139,7 +139,7 @@ for name, src in SCENY_SHAPOK.items():
 # для карточек с портретом доля подобрана глазами: автопоиск ловит руки и грудь
 RUCHNOJ_SREZ = {'z-nechist': 0.18, 'z-oberegi': 0.06}
 SREZ_SHAPOK = {
-    'h-glavnaya': dict(dolya=0.72, verh=0.0),
+    'h-glavnaya': dict(dolya=0.66, verh=0.02),
     'h-irina': dict(dolya=0.70, verh=0.02),
     'h-taro': dict(dolya=0.78, verh=0.04),
     'h-zhurnal': dict(dolya=0.74, verh=0.02),
