@@ -63,10 +63,8 @@ SCENY = {
 }
 # шапки страниц: сцены без людей, поэтому лицо нигде не режется
 SCENY_SHAPOK = {
-    'h-glavnaya': 'h2-glavnaya.png', 'h-shkola': 'h2-shkola.png', 'h-kursy': 'h2-kursy.png',
-    'h-taro': 'h2-taro.png', 'h-zhurnal': 'h2-zhurnal.png', 'h-oberegi': 'h2-oberegi.png',
-    'h-nechist': 'h2-nechist.png', 'h-vopros': 'h2-vopros2.png', 'h-kontakty': 'h2-kontakty.png',
-    'h-irina': 'h2-irina.png',
+    'h-kursy': 'h2-kursy.png', 'h-oberegi': 'h2-oberegi.png',
+    'h-nechist': 'h2-nechist.png', 'h-vopros': 'h2-vopros2.png',
 }
 STATI_SCENY = {'01-leshy': 'leshy-v3.png', '03-vodyanoy': 'vodyanoy-nb.png'}
 
@@ -110,6 +108,8 @@ for name, src in SCENY_SHAPOK.items():
 
 # для карточек с портретом доля подобрана глазами: автопоиск ловит руки и грудь
 RUCHNOJ_SREZ = {'z-nechist': 0.18, 'z-oberegi': 0.06}
+SREZ_SHAPOK = {'h-glavnaya': 0.06, 'h-irina': 0.06, 'h-taro': 0.32,
+               'h-zhurnal': 0.32, 'h-shkola': 0.02, 'h-kontakty': 0.13}
 
 for name, src in WIDE.items():
     if name in SCENY_SHAPOK:
@@ -124,8 +124,16 @@ for name, src in WIDE.items():
         n += 1
         continue
     im = Image.open(os.path.join(OBR, src)).convert('RGB')
-    # 2.4:1 это пропорция полосы шапки. Точку среза берём от центра лица,
-    # иначе у одних кадров срезается лоб, у других подбородок.
+    # 2.4:1 это пропорция полосы шапки. Для портретов доля подобрана глазами,
+    # автопоиск ловит руки и грудь и режет лицо.
+    if name in SREZ_SHAPOK:
+        W0, H0 = im.size
+        th = int(W0 / 2.4)
+        top = int(H0 * SREZ_SHAPOK[name])
+        im.crop((0, top, W0, min(H0, top + th))).resize((2400, 1000), Image.LANCZOS).save(
+            f'images/obrazy/{name}.jpg', quality=84, optimize=True)
+        n += 1
+        continue
     lico = centr_lica(im)
     W0, H0 = im.size
     th = int(W0 / 2.4)
