@@ -137,6 +137,9 @@ def page(path, title, descr, body, active=None, og='obrazy/glavnaya.jpg', crumbs
 <meta property="og:image" content="{DOMAIN}/{og}?v={VERSION}">
 <meta property="og:site_name" content="{TITLE_SITE}">
 <meta name="theme-color" content="#0E0C11">
+<link rel="icon" href="{u('favicon.svg')}?v={VERSION}" type="image/svg+xml">
+<link rel="icon" href="{u('favicon-32.png')}?v={VERSION}" sizes="32x32">
+<link rel="apple-touch-icon" href="{u('apple-touch-icon.png')}?v={VERSION}">
 {FONTS}
 <link rel="stylesheet" href="{u('site.css')}?v={VERSION}">
 {schema}
