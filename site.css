@@ -260,7 +260,12 @@ svg.big{width:34px;height:34px}
 .plyv svg{width:19px;height:19px}
 .plyv:active{transform:scale(.97)}
 @media(hover:hover){.plyv:hover{background:var(--zoloto-svet)}}
-@media(max-width:640px){.plyv{right:14px;bottom:14px;padding:12px 15px;font-size:14px}}
+@media(max-width:640px){
+  .plyv{right:14px;bottom:14px;width:54px;height:54px;padding:0;border-radius:50%;
+    justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.55)}
+  .plyv span{display:none}
+  .plyv svg{width:23px;height:23px}
+}
 
 /* ---------- мобильное ---------- */
 @media(max-width:1000px){
@@ -283,5 +288,8 @@ svg.big{width:34px;height:34px}
   .hero .in{padding:44px 0 46px}
   .wrap,.shapka .in{padding:0 18px}
   .stepline li{gap:14px}
+  .knopki{gap:10px}
+  .knopki .btn{flex:1 1 100%;justify-content:center}
+  .knopki .btn::after{right:9px}
   .art .vrez{font-size:20px}
 }

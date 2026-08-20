@@ -144,7 +144,7 @@ def page(path, title, descr, body, active=None, og='obrazy/glavnaya.jpg', crumbs
 {shapka(active)}
 {kroshki(crumbs) if crumbs else ''}
 <main>{bez_sirot(body)}</main>
-<a class="plyv" href="{TG}" target="_blank" rel="noopener">{ico('tg')} Написать в Telegram</a>
+<a class="plyv" href="{TG}" target="_blank" rel="noopener" aria-label="Написать в Telegram">{ico('tg')}<span>Написать в&nbsp;Telegram</span></a>
 {podval()}
 <script src="{u('site.js')}?v={VERSION}" defer></script>
 </body></html>"""
