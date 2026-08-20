@@ -57,7 +57,7 @@ def shapka(active):
                     f'<div class="mstroka{on}"><a href="{u(p)}">{n}</a>'
                     f'<button class="mrask" type="button" aria-expanded="false" '
                     f'aria-label="Раскрыть раздел {n}">{strelka_m}</button></div>'
-                    f'<div class="mpod">{punkty}</div></div>')
+                    f'<div class="mpod"><div class="mpod-in">{punkty}</div></div></div>')
         else:
             mob += f'<div class="mgruppa"><div class="mstroka{on}"><a href="{u(p)}">{n}</a></div></div>'
     return f"""<header class="shapka"><div class="in">
