@@ -29,7 +29,6 @@ pages_kursy3.besy_nastoyashchie(articles)
 pages_kursy3.grimuar()
 pages_kursy2.nastavnichestvo()
 pages_kursy2.taro()
-pages_zhurnal.zhurnal(articles)
 pages_zhurnal.razdel('oberegi', articles)
 pages_zhurnal.razdel('nechist', articles)
 pages_info.ob_irine()
@@ -86,5 +85,5 @@ if _statyi:
     for _i, _d in enumerate(_statyi):
         _sosedi = [x for x in _statyi if x['slug'] != _d['slug']]
         pages_baza.statya(_d, _sosedi)
-    pages_baza.hab(_statyi)
+    pages_baza.hab(_statyi, articles)
     print('библиотека:', len(_statyi), 'разборов')

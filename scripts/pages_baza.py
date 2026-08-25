@@ -11,7 +11,7 @@ T = typo
 
 def krohki(nazvanie):
     return (f'<div class="wrap"><div class="kb-crumbs">'
-            f'<a href="{u()}">Главная</a> / <a href="{u("baza/")}">Библиотека</a> / {nazvanie}</div></div>')
+            f'<a href="{u()}">Главная</a> / <a href="{u("zhurnal/")}">Ведьмин дневник</a> / {nazvanie}</div></div>')
 
 
 def tldr(punkty):
@@ -73,7 +73,7 @@ def avtor():
 
 
 def razmetka(zag, opis, slug, data, faq_pary):
-    adres = f'{DOMAIN}/baza/{slug}/'
+    adres = f'{DOMAIN}/ira-shkola/zhurnal/{slug}/'
     art = {"@context": "https://schema.org", "@type": "Article", "headline": zag,
            "description": opis, "datePublished": data, "dateModified": data,
            "author": {"@type": "Person", "name": "Ирина Волкова"},
@@ -82,7 +82,7 @@ def razmetka(zag, opis, slug, data, faq_pary):
            "image": f'{DOMAIN}/ira-shkola/images/baza/{slug}.jpg'}
     kroh = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Главная", "item": f'{DOMAIN}/ira-shkola/'},
-        {"@type": "ListItem", "position": 2, "name": "Библиотека", "item": f'{DOMAIN}/ira-shkola/baza/'},
+        {"@type": "ListItem", "position": 2, "name": "Ведьмин дневник", "item": f'{DOMAIN}/ira-shkola/zhurnal/'},
         {"@type": "ListItem", "position": 3, "name": zag, "item": adres}]}
     fq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
         {"@type": "Question", "name": v,
@@ -113,9 +113,9 @@ def statya(d, sosedi):
     rel = ''
     if sosedi:
         kart = ''.join(
-            f'<a class="kb-card" href="{u("baza/" + s["slug"] + "/")}">'
+            f'<a class="kb-card" href="{u("zhurnal/" + s["slug"] + "/")}">'
             f'{ph("images/baza/" + s["slug"] + ".jpg", s["h1"])}'
-            f'<div class="body"><span class="metka">Библиотека</span><h3>{T(s["h1"])}</h3>'
+            f'<div class="body"><span class="metka">Разбор</span><h3>{T(s["h1"])}</h3>'
             f'<p>{T(anons(s["lead"], 120))}</p><span class="chit">Читать разбор</span></div></a>'
             for s in sosedi[:2])
         rel = (f'<section><div class="wrap"><p class="eyebrow">Читать дальше</p>'
@@ -125,7 +125,7 @@ def statya(d, sosedi):
  width="1600" height="900" fetchpriority="high"></div></div></section>
 <section><div class="wrap article">
 <h1>{T(d['h1'])}</h1>
-<div class="artmeta"><span>{ico('kniga')} <b>Библиотека</b></span>
+<div class="artmeta"><span>{ico('kniga')} <b>Разбор</b></span>
 <span>{ico('chas')} {d.get('chtenie', '12 минут')}</span>
 <span>{ico('luna')} {d.get('data_vid', '21 августа 2026')}</span></div>
 <p class="lid">{T(d['lead'])}</p>
@@ -142,9 +142,9 @@ def statya(d, sosedi):
 </div></section>
 {rel}
 """
-    return page(f"baza/{d['slug']}/", d['title'], d['descr'], telo, active='baza/',
+    return page(f"zhurnal/{d['slug']}/", d['title'], d['descr'], telo, active='zhurnal/',
                 og=f"images/og/baza-{d['slug']}.jpg",
-                crumbs=[('Библиотека', 'baza/')],
+                crumbs=[('Ведьмин дневник', 'zhurnal/')],
                 schema=razmetka(d['h1'], d['descr'], d['slug'],
                                 d.get('data', '2026-08-21'), d['faq']))
 
@@ -159,7 +159,7 @@ RUBRIKI = [
 
 
 def kartochka(s, rubrika_imya):
-    return (f'<a class="kb-card" href="{u("baza/" + s["slug"] + "/")}" '
+    return (f'<a class="kb-card" href="{u("zhurnal/" + s["slug"] + "/")}" '
             f'data-poisk="{(s["h1"] + " " + s["lead"]).lower()}">'
             f'{ph("images/baza/" + s["slug"] + ".jpg", s["h1"])}'
             f'<div class="body"><span class="metka">{rubrika_imya}</span>'
@@ -167,34 +167,47 @@ def kartochka(s, rubrika_imya):
             f'<span class="chit">Читать разбор {ico("strela")}</span></div></a>')
 
 
-def hab(statyi):
+def hab(statyi, korotkie):
+    """Ведьмин дневник: длинные разборы и короткие заметки в одной сетке по рубрикам."""
     po_rubrikam = {}
-    for s in statyi:
-        po_rubrikam.setdefault(s.get('rubrika_id', 'taro'), []).append(s)
+    for x in statyi:
+        po_rubrikam.setdefault(x.get('rubrika_id', 'taro'), []).append(
+            dict(slug=x['slug'], put='zhurnal/' + x['slug'] + '/', h1=x['h1'],
+                 lead=x['lead'], img='images/baza/' + x['slug'] + '.jpg', dlin=True))
+    for a in korotkie:
+        rid = 'oberegi' if a['kind'] == 'oberegi' else 'nechist'
+        po_rubrikam.setdefault(rid, []).append(
+            dict(slug=a['slug'], put='zhurnal/' + a['url'] + '/', h1=a['name'],
+                 lead=a['anons'], img='images/zhurnal/' + a['slug'] + '.jpg', dlin=False))
     gruppy = ''
+    vsego = 0
     for rid, imya, ikona, opis in RUBRIKI:
         spisok = po_rubrikam.get(rid, [])
         if not spisok:
             continue
-        kart = ''.join(kartochka(x, imya) for x in spisok)
+        vsego += len(spisok)
+        kart = ''.join(
+            f'<a class="kb-card" href="{u(x["put"])}" data-poisk="{(x["h1"] + " " + x["lead"]).lower()}">'
+            f'{ph(x["img"], x["h1"])}'
+            f'<div class="body"><span class="metka">{"Полный разбор" if x["dlin"] else imya}</span>'
+            f'<h3>{T(x["h1"])}</h3><p>{T(anons(x["lead"], 150))}</p>'
+            f'<span class="chit">Читать {ico("strela")}</span></div></a>' for x in spisok)
         gruppy += (f'<div class="kb-group" id="rub-{rid}" data-rub="{rid}">'
                    f'<div class="gh"><span class="ic">{ico(ikona)}</span>'
                    f'<div><b>{imya}</b><span>{T(opis)}</span></div>'
                    f'<i class="gn">{len(spisok)}</i></div>'
                    f'<div class="kb-grid">{kart}</div></div>')
-    kolvo = len(statyi)
-    slovo = 'разбор' if kolvo % 10 == 1 and kolvo % 100 != 11 else (
-        'разбора' if kolvo % 10 in (2, 3, 4) and kolvo % 100 not in (12, 13, 14) else 'разборов')
+    slovo = 'разбор' if vsego % 10 == 1 and vsego % 100 != 11 else (
+        'разбора' if vsego % 10 in (2, 3, 4) and vsego % 100 not in (12, 13, 14) else 'разборов')
     telo = f"""<section class="hb"><div class="wrap">
 <div class="hb-hero">
-<span class="eb">Библиотека</span>
-<h1>Разборы, после которых не нужен третий сайт</h1>
-<p>{T('Ищешь значение знака и находишь пять разных ответов, ни одного с указанием, откуда он взялся. '
-      'Здесь у каждого утверждения назван источник: рукопись, находка, работа исследователя. '
-      'Где они расходятся между собой, так и написано.')}</p>
-<p>{T('Внутри полные разборы: старший футарк по знакам, работа с колодой, домашние обереги, '
-      'нечистая сила деревни. Каждый заканчивается практикой на сегодня.')}</p>
-<a class="hb-count" href="#vse"><b>{kolvo}</b> {slovo} в библиотеке {ico('strela')}</a>
+<span class="eb">Рабочая тетрадь школы</span>
+<h1>Ведьмин дневник</h1>
+<p>{T('Рабочая тетрадь школы. Сюда Ирина складывает то, что разобрано до самого корня: '
+      'знаки старшего футарка, работу с колодой, домашние обереги, нечистую силу деревни.')}</p>
+<p>{T('У каждого утверждения назван источник: рукопись, находка, запись собирателя. '
+      'Где они расходятся между собой, так и написано. В конце каждого разбора стоит практика.')}</p>
+<a class="hb-count" href="#vse"><b>{vsego}</b> {slovo} в дневнике {ico('strela')}</a>
 <div class="hb-feat">
 <span>{ico('kniga')} Источник у каждого утверждения</span>
 <span>{ico('glaz')} Разбор, а не пересказ</span>
@@ -205,13 +218,14 @@ def hab(statyi):
 <label class="kb-pole"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
  stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.4"/><path d="M16 16l4.4 4.4"/></svg>
 <input type="search" id="kb-q" placeholder="Найти разбор: руны, карта дня, порог, домовой"
- autocomplete="off" aria-label="Поиск по библиотеке">
+ autocomplete="off" aria-label="Поиск по дневнику">
 </label>
 <button class="kb-clr" id="kb-clr" type="button" hidden>Сбросить</button>
 </div>
 <div id="vse" class="kb-rows">{gruppy}</div>
 <p class="kb-itog" id="kb-itog" hidden>Ничего не нашлось. Попробуйте другое слово.</p>
 </div></section>"""
-    return page('baza/', 'Библиотека школы Ирины Волковой',
-                'Длинные разборы школы: руны старшего футарка, работа с колодой таро, домашние обереги. '
-                'Всё по источникам и с практикой.', telo, active='baza/')
+    return page('zhurnal/', 'Ведьмин дневник Ирины Волковой',
+                'Разборы школы: руны старшего футарка, работа с колодой таро, домашние обереги '
+                'и нечистая сила славянской деревни. По источникам и с практикой.',
+                telo, active='zhurnal/')
