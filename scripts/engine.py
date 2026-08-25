@@ -3,7 +3,7 @@
 import re
 
 BASE = '/ira-shkola/'
-VERSION = '2026082555'
+VERSION = '2026082556'
 DOMAIN = 'https://thebodymindcode.github.io/ira-shkola'
 TITLE_SITE = 'Школа Ирины Волковой'
 TG = 'https://t.me/ira_volkova_life'
@@ -25,6 +25,7 @@ MENU = [
 # Разделы в подвале: имя, адрес, кадр раздела, короткая подпись.
 # Кадр и подпись нужны, чтобы сетка читалась как витрина, а не как россыпь плашек.
 FOOTER_LINKS = [
+    ('Главная', '', 'obrazy/p-glavnaya.jpg', 'Школа целиком'),
     ('Школа', 'shkola/', 'obrazy/k-besy.jpg', 'Как здесь учат'),
     ('Курсы', 'kursy/', 'obrazy/h-kursy.jpg', 'Шесть направлений'),
     ('Чёрный Гримуар', 'kursy/grimuar/', 'obrazy/k-grimuar.jpg', 'Девять ступеней'),

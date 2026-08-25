@@ -541,15 +541,18 @@ section > .wrap{position:relative}
 /* ---------- плашки-ссылки ---------- */
 .razdely{margin-top:40px;padding-top:32px;border-top:1px solid var(--line)}
 /* Плашки разделов стоят ровной сеткой: одинаковая ширина и высота, ряды не рваные. */
-.plashki{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:10px;margin-top:18px}
+.plashki{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:18px}
+/* Число колонок подобрано так, чтобы ряды всегда были полными,
+   а одинокая плашка не висела хвостом. */
+@media(max-width:1160px){.plashki{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:860px){.plashki{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .plashka{display:inline-flex;align-items:center;justify-content:center;gap:8px;
   min-height:46px;padding:10px 14px;border:1px solid var(--line);border-radius:11px;
   background:var(--sloy);font-size:14.5px;color:#CFC7BC;text-align:center;line-height:1.25}
 .soc .plashka{min-height:0}
 .soc{display:flex;gap:10px;margin-top:20px}
 @media(hover:hover){.plashka:hover{border-color:rgba(201,162,39,.5);color:var(--zoloto-svet)}}
-@media(max-width:560px){
-  .plashki{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:860px){
   /* одинаковая высота у всех, даже когда имя ложится в две строки */
   .plashka{min-height:54px;height:54px;font-size:13.8px;padding:8px 10px}
 }
