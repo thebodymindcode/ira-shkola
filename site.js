@@ -158,6 +158,33 @@ if(k){
  addEventListener('resize', navesti);
 })();
 
+/* ---- поиск по библиотеке: фильтрует карточки и прячет пустые рубрики ---- */
+(function(){
+ var pole=document.getElementById('kb-q');
+ if(!pole) return;
+ var sbros=document.getElementById('kb-clr'), itog=document.getElementById('kb-itog'),
+     kartochki=[].slice.call(document.querySelectorAll('.kb-card[data-poisk]')),
+     gruppy=[].slice.call(document.querySelectorAll('.kb-group'));
+ function iskat(){
+  var q=pole.value.trim().toLowerCase();
+  var naideno=0;
+  kartochki.forEach(function(k){
+   var est = !q || k.dataset.poisk.indexOf(q)>=0;
+   k.style.display = est ? '' : 'none';
+   if(est) naideno++;
+  });
+  gruppy.forEach(function(g){
+   var vidno=[].slice.call(g.querySelectorAll('.kb-card')).some(function(k){return k.style.display!=='none';});
+   g.style.display = vidno ? '' : 'none';
+  });
+  if(sbros) sbros.hidden = !q;
+  if(itog) itog.hidden = naideno>0;
+ }
+ pole.addEventListener('input', iskat);
+ if(sbros) sbros.addEventListener('click', function(){ pole.value=''; iskat(); pole.focus(); });
+ pole.addEventListener('keydown', function(e){ if(e.key==='Escape'){ pole.value=''; iskat(); } });
+})();
+
 /* ---- живые искры в шапке ---- */
 (function(){
  var hero=document.querySelector('.hero .fon');

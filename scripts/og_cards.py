@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Брендированные og-карточки 1200x630 под каждую страницу."""
 import asyncio, json, os, sys, base64
+sys.path.insert(0, 'content')
 sys.path.insert(0, os.path.dirname(__file__))
 from playwright.async_api import async_playwright
 
@@ -163,6 +164,16 @@ async def main():
        [('tg', 'Канал школы'), ('ig', 'Instagram'), ('ruka', 'Ответ лично')],
        'images/obrazy/p-irina1.jpg'),
     ]
+    for _m in ('statya_runy', 'statya_karta_dnya', 'statya_perevernutye'):
+        try:
+            _d = __import__(_m).STATYA
+        except Exception:
+            continue
+        zadachi.append((f'baza-{_d["slug"]}', _d['h1'][:46], _d['descr'][:120],
+                        f'images/baza/{_d["slug"]}.jpg', 'Библиотека',
+                        [('kniga', 'По источникам'), ('glaz', 'Разбор'), ('chas', _d.get('chtenie', '12 минут'))],
+                        'images/obrazy/p-irina1.jpg'))
+
     for a in articles:
         oberegi = a['kind'] == 'oberegi'
         zadachi.append((f'st-{a["slug"]}', a['name'], a['anons'],

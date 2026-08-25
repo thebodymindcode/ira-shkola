@@ -7,6 +7,7 @@ from layout import JS, INDEXING, page
 from theme import CSS
 sys.path.insert(0, 'content')
 import pages_main, pages_kursy, pages_kursy2, pages_zhurnal, pages_info, pages_karty, pages_kviz, pages_kursy3
+import pages_baza
 from arkany import ARKANY
 
 articles = json.load(open('content/articles.json', encoding='utf-8'))
@@ -74,3 +75,16 @@ open('robots.txt', 'w', encoding='utf-8').write(
 shutil.copy('__404__/index.html', '404.html')
 shutil.rmtree('__404__')
 print('страниц собрано:', len(paths), '| версия', VERSION)
+
+# ---- Библиотека: длинные разборы ----
+import glob as _glob
+_statyi = []
+for _p in sorted(_glob.glob('content/statya_*.py')):
+    _mod = __import__(os.path.basename(_p)[:-3])
+    _statyi.append(_mod.STATYA)
+if _statyi:
+    for _i, _d in enumerate(_statyi):
+        _sosedi = [x for x in _statyi if x['slug'] != _d['slug']]
+        pages_baza.statya(_d, _sosedi)
+    pages_baza.hab(_statyi)
+    print('библиотека:', len(_statyi), 'разборов')

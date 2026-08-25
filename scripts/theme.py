@@ -48,8 +48,8 @@ svg.big{width:34px;height:34px}
 .znak{display:flex;align-items:center;gap:12px;font-family:var(--anons);font-size:24px;
   color:#F3EDE3;letter-spacing:.6px;white-space:nowrap}
 .znak svg{width:29px;height:29px;color:var(--zoloto)}
-.nav{display:flex;gap:26px;margin-left:auto;align-items:center}
-.nav a{font-family:var(--anons);font-size:19px;letter-spacing:.6px;color:#D8D0C5;
+.nav{display:flex;gap:22px;margin-left:auto;align-items:center;white-space:nowrap}
+.nav a{font-family:var(--anons);font-size:17.5px;letter-spacing:.4px;color:#D8D0C5;white-space:nowrap;
   padding:6px 0;position:relative}
 .nav a.on{color:var(--zoloto-svet)}
 .nav a.on::after{content:"";position:absolute;left:0;right:0;bottom:2px;height:1px;background:var(--zoloto)}
@@ -702,9 +702,16 @@ body:has(.mob.open) .plyv{opacity:0;pointer-events:none;transform:translateY(12p
    и на 360px последняя буква уезжает за край экрана. */
 .stepline .txt,.stepline li>div{min-width:0}
 .stepline h3{overflow-wrap:normal;word-break:normal;hyphens:none}
+
+/* на средних экранах пунктов много, поэтому шапка ужимается, а не ломается */
+@media(max-width:1300px){.nav{gap:16px}.nav a{font-size:16.5px}.znak{font-size:21px}}
+@media(max-width:1180px){.nav{gap:13px}.nav a{font-size:15.5px}.znak span{display:none}}
 """
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
          '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
          '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?'
          'family=Prata&family=Forum&family=Montserrat:wght@400;500;600&display=swap">')
+
+from baza_style import CSS_BAZA
+CSS = CSS + CSS_BAZA
